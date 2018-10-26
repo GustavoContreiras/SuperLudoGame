@@ -24,14 +24,13 @@ public class Board extends JPanel {
 	public final static int radiusWhiteCircle = 25;
 	
 	//IMAGES DIRECTORY
-	private final static String mainDir = "G:\\Gustavo\\OneDrive\\GitHub\\INF1636-ProgramacaoOrientadaAObjetos\\java-eclipse-workspace\\1420397-1621146\\src\\";
-	private final static String dice0Dir = mainDir + "Dado0.png";
-	private final static String dice1Dir = mainDir + "Dado1.png";
-	private final static String dice2Dir = mainDir + "Dado2.png";
-	private final static String dice3Dir = mainDir + "Dado3.png";
-	private final static String dice4Dir = mainDir + "Dado4.png";
-	private final static String dice5Dir = mainDir + "Dado5.png";
-	private final static String dice6Dir = mainDir + "Dado6.png";
+	private final static String dice0Dir = "Dado0.png";
+	private final static String dice1Dir = "Dado1.png";
+	private final static String dice2Dir = "Dado2.png";
+	private final static String dice3Dir = "Dado3.png";
+	private final static String dice4Dir = "Dado4.png";
+	private final static String dice5Dir = "Dado5.png";
+	private final static String dice6Dir = "Dado6.png";
 	
 	//IMAGES ARRAY
 	private static Image[] diceImgs = new Image[7];	
