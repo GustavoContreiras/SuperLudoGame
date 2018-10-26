@@ -1,5 +1,8 @@
+import java.awt.Point;
 
-public class Position {
+public class Position extends Point{
+	
+	private static final long serialVersionUID = 7407278577415628364L;
 	
 	static Position A1 = new Position(20, 20);
 	static Position A2 = new Position(20, 60);
@@ -250,6 +253,8 @@ public class Position {
 		this.letter = getLetterPos(x);
 		this.number = getNumberPos(y);
 	}
+	
+	
 		
 	public static int getCenterX(String letterAtoO) {
 		switch (letterAtoO) {
@@ -422,5 +427,519 @@ public class Position {
 		}
 		else
 			return "Y";
+	}
+	
+	public static Position getMousePosition (float x, float y) {
+		String letter = getLetterPos(x);
+		String number = getNumberPos(y);
+		
+		switch(letter) {
+		case "A":
+			switch(number) {
+			case "1":
+				return Position.A1;
+			case "2":
+				return Position.A2;
+			case "3":
+				return Position.A3;
+			case "4":
+				return Position.A4;
+			case "5":
+				return Position.A5;
+			case "6":
+				return Position.A6;
+			case "7":
+				return Position.A7;
+			case "8":
+				return Position.A8;
+			case "9":
+				return Position.A9;
+			case "10":
+				return Position.A10;
+			case "11":
+				return Position.A11;
+			case "12":
+				return Position.A12;
+			case "13":
+				return Position.A13;
+			case "14":
+				return Position.A14;
+			case "15":
+				return Position.A15;
+			default:
+				return null;
+			}
+			
+		case "B":
+			switch(number) {
+			case "1":
+				return Position.B1;
+			case "2":
+				return Position.B2;
+			case "3":
+				return Position.B3;
+			case "4":
+				return Position.B4;
+			case "5":
+				return Position.B5;
+			case "6":
+				return Position.B6;
+			case "7":
+				return Position.B7;
+			case "8":
+				return Position.B8;
+			case "9":
+				return Position.B9;
+			case "10":
+				return Position.B10;
+			case "11":
+				return Position.B11;
+			case "12":
+				return Position.B12;
+			case "13":
+				return Position.B13;
+			case "14":
+				return Position.B14;
+			case "15":
+				return Position.B15;
+			default:
+				return null;
+			}
+		
+		case "C":
+			switch(number) {
+			case "1":
+				return Position.C1;
+			case "2":
+				return Position.C2;
+			case "3":
+				return Position.C3;
+			case "4":
+				return Position.C4;
+			case "5":
+				return Position.C5;
+			case "6":
+				return Position.C6;
+			case "7":
+				return Position.C7;
+			case "8":
+				return Position.C8;
+			case "9":
+				return Position.C9;
+			case "10":
+				return Position.C10;
+			case "11":
+				return Position.C11;
+			case "12":
+				return Position.C12;
+			case "13":
+				return Position.C13;
+			case "14":
+				return Position.C14;
+			case "15":
+				return Position.C15;
+			default:
+				return null;
+			}
+			
+		case "D":
+			switch(number) {
+			case "1":
+				return Position.D1;
+			case "2":
+				return Position.D2;
+			case "3":
+				return Position.D3;
+			case "4":
+				return Position.D4;
+			case "5":
+				return Position.D5;
+			case "6":
+				return Position.D6;
+			case "7":
+				return Position.D7;
+			case "8":
+				return Position.D8;
+			case "9":
+				return Position.D9;
+			case "10":
+				return Position.D10;
+			case "11":
+				return Position.D11;
+			case "12":
+				return Position.D12;
+			case "13":
+				return Position.D13;
+			case "14":
+				return Position.D14;
+			case "15":
+				return Position.D15;
+			default:
+				return null;
+			}
+	
+		case "E":
+			switch(number) {
+			case "1":
+				return Position.E1;
+			case "2":
+				return Position.E2;
+			case "3":
+				return Position.E3;
+			case "4":
+				return Position.E4;
+			case "5":
+				return Position.E5;
+			case "6":
+				return Position.E6;
+			case "7":
+				return Position.E7;
+			case "8":
+				return Position.E8;
+			case "9":
+				return Position.E9;
+			case "10":
+				return Position.E10;
+			case "11":
+				return Position.E11;
+			case "12":
+				return Position.E12;
+			case "13":
+				return Position.E13;
+			case "14":
+				return Position.E14;
+			case "15":
+				return Position.E15;
+			default:
+				return null;
+			}
+		
+		case "F":
+			switch(number) {
+			case "1":
+				return Position.F1;
+			case "2":
+				return Position.F2;
+			case "3":
+				return Position.F3;
+			case "4":
+				return Position.F4;
+			case "5":
+				return Position.F5;
+			case "6":
+				return Position.F6;
+			case "7":
+				return Position.F7;
+			case "8":
+				return Position.F8;
+			case "9":
+				return Position.F9;
+			case "10":
+				return Position.F10;
+			case "11":
+				return Position.F11;
+			case "12":
+				return Position.F12;
+			case "13":
+				return Position.F13;
+			case "14":
+				return Position.F14;
+			case "15":
+				return Position.F15;
+			default:
+				return null;
+			}
+			
+		case "G":
+			switch(number) {
+			case "1":
+				return Position.G1;
+			case "2":
+				return Position.G2;
+			case "3":
+				return Position.G3;
+			case "4":
+				return Position.G4;
+			case "5":
+				return Position.G5;
+			case "6":
+				return Position.G6;
+			case "7":
+				return Position.G7;
+			case "8":
+				return Position.G8;
+			case "9":
+				return Position.G9;
+			case "10":
+				return Position.G10;
+			case "11":
+				return Position.G11;
+			case "12":
+				return Position.G12;
+			case "13":
+				return Position.G13;
+			case "14":
+				return Position.G14;
+			case "15":
+				return Position.G15;
+			default:
+				return null;
+			}
+			
+		case "H":
+			switch(number) {
+			case "1":
+				return Position.H1;
+			case "2":
+				return Position.H2;
+			case "3":
+				return Position.H3;
+			case "4":
+				return Position.H4;
+			case "5":
+				return Position.H5;
+			case "6":
+				return Position.H6;
+			case "7":
+				return Position.H7;
+			case "8":
+				return Position.H8;
+			case "9":
+				return Position.H9;
+			case "10":
+				return Position.H10;
+			case "11":
+				return Position.H11;
+			case "12":
+				return Position.H12;
+			case "13":
+				return Position.H13;
+			case "14":
+				return Position.H14;
+			case "15":
+				return Position.H15;
+			default:
+				return null;
+			}
+			
+		case "I":
+			switch(number) {
+			case "1":
+				return Position.I1;
+			case "2":
+				return Position.I2;
+			case "3":
+				return Position.I3;
+			case "4":
+				return Position.I4;
+			case "5":
+				return Position.I5;
+			case "6":
+				return Position.I6;
+			case "7":
+				return Position.I7;
+			case "8":
+				return Position.I8;
+			case "9":
+				return Position.I9;
+			case "10":
+				return Position.I10;
+			case "11":
+				return Position.I11;
+			case "12":
+				return Position.I12;
+			case "13":
+				return Position.I13;
+			case "14":
+				return Position.I14;
+			case "15":
+				return Position.I15;
+			default:
+				return null;
+			}
+			
+		case "J":
+			switch(number) {
+			case "1":
+				return Position.J1;
+			case "2":
+				return Position.J2;
+			case "3":
+				return Position.J3;
+			case "4":
+				return Position.J4;
+			case "5":
+				return Position.J5;
+			case "6":
+				return Position.J6;
+			case "7":
+				return Position.J7;
+			case "8":
+				return Position.J8;
+			case "9":
+				return Position.J9;
+			case "10":
+				return Position.J10;
+			case "11":
+				return Position.J11;
+			case "12":
+				return Position.J12;
+			case "13":
+				return Position.J13;
+			case "14":
+				return Position.J14;
+			case "15":
+				return Position.J15;
+			default:
+				return null;
+			}
+			
+		case "K":
+			switch(number) {
+			case "1":
+				return Position.K1;
+			case "2":
+				return Position.K2;
+			case "3":
+				return Position.K3;
+			case "4":
+				return Position.K4;
+			case "5":
+				return Position.K5;
+			case "6":
+				return Position.K6;
+			case "7":
+				return Position.K7;
+			case "8":
+				return Position.K8;
+			case "9":
+				return Position.K9;
+			case "10":
+				return Position.K10;
+			case "11":
+				return Position.K11;
+			case "12":
+				return Position.K12;
+			case "13":
+				return Position.K13;
+			case "14":
+				return Position.K14;
+			case "15":
+				return Position.K15;
+			default:
+				return null;
+			}
+			
+		case "L":
+			switch(number) {
+			case "1":
+				return Position.M1;
+			case "2":
+				return Position.M2;
+			case "3":
+				return Position.M3;
+			case "4":
+				return Position.M4;
+			case "5":
+				return Position.M5;
+			case "6":
+				return Position.M6;
+			case "7":
+				return Position.M7;
+			case "8":
+				return Position.M8;
+			case "9":
+				return Position.M9;
+			case "10":
+				return Position.M10;
+			case "11":
+				return Position.M11;
+			case "12":
+				return Position.M12;
+			case "13":
+				return Position.M13;
+			case "14":
+				return Position.M14;
+			case "15":
+				return Position.M15;
+			default:
+				return null;
+			}
+			
+		case "N":
+			switch(number) {
+			case "1":
+				return Position.N1;
+			case "2":
+				return Position.N2;
+			case "3":
+				return Position.N3;
+			case "4":
+				return Position.N4;
+			case "5":
+				return Position.N5;
+			case "6":
+				return Position.N6;
+			case "7":
+				return Position.N7;
+			case "8":
+				return Position.N8;
+			case "9":
+				return Position.N9;
+			case "10":
+				return Position.N10;
+			case "11":
+				return Position.N11;
+			case "12":
+				return Position.N12;
+			case "13":
+				return Position.N13;
+			case "14":
+				return Position.N14;
+			case "15":
+				return Position.N15;
+			default:
+				return null;
+			}
+			
+		case "O":
+			switch(number) {
+			case "1":
+				return Position.O1;
+			case "2":
+				return Position.O2;
+			case "3":
+				return Position.O3;
+			case "4":
+				return Position.O4;
+			case "5":
+				return Position.O5;
+			case "6":
+				return Position.O6;
+			case "7":
+				return Position.O7;
+			case "8":
+				return Position.O8;
+			case "9":
+				return Position.O9;
+			case "10":
+				return Position.O10;
+			case "11":
+				return Position.O11;
+			case "12":
+				return Position.O12;
+			case "13":
+				return Position.O13;
+			case "14":
+				return Position.O14;
+			case "15":
+				return Position.O15;
+			default:
+				return null;
+			}
+			
+		default:
+			return null;
+		}
 	}
 }

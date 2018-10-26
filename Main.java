@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public abstract class Main extends JFrame implements ActionListener {
+public abstract class Main extends JFrame implements ActionListener,MouseListener {
 	
 	//to remove warning
 	private static final long serialVersionUID = 4582338413465297014L;
@@ -45,6 +45,7 @@ public abstract class Main extends JFrame implements ActionListener {
 	static JButton but_saveGame = new JButton("Save Game");
 	static JLabel lab_onTurn = new JLabel("On turn:");
 	static JButton but_rollDice = new JButton("Roll Dice");
+	
 			
 	public static void main(String[] args) {
 		showGUI();
@@ -187,5 +188,37 @@ public abstract class Main extends JFrame implements ActionListener {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setResizable(false);
+		frame.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Position click = Position.getMousePosition(e.getX(),e.getY());
+				
+				System.out.printf("X:%d Y:%d\n", click.x, click.y);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 }

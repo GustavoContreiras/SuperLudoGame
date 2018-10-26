@@ -11,7 +11,7 @@ public class Board extends JPanel {
 	private static final long serialVersionUID = -8919768790110412092L;
 
 	//SHOW GRID LETTERS AND NUMBERS
-	public final static boolean debugMode = true;
+	public final static boolean debugMode = false;
 	
 	//TEAM COLORS
 	public final static Color redColor = new Color(198, 67, 49);
