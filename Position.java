@@ -539,7 +539,7 @@ public class Position extends Point{
 		String letter = getClickLetterPos(x);
 		String number = getClickNumberPos(y);
 		
-		System.out.printf("letter = %s  number = %s", letter, number);
+		//System.out.printf("letter = %s  number = %s", letter, number);
 		
 		switch(letter) {
 		case "A":
