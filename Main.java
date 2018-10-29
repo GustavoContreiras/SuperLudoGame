@@ -193,7 +193,8 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 			public void mouseClicked(MouseEvent e) {
 				Position click = Position.getMousePosition(e.getX(),e.getY());
 				
-				System.out.printf("X:%d Y:%d\n", click.x, click.y);
+				System.out.printf("(%d,%d)", e.getX(), e.getY());
+				System.out.printf(" %s%s\n", click.letter, click.number);
 			}
 
 			@Override

@@ -254,6 +254,12 @@ public class Position extends Point{
 		this.number = getNumberPos(y);
 	}
 	
+	public Position(int x, int y, String letter, String number) {
+		this.x = x;
+		this.y = y;
+		this.letter = letter;
+		this.number = number;
+	}
 	
 		
 	public static int getCenterX(String letterAtoO) {
@@ -328,8 +334,8 @@ public class Position extends Point{
 		}
 		return 0;
 	}
-		
-	public static String getLetterPos (float x) {	
+	
+	public static String getLetterPos (int x) {	
 		if(x <= 40) {
 			return "A";
 		}
@@ -379,7 +385,7 @@ public class Position extends Point{
 			return "X";
 	}
 	
-	public static String getNumberPos (float y) {
+	public static String getNumberPos (int y) {
 		if(y <= 40) {
 			return "1";
 		}
@@ -428,10 +434,112 @@ public class Position extends Point{
 		else
 			return "Y";
 	}
+		
+	public static String getClickLetterPos (int x) {	
+		if(x <= 43) {
+			return "A";
+		}
+		else if (x <= 83) {
+			return "B";
+		}
+		else if (x <= 123) {
+			return "C";
+		}
+		else if (x <= 163) {
+			return "D";
+		}
+		else if (x <= 203) {
+			return "E";
+		}
+		else if (x <= 243) {
+			return "F";
+		}
+		else if (x <= 283) {
+			return "G";
+		}
+		else if (x <= 323) {
+			return "H";
+		}
+		else if (x <= 363) {
+			return "I";
+		}
+		else if (x <= 403) {
+			return "J";
+		}
+		else if (x <= 443) {
+			return "K";
+		}
+		else if (x <= 483) {
+			return "L";
+		}
+		else if (x <= 523) {
+			return "M";
+		}
+		else if (x <= 563) {
+			return "N";
+		}
+		else if (x <= 603) {
+			return "O";
+		}
+		else
+			return "X";
+	}
 	
-	public static Position getMousePosition (float x, float y) {
-		String letter = getLetterPos(x);
-		String number = getNumberPos(y);
+	public static String getClickNumberPos (int y) {
+		if(y <= 66) {
+			return "1";
+		}
+		else if (y <= 106) {
+			return "2";
+		}
+		else if (y <= 146) {
+			return "3";
+		}
+		else if (y <= 186) {
+			return "4";
+		}
+		else if (y <= 226) {
+			return "5";
+		}
+		else if (y <= 266) {
+			return "6";
+		}
+		else if (y <= 306) {
+			return "7";
+		}
+		else if (y <= 346) {
+			return "8";
+		}
+		else if (y <= 386) {
+			return "9";
+		}
+		else if (y <= 426) {
+			return "10";
+		}
+		else if (y <= 466) {
+			return "11";
+		}
+		else if (y <= 506) {
+			return "12";
+		}
+		else if (y <= 546) {
+			return "13";
+		}
+		else if (y <= 586) {
+			return "14";
+		}
+		else if (y <= 630) {
+			return "15";
+		}
+		else
+			return "Y";
+	}
+	
+	public static Position getMousePosition (int x, int y) {
+		String letter = getClickLetterPos(x);
+		String number = getClickNumberPos(y);
+		
+		System.out.printf("letter = %s  number = %s", letter, number);
 		
 		switch(letter) {
 		case "A":
@@ -467,7 +575,7 @@ public class Position extends Point{
 			case "15":
 				return Position.A15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 			
 		case "B":
@@ -503,7 +611,7 @@ public class Position extends Point{
 			case "15":
 				return Position.B15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 		
 		case "C":
@@ -539,7 +647,7 @@ public class Position extends Point{
 			case "15":
 				return Position.C15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 			
 		case "D":
@@ -575,7 +683,7 @@ public class Position extends Point{
 			case "15":
 				return Position.D15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 	
 		case "E":
@@ -611,7 +719,7 @@ public class Position extends Point{
 			case "15":
 				return Position.E15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 		
 		case "F":
@@ -647,7 +755,7 @@ public class Position extends Point{
 			case "15":
 				return Position.F15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 			
 		case "G":
@@ -683,7 +791,7 @@ public class Position extends Point{
 			case "15":
 				return Position.G15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 			
 		case "H":
@@ -719,7 +827,7 @@ public class Position extends Point{
 			case "15":
 				return Position.H15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 			
 		case "I":
@@ -755,7 +863,7 @@ public class Position extends Point{
 			case "15":
 				return Position.I15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 			
 		case "J":
@@ -791,7 +899,7 @@ public class Position extends Point{
 			case "15":
 				return Position.J15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 			
 		case "K":
@@ -827,10 +935,46 @@ public class Position extends Point{
 			case "15":
 				return Position.K15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 			
 		case "L":
+			switch(number) {
+			case "1":
+				return Position.L1;
+			case "2":
+				return Position.L2;
+			case "3":
+				return Position.L3;
+			case "4":
+				return Position.L4;
+			case "5":
+				return Position.L5;
+			case "6":
+				return Position.L6;
+			case "7":
+				return Position.L7;
+			case "8":
+				return Position.L8;
+			case "9":
+				return Position.L9;
+			case "10":
+				return Position.L10;
+			case "11":
+				return Position.L11;
+			case "12":
+				return Position.L12;
+			case "13":
+				return Position.L13;
+			case "14":
+				return Position.L14;
+			case "15":
+				return Position.L15;
+			default:
+				return new Position(0,0,"X","99");
+			}
+			
+		case "M":
 			switch(number) {
 			case "1":
 				return Position.M1;
@@ -863,7 +1007,7 @@ public class Position extends Point{
 			case "15":
 				return Position.M15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 			
 		case "N":
@@ -899,7 +1043,7 @@ public class Position extends Point{
 			case "15":
 				return Position.N15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 			
 		case "O":
@@ -935,11 +1079,11 @@ public class Position extends Point{
 			case "15":
 				return Position.O15;
 			default:
-				return null;
+				return new Position(0,0,"X","99");
 			}
 			
 		default:
-			return null;
+			return new Position(0,0,"X","99");
 		}
 	}
 }
