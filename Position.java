@@ -246,6 +246,7 @@ public class Position extends Point{
 	
 	int x, y;
 	String letter, number;
+	Pawn[] pawn = new Pawn[2];
 	
 	public Position(int x, int y) {
 		this.x = x;
@@ -261,7 +262,6 @@ public class Position extends Point{
 		this.number = number;
 	}
 	
-		
 	public static int getCenterX(String letterAtoO) {
 		switch (letterAtoO) {
 		case "A":
