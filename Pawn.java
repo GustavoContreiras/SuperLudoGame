@@ -1,6 +1,11 @@
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class Pawn {
+import javax.swing.JButton;
+
+public class Pawn extends JButton {
 	
+	private static final long serialVersionUID = 4295806129458627811L;
 	public Position homePosition;
 	public Position currentPosition;
 	public int currentPositionInx;
@@ -31,6 +36,113 @@ public class Pawn {
 		else if (team == Game.blueTeam) {
 			setBluePawnWalkthrough(this, walkthrough);
 		}
+		
+		//JBUTTON
+		int centerX = homePosition.x;
+		int centerY = homePosition.y;
+    	int width = Board.radiusPawn * 2 + 3;
+    	int height = Board.radiusPawn * 2 + 3;
+    	
+		setOpaque(true);
+		setBounds(centerX - Board.radiusPawn - 2, centerY - Board.radiusPawn - 2, width, height);
+		addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent e) {
+				
+				//RED
+				if (Game.currentTeam == Game.redTeam) {
+					if (currentPosition == homePosition & Game.currentDice == 6) {
+						currentPosition = Position.B7;
+						currentPositionInx = 0;
+						Main.frame.repaint();
+					}
+					else if (currentPosition == homePosition & Game.currentDice != 6) {
+						
+					}
+					else {
+						System.out.println(currentPositionInx);
+						currentPositionInx += Game.currentDice;
+						currentPosition = Game.redTeam.walkthrough[currentPositionInx];
+						Game.currentTeam = Game.greenTeam;
+						Main.frame.repaint();
+					}
+				}
+				
+				//GREEN
+				else if (Game.currentTeam == Game.greenTeam) {
+					if (currentPosition == homePosition & Game.currentDice == 6) {
+						currentPosition = Position.I2;
+						currentPositionInx = 0;
+						Main.frame.repaint();
+					}
+					else if (currentPosition == homePosition & Game.currentDice != 6) {
+						
+					}
+					else {
+						System.out.println(currentPositionInx);
+						currentPositionInx += Game.currentDice;
+						currentPosition = Game.greenTeam.walkthrough[currentPositionInx];
+						Game.currentTeam = Game.yellowTeam;
+						Main.frame.repaint();
+					}
+				}
+				
+				//YELLOW
+				else if (Game.currentTeam == Game.yellowTeam) {
+					if (currentPosition == homePosition & Game.currentDice == 6) {
+						currentPosition = Position.N9;
+						currentPositionInx = 0;
+						Main.frame.repaint();
+					}
+					else if (currentPosition == homePosition & Game.currentDice != 6) {
+						
+					}
+					else {
+						System.out.println(currentPositionInx);
+						currentPositionInx += Game.currentDice;
+						currentPosition = Game.yellowTeam.walkthrough[currentPositionInx];
+						Game.currentTeam = Game.blueTeam;
+						Main.frame.repaint();
+					}
+				}
+				
+				//BLUE
+				else if (Game.currentTeam == Game.blueTeam) {
+					if (currentPosition == homePosition & Game.currentDice == 6) {
+						currentPosition = Position.G14;
+						currentPositionInx = 0;						
+						Main.frame.repaint();
+					}
+					else if (currentPosition == homePosition & Game.currentDice != 6) { }
+					else {
+						System.out.println(currentPositionInx);
+						currentPositionInx += Game.currentDice;
+						currentPosition = Game.blueTeam.walkthrough[currentPositionInx];
+						Game.currentTeam = Game.redTeam;
+						Main.frame.repaint();
+					}
+				}
+				
+				int centerX = currentPosition.x;
+				int centerY = currentPosition.y;
+				setBounds(centerX - Board.radiusPawn + 1, centerY - Board.radiusPawn + 1, width, height);
+			}
+
+			public void mouseEntered(MouseEvent arg0) {
+				Main.frame.repaint();
+			}
+			
+			public void mouseExited(MouseEvent arg0) {
+				Main.frame.repaint();
+			}
+			public void mousePressed(MouseEvent arg0) {	
+				Main.frame.repaint();
+			}
+			public void mouseReleased(MouseEvent arg0) {
+				Main.frame.repaint();
+			}
+		});
+		
+		Main.frame.add(this);
 	}
 	
 	public Pawn getPawn(Team team, int pawnId) {
