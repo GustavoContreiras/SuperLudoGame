@@ -193,38 +193,89 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
+				String debugMsg = "";
+				
 				Position clickedPos = Position.getMousePosition(e.getX(),e.getY());
 				
 				//se clicar no tabuleiro
 				if (clickedPos.x < 600 & clickedPos.y < 600) {
 					
 					//for debug
-					System.out.printf("\nclickedPos: %s%s (%d, %d)\n", clickedPos.letter, clickedPos.number, e.getX(), e.getY());
+					System.out.printf("clickedPos: %s%s (%d, %d)\n", clickedPos.letter, clickedPos.number, e.getX(), e.getY());
 									
 					//se tiver peão nessa posição clicada
 					if (clickedPos.pawn[0] != null) {
+						debugMsg += "Position has pawn.";
 						
-						printTag("\nPosition has pawn.\n");
+						Pawn pawnClicked = clickedPos.pawn[0];
 						
-						Position destinationPos = new Position(0, 0);
+						//se o peão clicado for do time da vez
+						if (pawnClicked.team == Game.currentTeam) { //BUGANDO!!!!!!!!!!!!
+							debugMsg += " Pawn belong to team on turn.";
 						
-						//atualiza a posição do pawn clicked
-						clickedPos.pawn[0].currentPositionInx += Game.getCurrentDice();
-						clickedPos.pawn[0].refreshPosition(clickedPos.pawn[0]);
-						
-						//atualiza o pawn da posição de destino (NAO FUNCIONANDO)
-						destinationPos.pawn[0] = clickedPos.pawn[0];
-						
-						//atualiza a quantidade de pawns na posição clicada
-						clickedPos.pawn[0] = null;
-						
-						Main.frame.repaint();
-					}
-					
+							//se tiver na posiçao inicial
+							if (pawnClicked.currentPosition == pawnClicked.homePosition) {
+								debugMsg += " Pawn is on home position.";
+								
+								if (Game.currentDice >= 5) {
+									
+									//atualiza a posição do pawn clicked
+									pawnClicked.currentPositionInx += 1;
+									
+									//atualiza a posição de destino do pawn clicked
+									pawnClicked.refreshPosition(clickedPos.pawn[0]);
+									
+									//obtém a posição de destino
+									Position destinationPos = clickedPos.pawn[0].currentPosition;
+									
+									//atualiza o pawn da posição de destino
+									destinationPos.pawn[0] = pawnClicked;
+									
+									//atualiza a quantidade de pawns na posição clicada
+									clickedPos.pawn[0] = null;
+									
+									Main.frame.repaint();
+									
+									debugMsg += " Pawn left home.\n";
+								} 
+								else {
+									debugMsg += " Pawn did not left home.\n";
+								}
+							}
+							
+							else {
+								debugMsg += " Pawn is not on home position.";
+								
+								//atualiza a posição do pawn clicked
+								pawnClicked.currentPositionInx += Game.currentDice;
+								
+								//atualiza a posição de destino do pawn clicked
+								pawnClicked.refreshPosition(clickedPos.pawn[0]);
+								
+								//obtém a posição de destino
+								Position destinationPos = clickedPos.pawn[0].currentPosition;
+								
+								//atualiza o pawn da posição de destino
+								destinationPos.pawn[0] = pawnClicked;
+								
+								//atualiza a quantidade de pawns na posição clicada
+								clickedPos.pawn[0] = null;
+								
+								Main.frame.repaint();
+								
+								debugMsg += " Pawn moved.\n";
+							}
+						}
+						else {
+							debugMsg += " Pawn did not belong to team on turn.\n";
+						}
+					} 
 					else {
-						printTag("\nPosition has no pawn.\n");
+						debugMsg += " Position has no pawn.\n";
 					}
 				}
+				
+				printDebugMsg(debugMsg);
 			}
 
 			@Override
@@ -253,7 +304,7 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 		});
 	}
 	
-	private static void printTag (String tag) {
+	private static void printDebugMsg (String tag) {
 		System.out.println(tag);
 	}
 }
