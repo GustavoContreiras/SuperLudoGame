@@ -189,12 +189,42 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 		frame.setVisible(true);
 		frame.setResizable(false);
 		frame.addMouseListener(new MouseListener() {
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Position click = Position.getMousePosition(e.getX(),e.getY());
 				
-				System.out.printf("(%d,%d)", e.getX(), e.getY());
-				System.out.printf(" %s%s\n", click.letter, click.number);
+				Position clickedPos = Position.getMousePosition(e.getX(),e.getY());
+				
+				//se clicar no tabuleiro
+				if (clickedPos.x < 600 & clickedPos.y < 600) {
+					
+					//for debug
+					System.out.printf("\nclickedPos: %s%s (%d, %d)\n", clickedPos.letter, clickedPos.number, e.getX(), e.getY());
+									
+					//se tiver peão nessa posição clicada
+					if (clickedPos.pawn[0] != null) {
+						
+						printTag("\nPosition has pawn.\n");
+						
+						Position destinationPos = new Position(0, 0);
+						
+						//atualiza a posição do pawn clicked
+						clickedPos.pawn[0].currentPositionInx += Game.getCurrentDice();
+						clickedPos.pawn[0].refreshPosition(clickedPos.pawn[0]);
+						
+						//atualiza o pawn da posição de destino (NAO FUNCIONANDO)
+						destinationPos.pawn[0] = clickedPos.pawn[0];
+						
+						//atualiza a quantidade de pawns na posição clicada
+						clickedPos.pawn[0] = null;
+						
+						Main.frame.repaint();
+					}
+					
+					else {
+						printTag("\nPosition has no pawn.\n");
+					}
+				}
 			}
 
 			@Override
@@ -221,5 +251,9 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 				
 			}
 		});
+	}
+	
+	private static void printTag (String tag) {
+		System.out.println(tag);
 	}
 }
