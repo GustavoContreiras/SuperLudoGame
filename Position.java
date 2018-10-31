@@ -1,9 +1,6 @@
-import java.awt.Point;
 
-public class Position extends Point{
-	
-	private static final long serialVersionUID = 7407278577415628364L;
-	
+public class Position{
+		
 	static Position A1 = new Position(20, 20);
 	static Position A2 = new Position(20, 60);
 	static Position A3 = new Position(20, 100);
@@ -246,6 +243,7 @@ public class Position extends Point{
 	
 	int x, y;
 	String letter, number;
+	String name = letter + number;
 	Pawn[] pawn = new Pawn[2];
 	
 	public Position(int x, int y) {
@@ -253,6 +251,9 @@ public class Position extends Point{
 		this.y = y;
 		this.letter = getLetterPos(x);
 		this.number = getNumberPos(y);
+		this.name = letter + number;
+		this.pawn[0] = null;
+		this.pawn[1] = null;
 	}
 	
 	public Position(int x, int y, String letter, String number) {
@@ -260,6 +261,8 @@ public class Position extends Point{
 		this.y = y;
 		this.letter = letter;
 		this.number = number;
+		this.pawn[0] = null;
+		this.pawn[1] = null;
 	}
 	
 	public static int getCenterX(String letterAtoO) {

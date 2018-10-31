@@ -24,7 +24,30 @@ public class Game {
 		Game.blueTeam = new Team("Blue");
 		Game.currentTeam = Game.setTeamOnTurn();
 		
+		Game.insertPawnsInHomePositions();
 		Game.setCurrentDiceImage(0);	
+	}
+	
+	public static void insertPawnsInHomePositions() {
+		Position.B5.pawn[0] = Game.redTeam.pawn[0];
+		Position.E5.pawn[0] = Game.redTeam.pawn[1];
+		Position.B2.pawn[0] = Game.redTeam.pawn[2];
+		Position.E2.pawn[0] = Game.redTeam.pawn[3];
+		
+		Position.K2.pawn[0] = Game.greenTeam.pawn[0];
+		Position.K5.pawn[0] = Game.greenTeam.pawn[1];
+		Position.N2.pawn[0] = Game.greenTeam.pawn[2];
+		Position.N5.pawn[0] = Game.greenTeam.pawn[3];
+		
+		Position.N11.pawn[0] = Game.yellowTeam.pawn[0];
+		Position.K11.pawn[0] = Game.yellowTeam.pawn[1];
+		Position.N14.pawn[0] = Game.yellowTeam.pawn[2];
+		Position.K14.pawn[0] = Game.yellowTeam.pawn[3];
+		
+		Position.E14.pawn[0] = Game.blueTeam.pawn[0];
+		Position.E11.pawn[0] = Game.blueTeam.pawn[1];
+		Position.B14.pawn[0] = Game.blueTeam.pawn[2];
+		Position.B11.pawn[0] = Game.blueTeam.pawn[3];
 	}
 	
 	public static int rollDice (Team currentTeam, JButton rollDice) {	
@@ -34,27 +57,6 @@ public class Game {
 		int randomNumber = random.nextInt(max + 1 - min) + min;
 		
 		rollDice.setEnabled(true);
-		
-		if (Game.currentTeam.pawn[0].currentPosition == Game.currentTeam.pawn[0].homePosition &
-			Game.currentTeam.pawn[1].currentPosition == Game.currentTeam.pawn[1].homePosition &
-			Game.currentTeam.pawn[2].currentPosition == Game.currentTeam.pawn[2].homePosition &
-			Game.currentTeam.pawn[3].currentPosition == Game.currentTeam.pawn[3].homePosition) {
-			
-			if (Game.currentTeam == Game.redTeam) {
-				Game.currentTeam = Game.greenTeam;
-			}
-			else if (Game.currentTeam == Game.greenTeam) {
-				Game.currentTeam = Game.yellowTeam;
-			}
-			else if (Game.currentTeam == Game.yellowTeam) {
-				Game.currentTeam = Game.blueTeam;
-			}
-			else if (Game.currentTeam == Game.blueTeam) {
-				Game.currentTeam = Game.redTeam;
-			}
-			Game.currentDice = 0;
-			Main.frame.repaint();
-		}
 		
 		switch (randomNumber) {
 		case 1:
@@ -115,14 +117,6 @@ public class Game {
 	    	}
 	    }
 
-	public static Team getTeamOnTurn() {
-		return currentTeam;
-	}
-	
-	public static int getCurrentDice() {
-		return currentDice;
-	}
-	
     public static void setCurrentDiceImage(int dice) {
     	currentDice = dice;
     	Main.frame.repaint();

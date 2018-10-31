@@ -3,142 +3,112 @@ public class Team {
 	
 	Position[] walkthrough = new Position[57];
 	Pawn[] pawn = new Pawn[4];
+	String name = "";
 	
 	public Team (String team) {
+		
+		name = team;
 		
 		switch (team) {
 		
 		case "Red":
 			
-			createRedWalkthrough(this);
-			
-			pawn[0] = new Pawn(Game.redTeam, 1, Position.B5, walkthrough);
-			Position.B5.pawn[0] = pawn[0];
-			
-			pawn[1] = new Pawn(Game.redTeam, 2, Position.E5, walkthrough);
-			Position.E5.pawn[0] = pawn[0];
-			
-			pawn[2] = new Pawn(Game.redTeam, 3, Position.B2, walkthrough);
-			Position.B2.pawn[0] = pawn[0];
-			
-			pawn[3] = new Pawn(Game.redTeam, 4, Position.E2, walkthrough);
-			Position.E2.pawn[0] = pawn[0];
-			
+			walkthrough = createRedWalkthrough();
+			pawn[0] = new Pawn(this, 1, Position.B5, walkthrough);			
+			pawn[1] = new Pawn(this, 2, Position.E5, walkthrough);			
+			pawn[2] = new Pawn(this, 3, Position.B2, walkthrough);			
+			pawn[3] = new Pawn(this, 4, Position.E2, walkthrough);			
 			break;
 			
 		case "Green":
 			
 			createGreenWalkthrough(this);
-			
-			pawn[0] = new Pawn(Game.greenTeam, 1, Position.K2, walkthrough);
-			Position.K2.pawn[0] = pawn[0];
-			
-			pawn[1] = new Pawn(Game.greenTeam, 2, Position.K5, walkthrough);
-			Position.K5.pawn[0] = pawn[0];
-			
-			pawn[2] = new Pawn(Game.greenTeam, 3, Position.N2, walkthrough);
-			Position.N2.pawn[0] = pawn[0];
-			
-			pawn[3] = new Pawn(Game.greenTeam, 4, Position.N5, walkthrough);
-			Position.N5.pawn[0] = pawn[0];
-			
+			pawn[0] = new Pawn(this, 1, Position.K2, walkthrough);			
+			pawn[1] = new Pawn(this, 2, Position.K5, walkthrough);			
+			pawn[2] = new Pawn(this, 3, Position.N2, walkthrough);			
+			pawn[3] = new Pawn(this, 4, Position.N5, walkthrough);			
 			break;
 			
 		case "Yellow":
 			
 			createYellowWalkthrough(this);
-			
-			pawn[0] = new Pawn(Game.yellowTeam, 1, Position.N11, walkthrough);
-			Position.N11.pawn[0] = pawn[0];
-			
-			pawn[1] = new Pawn(Game.yellowTeam, 2, Position.K11, walkthrough);
-			Position.K11.pawn[0] = pawn[0];
-			
-			pawn[2] = new Pawn(Game.yellowTeam, 3, Position.N14, walkthrough);
-			Position.N14.pawn[0] = pawn[0];
-			
-			pawn[3] = new Pawn(Game.yellowTeam, 4, Position.K14, walkthrough);
-			Position.K14.pawn[0] = pawn[0];
-			
+			pawn[0] = new Pawn(this, 1, Position.N11, walkthrough);			
+			pawn[1] = new Pawn(this, 2, Position.K11, walkthrough);			
+			pawn[2] = new Pawn(this, 3, Position.N14, walkthrough);			
+			pawn[3] = new Pawn(this, 4, Position.K14, walkthrough);			
 			break;
 			
 		case "Blue":
 			
 			createBlueWalkthrough(this);
-			
-			pawn[0] = new Pawn(Game.blueTeam, 1, Position.E14, walkthrough);
-			Position.E14.pawn[0] = pawn[0];
-			
-			pawn[1] = new Pawn(Game.blueTeam, 2, Position.E11, walkthrough);
-			Position.E11.pawn[0] = pawn[0];
-			
-			pawn[2] = new Pawn(Game.blueTeam, 3, Position.B14, walkthrough);
-			Position.B14.pawn[0] = pawn[0];
-			
-			pawn[3] = new Pawn(Game.blueTeam, 4, Position.B11, walkthrough);
-			Position.B11.pawn[0] = pawn[0];
+			pawn[0] = new Pawn(this, 1, Position.E14, walkthrough);			
+			pawn[1] = new Pawn(this, 2, Position.E11, walkthrough);			
+			pawn[2] = new Pawn(this, 3, Position.B14, walkthrough);		
+			pawn[3] = new Pawn(this, 4, Position.B11, walkthrough);
 			break;
 		}
 	}
 	
-	private void createRedWalkthrough(Team team) {
-		team.walkthrough[0] = Position.B7;
-		team.walkthrough[1] = Position.C7;
-		team.walkthrough[2] = Position.D7;
-		team.walkthrough[3] = Position.E7;
-		team.walkthrough[4] = Position.F7;
-		team.walkthrough[5] = Position.G6;
-		team.walkthrough[6] = Position.G5;
-		team.walkthrough[7] = Position.G4;
-		team.walkthrough[8] = Position.G3;
-		team.walkthrough[9] = Position.G2;
-		team.walkthrough[10] = Position.G1;
-		team.walkthrough[11] = Position.H1;
-		team.walkthrough[12] = Position.I1;
-		team.walkthrough[13] = Position.I2;
-		team.walkthrough[14] = Position.I3;
-		team.walkthrough[15] = Position.I4;
-		team.walkthrough[16] = Position.I5;
-		team.walkthrough[17] = Position.I6;
-		team.walkthrough[18] = Position.J7;
-		team.walkthrough[19] = Position.K7;
-		team.walkthrough[20] = Position.L7;
-		team.walkthrough[21] = Position.M7;
-		team.walkthrough[22] = Position.N7;
-		team.walkthrough[23] = Position.O7;
-		team.walkthrough[24] = Position.O8;
-		team.walkthrough[25] = Position.O9;
-		team.walkthrough[26] = Position.N9;
-		team.walkthrough[27] = Position.M9;
-		team.walkthrough[28] = Position.L9;
-		team.walkthrough[29] = Position.K9;
-		team.walkthrough[30] = Position.J9;
-		team.walkthrough[31] = Position.I10;
-		team.walkthrough[32] = Position.I11;
-		team.walkthrough[33] = Position.I12;
-		team.walkthrough[34] = Position.I13;
-		team.walkthrough[35] = Position.I14;
-		team.walkthrough[36] = Position.I15;
-		team.walkthrough[37] = Position.H15;
-		team.walkthrough[38] = Position.G15;
-		team.walkthrough[39] = Position.G14;
-		team.walkthrough[40] = Position.G13;
-		team.walkthrough[41] = Position.G12;
-		team.walkthrough[42] = Position.G11;
-		team.walkthrough[43] = Position.G10;
-		team.walkthrough[44] = Position.F9;
-		team.walkthrough[45] = Position.E9;
-		team.walkthrough[46] = Position.D9;
-		team.walkthrough[47] = Position.C9;
-		team.walkthrough[48] = Position.B9;
-		team.walkthrough[49] = Position.A9;
-		team.walkthrough[50] = Position.A8;
-		team.walkthrough[51] = Position.B8;
-		team.walkthrough[52] = Position.C8;
-		team.walkthrough[53] = Position.D8;
-		team.walkthrough[54] = Position.E8;
-		team.walkthrough[55] = Position.F8;
-		team.walkthrough[56] = Position.G8;
+	private Position[] createRedWalkthrough() {
+		walkthrough[0] = Position.B7;
+		walkthrough[1] = Position.C7;
+		walkthrough[2] = Position.D7;
+		walkthrough[3] = Position.E7;
+		walkthrough[4] = Position.F7;
+		walkthrough[5] = Position.G6;
+		walkthrough[6] = Position.G5;
+		walkthrough[7] = Position.G4;
+		walkthrough[8] = Position.G3;
+		walkthrough[9] = Position.G2;
+		walkthrough[10] = Position.G1;
+		walkthrough[11] = Position.H1;
+		walkthrough[12] = Position.I1;
+		walkthrough[13] = Position.I2;
+		walkthrough[14] = Position.I3;
+		walkthrough[15] = Position.I4;
+		walkthrough[16] = Position.I5;
+		walkthrough[17] = Position.I6;
+		walkthrough[18] = Position.J7;
+		walkthrough[19] = Position.K7;
+		walkthrough[20] = Position.L7;
+		walkthrough[21] = Position.M7;
+		walkthrough[22] = Position.N7;
+		walkthrough[23] = Position.O7;
+		walkthrough[24] = Position.O8;
+		walkthrough[25] = Position.O9;
+		walkthrough[26] = Position.N9;
+		walkthrough[27] = Position.M9;
+		walkthrough[28] = Position.L9;
+		walkthrough[29] = Position.K9;
+		walkthrough[30] = Position.J9;
+		walkthrough[31] = Position.I10;
+		walkthrough[32] = Position.I11;
+		walkthrough[33] = Position.I12;
+		walkthrough[34] = Position.I13;
+		walkthrough[35] = Position.I14;
+		walkthrough[36] = Position.I15;
+		walkthrough[37] = Position.H15;
+		walkthrough[38] = Position.G15;
+		walkthrough[39] = Position.G14;
+		walkthrough[40] = Position.G13;
+		walkthrough[41] = Position.G12;
+		walkthrough[42] = Position.G11;
+		walkthrough[43] = Position.G10;
+		walkthrough[44] = Position.F9;
+		walkthrough[45] = Position.E9;
+		walkthrough[46] = Position.D9;
+		walkthrough[47] = Position.C9;
+		walkthrough[48] = Position.B9;
+		walkthrough[49] = Position.A9;
+		walkthrough[50] = Position.A8;
+		walkthrough[51] = Position.B8;
+		walkthrough[52] = Position.C8;
+		walkthrough[53] = Position.D8;
+		walkthrough[54] = Position.E8;
+		walkthrough[55] = Position.F8;
+		walkthrough[56] = Position.G8;
+		
+		return walkthrough;
 	}
 
 	private void createGreenWalkthrough(Team team) {

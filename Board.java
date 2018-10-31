@@ -66,13 +66,14 @@ public class Board extends JPanel {
 		drawGreenPolygons(g2d);		
 		drawYellowPolygons(g2d);		
 		drawBluePolygons(g2d);
-		drawTeamOnTurnSquare(g2d);
-		drawDiceImg(g2d);
 		
 		configureRedPawns(g2d);
 		configureGreenPawns(g2d);
 		configureYellowPawns(g2d);
 		configureBluePawns(g2d);
+		
+		drawTeamOnTurnSquare(g2d);
+		drawDiceImg(g2d);
 		
 		debugMode(g2d);
 	}

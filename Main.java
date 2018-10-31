@@ -53,7 +53,7 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 	
 	private static void showGUI() {
 		   
-		configureFrame();	
+		configureFrameAndMouseListener();	
 		configureButtonNewGame();
 		configureButtonLoadGame();
 		configureButtonSaveGame();
@@ -178,7 +178,7 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 		lab_rolledA.setBounds(lab_rolledDiceX, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
 	}
 
-	private static void configureFrame() {
+	private static void configureFrameAndMouseListener() {
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(frame_width, frame_heigth));
 		if (Board.debugMode) {
@@ -194,13 +194,13 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 			public void mouseClicked(MouseEvent e) {
 				
 				String debugMsg = "";
-				
-				Position clickedPos = Position.getMousePosition(e.getX(),e.getY());
-				
+								
 				//se clicar no tabuleiro
-				if (clickedPos.x < 600 & clickedPos.y < 600) {
+				if (e.getX() < 600 & e.getY() < 600) {
 					
-					//for debug
+					Position clickedPos = Position.getMousePosition(e.getX(),e.getY());
+					
+					//debug
 					System.out.printf("clickedPos: %s%s (%d, %d)\n", clickedPos.letter, clickedPos.number, e.getX(), e.getY());
 									
 					//se tiver peão nessa posição clicada
@@ -210,7 +210,7 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 						Pawn pawnClicked = clickedPos.pawn[0];
 						
 						//se o peão clicado for do time da vez
-						if (pawnClicked.team == Game.currentTeam) { //BUGANDO!!!!!!!!!!!!
+						if (pawnClicked.team == Game.currentTeam) {
 							debugMsg += " Pawn belong to team on turn.";
 						
 							//se tiver na posiçao inicial
@@ -219,14 +219,14 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 								
 								if (Game.currentDice >= 5) {
 									
-									//atualiza a posição do pawn clicked
-									pawnClicked.currentPositionInx += 1;
-									
 									//atualiza a posição de destino do pawn clicked
-									pawnClicked.refreshPosition(clickedPos.pawn[0]);
+									pawnClicked.addPosition(1);
 									
 									//obtém a posição de destino
 									Position destinationPos = clickedPos.pawn[0].currentPosition;
+									
+									//debug
+									System.out.printf("destinationPos: %s%s\n", destinationPos.letter, destinationPos.number);
 									
 									//atualiza o pawn da posição de destino
 									destinationPos.pawn[0] = pawnClicked;
@@ -234,26 +234,32 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 									//atualiza a quantidade de pawns na posição clicada
 									clickedPos.pawn[0] = null;
 									
+									Game.currentTeam = Game.setTeamOnTurn();
+									Game.setCurrentDiceImage(0);
+									
 									Main.frame.repaint();
 									
 									debugMsg += " Pawn left home.\n";
 								} 
 								else {
 									debugMsg += " Pawn did not left home.\n";
+									
+									Game.currentTeam = Game.setTeamOnTurn();
+									Game.setCurrentDiceImage(0);
 								}
 							}
 							
 							else {
 								debugMsg += " Pawn is not on home position.";
 								
-								//atualiza a posição do pawn clicked
-								pawnClicked.currentPositionInx += Game.currentDice;
-								
 								//atualiza a posição de destino do pawn clicked
-								pawnClicked.refreshPosition(clickedPos.pawn[0]);
+								pawnClicked.addPosition(Game.currentDice);
 								
 								//obtém a posição de destino
 								Position destinationPos = clickedPos.pawn[0].currentPosition;
+								
+								//debug
+								System.out.printf("destinationPos: %s%s\n", destinationPos.letter, destinationPos.number);
 								
 								//atualiza o pawn da posição de destino
 								destinationPos.pawn[0] = pawnClicked;
@@ -262,7 +268,7 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 								clickedPos.pawn[0] = null;
 								
 								Main.frame.repaint();
-								
+																
 								debugMsg += " Pawn moved.\n";
 							}
 						}
@@ -304,7 +310,7 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 		});
 	}
 	
-	private static void printDebugMsg (String tag) {
-		System.out.println(tag);
+	private static void printDebugMsg (String debugMsg) {
+		System.out.println(debugMsg);
 	}
 }
