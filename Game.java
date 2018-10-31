@@ -33,9 +33,7 @@ public class Game {
 		int min = 1;
 		int randomNumber = random.nextInt(max + 1 - min) + min;
 		
-		//System.out.printf("randomNumber: %d",randomNumber);
-		
-		rollDice.setEnabled(false);
+		rollDice.setEnabled(true);
 		
 		if (Game.currentTeam.pawn[0].currentPosition == Game.currentTeam.pawn[0].homePosition &
 			Game.currentTeam.pawn[1].currentPosition == Game.currentTeam.pawn[1].homePosition &
@@ -78,20 +76,15 @@ public class Game {
 			Game.setCurrentDiceImage(6);
 			return 6;
 		}
-		
-		rollDice.setEnabled(false);
-		
 		return 0;
 	}
 
 	public static Team setTeamOnTurn() {
-		
 	    	if (Game.currentTeam == null) {
 	    		Random random = new Random();
 	    		int max = 4;
 	    		int min = 1;
 	    		int randomNumber = random.nextInt(max + 1 - min) + min;
-	    		
 	    		switch (randomNumber) {
 	    		case 1:
 	    			return Game.redTeam;

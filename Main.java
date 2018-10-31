@@ -44,7 +44,8 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 	static JButton but_loadGame = new JButton("Load Game");
 	static JButton but_saveGame = new JButton("Save Game");
 	static JLabel lab_onTurn = new JLabel("On turn:");
-	static JButton but_rollDice = new JButton("Roll Dice");	
+	static JButton but_rollDice = new JButton("Roll Dice");
+	
 			
 	public static void main(String[] args) {
 		showGUI();
@@ -52,7 +53,7 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 	
 	private static void showGUI() {
 		   
-		configureFrameAndMouseListener();	
+		configureFrame();	
 		configureButtonNewGame();
 		configureButtonLoadGame();
 		configureButtonSaveGame();
@@ -177,7 +178,7 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 		lab_rolledA.setBounds(lab_rolledDiceX, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
 	}
 
-	private static void configureFrameAndMouseListener() {
+	private static void configureFrame() {
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(frame_width, frame_heigth));
 		if (Board.debugMode) {
@@ -208,33 +209,30 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 						
 						Pawn pawnClicked = clickedPos.pawn[0];
 						
-						//for debug
-						//System.out.printf("pawnClicked.team.name: %s Game.currentTeam: %s\n", pawnClicked.team.name, Game.currentTeam.name);
-						
 						//se o peão clicado for do time da vez
-						if (pawnClicked.team == Game.currentTeam) {
+						if (pawnClicked.team == Game.currentTeam) { //BUGANDO!!!!!!!!!!!!
 							debugMsg += " Pawn belong to team on turn.";
 						
 							//se tiver na posiçao inicial
 							if (pawnClicked.currentPosition == pawnClicked.homePosition) {
 								debugMsg += " Pawn is on home position.";
 								
-								if (Game.currentDice >= 5) { //alguma coisa aqui ta bugando e propagando
-																
+								if (Game.currentDice >= 5) {
+									
+									//atualiza a posição do pawn clicked
+									pawnClicked.currentPositionInx += 1;
+									
 									//atualiza a posição de destino do pawn clicked
-									pawnClicked.refreshPawnPosition(0, pawnClicked.currentPosition);
+									pawnClicked.refreshPosition(clickedPos.pawn[0]);
 									
 									//obtém a posição de destino
-									//Position destinationPos = pawnClicked.team.walkthrough[0];
-									
-									//for debug
-									//System.out.printf("destinationPos: %s%s\n", destinationPos.letter, destinationPos.number);
+									Position destinationPos = clickedPos.pawn[0].currentPosition;
 									
 									//atualiza o pawn da posição de destino
-									//destinationPos.pawn[0] = pawnClicked;
+									destinationPos.pawn[0] = pawnClicked;
 									
 									//atualiza a quantidade de pawns na posição clicada
-									//clickedPos.pawn[0] = null;
+									clickedPos.pawn[0] = null;
 									
 									Main.frame.repaint();
 									
@@ -252,7 +250,7 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 								pawnClicked.currentPositionInx += Game.currentDice;
 								
 								//atualiza a posição de destino do pawn clicked
-								pawnClicked.refreshPawnPosition(0, pawnClicked.currentPosition);
+								pawnClicked.refreshPosition(clickedPos.pawn[0]);
 								
 								//obtém a posição de destino
 								Position destinationPos = clickedPos.pawn[0].currentPosition;
