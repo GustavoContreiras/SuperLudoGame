@@ -3,8 +3,11 @@ public class Team {
 	
 	Position[] walkthrough = new Position[57];
 	Pawn[] pawn = new Pawn[4];
+	String name = "";
 	
 	public Team (String team) {
+		
+		name = team;
 		
 		switch (team) {
 		
@@ -12,17 +15,17 @@ public class Team {
 			
 			createRedWalkthrough(this);
 			
-			pawn[0] = new Pawn(Game.redTeam, 1, Position.B5, walkthrough);
+			pawn[0] = new Pawn(this, 1, Position.B5, walkthrough);
 			Position.B5.pawn[0] = pawn[0];
 			
-			pawn[1] = new Pawn(Game.redTeam, 2, Position.E5, walkthrough);
-			Position.E5.pawn[0] = pawn[0];
+			pawn[1] = new Pawn(this, 2, Position.E5, walkthrough);
+			Position.E5.pawn[0] = pawn[1];
 			
-			pawn[2] = new Pawn(Game.redTeam, 3, Position.B2, walkthrough);
-			Position.B2.pawn[0] = pawn[0];
+			pawn[2] = new Pawn(this, 3, Position.B2, walkthrough);
+			Position.B2.pawn[0] = pawn[2];
 			
-			pawn[3] = new Pawn(Game.redTeam, 4, Position.E2, walkthrough);
-			Position.E2.pawn[0] = pawn[0];
+			pawn[3] = new Pawn(this, 4, Position.E2, walkthrough);
+			Position.E2.pawn[0] = pawn[3];
 			
 			break;
 			
@@ -30,17 +33,17 @@ public class Team {
 			
 			createGreenWalkthrough(this);
 			
-			pawn[0] = new Pawn(Game.greenTeam, 1, Position.K2, walkthrough);
+			pawn[0] = new Pawn(this, 1, Position.K2, walkthrough);
 			Position.K2.pawn[0] = pawn[0];
 			
-			pawn[1] = new Pawn(Game.greenTeam, 2, Position.K5, walkthrough);
-			Position.K5.pawn[0] = pawn[0];
+			pawn[1] = new Pawn(this, 2, Position.K5, walkthrough);
+			Position.K5.pawn[0] = pawn[1];
 			
-			pawn[2] = new Pawn(Game.greenTeam, 3, Position.N2, walkthrough);
-			Position.N2.pawn[0] = pawn[0];
+			pawn[2] = new Pawn(this, 3, Position.N2, walkthrough);
+			Position.N2.pawn[0] = pawn[2];
 			
-			pawn[3] = new Pawn(Game.greenTeam, 4, Position.N5, walkthrough);
-			Position.N5.pawn[0] = pawn[0];
+			pawn[3] = new Pawn(this, 4, Position.N5, walkthrough);
+			Position.N5.pawn[0] = pawn[3];
 			
 			break;
 			
@@ -48,17 +51,17 @@ public class Team {
 			
 			createYellowWalkthrough(this);
 			
-			pawn[0] = new Pawn(Game.yellowTeam, 1, Position.N11, walkthrough);
+			pawn[0] = new Pawn(this, 1, Position.N11, walkthrough);
 			Position.N11.pawn[0] = pawn[0];
 			
-			pawn[1] = new Pawn(Game.yellowTeam, 2, Position.K11, walkthrough);
-			Position.K11.pawn[0] = pawn[0];
+			pawn[1] = new Pawn(this, 2, Position.K11, walkthrough);
+			Position.K11.pawn[0] = pawn[1];
 			
-			pawn[2] = new Pawn(Game.yellowTeam, 3, Position.N14, walkthrough);
-			Position.N14.pawn[0] = pawn[0];
+			pawn[2] = new Pawn(this, 3, Position.N14, walkthrough);
+			Position.N14.pawn[0] = pawn[2];
 			
-			pawn[3] = new Pawn(Game.yellowTeam, 4, Position.K14, walkthrough);
-			Position.K14.pawn[0] = pawn[0];
+			pawn[3] = new Pawn(this, 4, Position.K14, walkthrough);
+			Position.K14.pawn[0] = pawn[3];
 			
 			break;
 			
@@ -66,17 +69,17 @@ public class Team {
 			
 			createBlueWalkthrough(this);
 			
-			pawn[0] = new Pawn(Game.blueTeam, 1, Position.E14, walkthrough);
+			pawn[0] = new Pawn(this, 1, Position.E14, walkthrough);
 			Position.E14.pawn[0] = pawn[0];
 			
-			pawn[1] = new Pawn(Game.blueTeam, 2, Position.E11, walkthrough);
-			Position.E11.pawn[0] = pawn[0];
+			pawn[1] = new Pawn(this, 2, Position.E11, walkthrough);
+			Position.E11.pawn[0] = pawn[1];
 			
-			pawn[2] = new Pawn(Game.blueTeam, 3, Position.B14, walkthrough);
-			Position.B14.pawn[0] = pawn[0];
+			pawn[2] = new Pawn(this, 3, Position.B14, walkthrough);
+			Position.B14.pawn[0] = pawn[2];
 			
-			pawn[3] = new Pawn(Game.blueTeam, 4, Position.B11, walkthrough);
-			Position.B11.pawn[0] = pawn[0];
+			pawn[3] = new Pawn(this, 4, Position.B11, walkthrough);
+			Position.B11.pawn[0] = pawn[3];
 			break;
 		}
 	}

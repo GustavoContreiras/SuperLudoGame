@@ -126,7 +126,7 @@ public class Board extends JPanel {
 		if (Game.yellowTeam != null) {
 			for (int i = 0; i < 4; i++) {
 				if (Game.yellowTeam.pawn[i] != null) {
-					
+
 					int centerX = Game.yellowTeam.pawn[i].currentPosition.x;
 					int centerY = Game.yellowTeam.pawn[i].currentPosition.y;
 			    	

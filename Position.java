@@ -253,6 +253,8 @@ public class Position extends Point{
 		this.y = y;
 		this.letter = getLetterPos(x);
 		this.number = getNumberPos(y);
+		this.pawn[0] = null;
+		this.pawn[1] = null;
 	}
 	
 	public Position(int x, int y, String letter, String number) {

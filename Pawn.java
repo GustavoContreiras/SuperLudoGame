@@ -12,7 +12,6 @@ public class Pawn {
 	
 	public Pawn(Team team, int id, Position homePosition, Position[] walkthrough) {
 		
-		//PAWN
 		this.id = id;
 		this.team = team;
 		this.homePosition = homePosition;
@@ -91,9 +90,14 @@ public class Pawn {
 		return null;
 	}
 
-	public void refreshPosition(Pawn pawn) {
-		int inx = pawn.currentPositionInx;
-		pawn.currentPosition = pawn.walkthrough[inx];
+	public void refreshPawnPosition(int newInx, Position currentPosition) {
+		
+		//currentPosition.pawn[0] = null;
+				
+		this.currentPositionInx = newInx;
+		this.currentPosition = this.walkthrough[newInx];
+		
+		//this.walkthrough[newInx].pawn[0] = this;
 	}
 	
 	public Position getPosition(Pawn pawn) {
