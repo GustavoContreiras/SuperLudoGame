@@ -132,6 +132,11 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 				int rolledDice = Game.rollDice(Game.currentTeam, but_rollDice);
 				
 				switch (rolledDice) {
+				case 0: 
+					lab_rolledA.setBounds(636, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_rolledA.setText("Not high enough!");
+					lab_rolledA.setFont(lab_font14);
+					break;
 				case 1: 
 					lab_rolledA.setBounds(642, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
 					lab_rolledA.setText("Rolled an one!");
@@ -197,7 +202,7 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 								
 				//se clicar no tabuleiro
 				if (e.getX() < 600 & e.getY() < 600) {
-					
+										
 					Position clickedPos = Position.getMousePosition(e.getX(),e.getY());
 					
 					//debug
@@ -213,39 +218,79 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 						if (pawnClicked.team == Game.currentTeam) {
 							debugMsg += " Pawn belong to team on turn.";
 						
-							//se tiver na posiçao inicial
+							//se o peao clicado tiver na posiçao inicial
 							if (pawnClicked.currentPosition == pawnClicked.homePosition) {
 								debugMsg += " Pawn is on home position.";
 								
-								if (Game.currentDice >= 5) {
+								//se todos peoes do time tiverem na posição inicial
+								if (pawnClicked.team.hasAllPawnsInHome()) {
+									debugMsg += " Current team has all pawns in home.";
+								
+									//se tirar 5 ou mais
+									if (Game.currentDice >= 5) {
+										
+										//atualiza a posição de destino do pawn clicked
+										pawnClicked.addPosition(1);
+										
+										//obtém a posição de destino
+										Position destinationPos = clickedPos.pawn[0].currentPosition;
+										
+										//debug
+										System.out.printf("destinationPos: %s%s\n", destinationPos.letter, destinationPos.number);
+										
+										//atualiza o pawn da posição de destino
+										destinationPos.pawn[0] = pawnClicked;
+										
+										//atualiza a quantidade de pawns na posição clicada
+										clickedPos.pawn[0] = null;
+										
+										//passa a vez para o proximo jogador
+										Game.nextTurn();
+										
+										debugMsg += " Pawn left home.\n";
+									}
 									
-									//atualiza a posição de destino do pawn clicked
-									pawnClicked.addPosition(1);
+									//se tirar menos de 5
+									else {
+										debugMsg += " Pawn did not left home.\n";
+										
+										//passa a vez para o proximo jogador
+										Game.nextTurn();
+									}
+								}
+								
+								//se tiver algum peão do time da vez fora da casa inicial
+								else { 
+									debugMsg += " Current team has pawns outside home.";
 									
-									//obtém a posição de destino
-									Position destinationPos = clickedPos.pawn[0].currentPosition;
+									//se tirar 5 ou mais
+									if (Game.currentDice >= 5) {
+										
+										//atualiza a posição de destino do pawn clicked
+										pawnClicked.addPosition(1);
+										
+										//obtém a posição de destino
+										Position destinationPos = clickedPos.pawn[0].currentPosition;
+										
+										//debug
+										System.out.printf("destinationPos: %s%s\n", destinationPos.letter, destinationPos.number);
+										
+										//atualiza o pawn da posição de destino
+										destinationPos.pawn[0] = pawnClicked;
+										
+										//atualiza a quantidade de pawns na posição clicada
+										clickedPos.pawn[0] = null;
+										
+										//passa a vez para o proximo jogador
+										Game.nextTurn();
+										
+										debugMsg += " Pawn left home.\n";
+									}
 									
-									//debug
-									System.out.printf("destinationPos: %s%s\n", destinationPos.letter, destinationPos.number);
-									
-									//atualiza o pawn da posição de destino
-									destinationPos.pawn[0] = pawnClicked;
-									
-									//atualiza a quantidade de pawns na posição clicada
-									clickedPos.pawn[0] = null;
-									
-									Game.currentTeam = Game.setTeamOnTurn();
-									Game.setCurrentDiceImage(0);
-									
-									Main.frame.repaint();
-									
-									debugMsg += " Pawn left home.\n";
-								} 
-								else {
-									debugMsg += " Pawn did not left home.\n";
-									
-									Game.currentTeam = Game.setTeamOnTurn();
-									Game.setCurrentDiceImage(0);
+									//se tirar menos de 5
+									else {
+										debugMsg += " Pawn can't leave home (choose another).\n";
+									}
 								}
 							}
 							
@@ -267,7 +312,8 @@ public abstract class Main extends JFrame implements ActionListener,MouseListene
 								//atualiza a quantidade de pawns na posição clicada
 								clickedPos.pawn[0] = null;
 								
-								Main.frame.repaint();
+								//passa a vez para o proximo jogador
+								Game.nextTurn();
 																
 								debugMsg += " Pawn moved.\n";
 							}

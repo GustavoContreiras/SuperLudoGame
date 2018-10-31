@@ -11,16 +11,12 @@ public class Pawn {
 	public int id;
 	
 	public Pawn(Team team, int id, Position homePosition, Position[] walkthrough) {
-		
 		this.id = id;
 		this.team = team;
 		this.homePosition = homePosition;
 		this.currentPosition = homePosition;
 		this.currentPositionInx = -1;
-		
-		for (int i = 0; i <= 56; i++) {
-			this.walkthrough[i] = walkthrough[i];
-		}
+		this.walkthrough = walkthrough;
 	}
 	
 	public void addPosition(int inxToAdd) {

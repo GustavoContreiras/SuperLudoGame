@@ -50,27 +50,68 @@ public class Game {
 		Position.B11.pawn[0] = Game.blueTeam.pawn[3];
 	}
 	
+	public static void nextTurn () {
+		
+		Main.lab_rolledA.setText("");
+		Game.currentTeam = Game.setTeamOnTurn();
+		Game.setCurrentDiceImage(0);
+		Main.but_rollDice.setEnabled(true);
+		Main.frame.repaint();
+	}
+	
 	public static int rollDice (Team currentTeam, JButton rollDice) {	
 		Random random = new Random();
 		int max = 6;
 		int min = 1;
 		int randomNumber = random.nextInt(max + 1 - min) + min;
 		
-		rollDice.setEnabled(true);
+		rollDice.setEnabled(false);
 		
 		switch (randomNumber) {
 		case 1:
-			Game.setCurrentDiceImage(1);
-			return 1;
+			if (Game.currentTeam.hasAllPawnsInHome()) {
+				Game.currentTeam = Game.setTeamOnTurn();
+				Game.setCurrentDiceImage(0);
+				rollDice.setEnabled(true);
+				return 0;
+			}
+			else {
+				Game.setCurrentDiceImage(1);
+				return 1;
+			}
 		case 2:
-			Game.setCurrentDiceImage(2);
-			return 2;
+			if (Game.currentTeam.hasAllPawnsInHome()) {
+				Game.currentTeam = Game.setTeamOnTurn();
+				Game.setCurrentDiceImage(0);
+				rollDice.setEnabled(true);
+				return 0;
+			}
+			else {
+				Game.setCurrentDiceImage(2);
+				return 2;
+			}
 		case 3:
-			Game.setCurrentDiceImage(3);
-			return 3;
+			if (Game.currentTeam.hasAllPawnsInHome()) {
+				Game.currentTeam = Game.setTeamOnTurn();
+				Game.setCurrentDiceImage(0);
+				rollDice.setEnabled(true);
+				return 0;
+			}
+			else {
+				Game.setCurrentDiceImage(3);
+				return 3;
+			}
 		case 4:
-			Game.setCurrentDiceImage(4);
-			return 4;
+			if (Game.currentTeam.hasAllPawnsInHome()) {
+				Game.currentTeam = Game.setTeamOnTurn();
+				Game.setCurrentDiceImage(0);
+				rollDice.setEnabled(true);
+				return 0;
+			}
+			else {
+				Game.setCurrentDiceImage(4);
+				return 4;
+			}
 		case 5:
 			Game.setCurrentDiceImage(5);
 			return 5;

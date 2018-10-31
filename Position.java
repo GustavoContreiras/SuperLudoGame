@@ -261,6 +261,7 @@ public class Position{
 		this.y = y;
 		this.letter = letter;
 		this.number = number;
+		this.name = letter + number;
 		this.pawn[0] = null;
 		this.pawn[1] = null;
 	}
