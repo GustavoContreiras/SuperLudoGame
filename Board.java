@@ -110,15 +110,30 @@ public class Board extends JPanel {
 						
 						int centerX = Game.redTeam.pawn[i].currentPosition.x;
 						int centerY = Game.redTeam.pawn[i].currentPosition.y;
-				    	
-				    	Ellipse2D circ = new Ellipse2D.Double();
-						circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn, centerY + radiusPawn);
+						
+				    	Ellipse2D circExt = new Ellipse2D.Double();
+				    	circExt.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+6, centerY + radiusPawn+6);
+						g2d.setPaint(Color.RED);
+						g2d.fill(circExt);
+						
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circExt);
+						
+						Ellipse2D circWhite = new Ellipse2D.Double();
+						circWhite.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+2, centerY + radiusPawn+2);
+						g2d.setPaint(Color.WHITE);
+						g2d.fill(circWhite);
+						
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circWhite);
+						
+						Ellipse2D circ = new Ellipse2D.Double();
+						circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn-1, centerY + radiusPawn-1);
 						g2d.setPaint(Color.RED);
 						g2d.fill(circ);
+						
 						g2d.setPaint(Color.BLACK);
 						g2d.draw(circ);
-						g2d.setPaint(Color.WHITE);
-						drawPawnIdString(centerX, centerY, i, g2d);
 					}
 				}	
 			}

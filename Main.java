@@ -185,9 +185,6 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	private static void configureFrameAndMouseListener() {
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(frame_width, frame_heigth));
-		if (Board.debugMode) {
-			Main.frame.setPreferredSize(new Dimension(frame_width, frame_heigth + 20));
-		}
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -196,8 +193,6 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				String debugMsg = "";
 								
 				//se clicar no tabuleiro
 				if (e.getX() < 600 & e.getY() < 600) {
@@ -209,241 +204,85 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 									
 					//se tiver peão nessa posição clicada
 					if (clickedPos.pawn[0] != null) {
-						debugMsg += "Position has pawn.";
+						printDebugMsg("Clicked position has pawn.");
+						
+						System.out.printf("Pawn[0]: %s\nPawn[1]: %s\n", clickedPos.pawn[0], clickedPos.pawn[1]);
 						
 						Pawn pawnClicked = clickedPos.pawn[0];
 						
 						//se o peão clicado for do time da vez
 						if (pawnClicked.team == Game.currentTeam) {
-							debugMsg += " Pawn belong to team on turn.";
+							printDebugMsg("Pawn belong to team on turn.");
 						
 							//se o peao clicado tiver na posiçao inicial
 							if (pawnClicked.currentPosition == pawnClicked.homePosition) {
-								debugMsg += " Pawn is on home position.";
+								printDebugMsg("Pawn is on home position.");
 								
-								//se todos peoes do time tiverem na posição inicial
-								if (pawnClicked.team.hasAllPawnsInHome()) {
-									debugMsg += " Current team has all pawns in home.";
-								
-									//se tirar 5 ou mais
-									if (Game.currentDice >= 5) {
-										debugMsg += " Rolled five or more.";
-																				
-										//desanexa o peão clicado dessa posição
-										pawnClicked.currentPosition.pawn[0] = null;
-										
-										//se tiver peão 1 nessa posição
-										if (pawnClicked.currentPosition.pawn[1] != null) {
-											debugMsg += " Position has another pawn.";
-											
-											//peão 1 passa a ser o peão 0
-											pawnClicked.currentPosition.pawn[0] = pawnClicked.currentPosition.pawn[1];
-											
-											//desanexa o peão 1 de onde tava
-											pawnClicked.currentPosition.pawn[1] = null;
-										}
-										
-										//adiciona posição pro pawn clicked
-										pawnClicked.addPosition(1);
-										
-										//obtém a posição de destino
-										Position destinationPos = pawnClicked.currentPosition;
-										
-										//debug
-										System.out.printf("destinationPos: %s%s\n", destinationPos.letter, destinationPos.number);
-										
-										//se não tiver peão na posição de destino
-										if (destinationPos.pawn[0] == null) {
-											debugMsg += " New position do not have pawns.";
-											
-											//anexa o peão na posição de destino
-											destinationPos.pawn[0] = pawnClicked;
-										}
-										
-										//se tiver um peão na posição de destino
-										else if (destinationPos.pawn[0] != null & destinationPos.pawn[1] == null) {
-											debugMsg += " New position already have a pawn.";
-											
-											//se o peão for do time do jogador
-											if (destinationPos.pawn[0].team == pawnClicked.team) {
-												debugMsg += " Pawn is of the same team.";
-												
-												//cria a barreira
-												destinationPos.pawn[1] = pawnClicked;
-											}
-											
-											//se o peão não for do time do jogador
-											else {
-												debugMsg += " Pawn is not from your team.";
-												
-												//come o peão adversário (manda ele pra posição inicial)
-												destinationPos.pawn[0].currentPosition = destinationPos.pawn[0].homePosition;
-												destinationPos.pawn[0] = pawnClicked;
-											}
-										}
-										
-										//se tiver mais de um peão (barreira)
-										else {
-											debugMsg += " New position has 2 pawns.";
-										}
-										
-										//passa a vez para o proximo jogador
-										Game.nextTurn();
-										
-										debugMsg += " Pawn left home.\n";
-									}
+								//se tirar 5
+								if (Game.currentDice == 5) {
+									printDebugMsg("Rolled five.");
+																			
+									pawnClicked.detachFromPos(pawnClicked.currentPosition);
+									pawnClicked.addPosition(1);
+									pawnClicked.attachToPos(pawnClicked.currentPosition, pawnClicked);
 									
-									//se tirar menos de 5
-									else {
-										debugMsg += " Pawn did not left home.\n";
-										
-										//passa a vez para o proximo jogador
+									Game.nextTurn();
+									
+									printDebugMsg("Pawn left home.");
+								}
+								
+								//se tirar 6
+								else if (Game.currentDice == 6) {
+									printDebugMsg("Rolled six.");
+																			
+									pawnClicked.detachFromPos(pawnClicked.currentPosition);
+									pawnClicked.addPosition(1);
+									pawnClicked.attachToPos(pawnClicked.currentPosition, pawnClicked);
+									
+									Main.but_rollDice.setEnabled(true);
+									Game.setCurrentDice(0);
+									
+									printDebugMsg("Pawn left home.");
+								}
+								
+								//se tirar de 1 a 4
+								else if (Game.currentDice > 0){
+									printDebugMsg("Pawn did not left home.");
+									
+									if (pawnClicked.team.hasAllPawnsInHome()) {
 										Game.nextTurn();
 									}
 								}
 								
-								//se tiver algum peão do time da vez fora da casa inicial
-								else { 
-									debugMsg += " Current team has pawns outside home.";
-									
-									//se tirar 5 ou mais
-									if (Game.currentDice >= 5) {
-										
-										//atualiza a posição de destino do pawn clicked
-										pawnClicked.addPosition(1);
-										
-										//obtém a posição de destino
-										Position destinationPos = clickedPos.pawn[0].currentPosition;
-										
-										//debug
-										System.out.printf("destinationPos: %s%s\n", destinationPos.letter, destinationPos.number);
-										
-										//se não tiver peão na posição de destino
-										if (destinationPos.pawn[0] == null) {
-											debugMsg += " New position do not have pawns.";
-											
-											//anexa o peão na posição de destino
-											destinationPos.pawn[0] = pawnClicked;
-										}
-										
-										//se tiver um peão na posição de destino
-										else if (destinationPos.pawn[0] != null & destinationPos.pawn[1] == null) {
-											debugMsg += " New position already have a pawn.";
-											
-											//se o peão for do time do jogador
-											if (destinationPos.pawn[0].team == pawnClicked.team) {
-												debugMsg += " Pawn is of the same team.";
-												
-												//cria a barreira
-												destinationPos.pawn[1] = pawnClicked;
-											}
-											
-											//se o peão não for do time do jogador
-											else {
-												debugMsg += " Pawn is not from your team.";
-												
-												//come o peão adversário (manda ele pra posição inicial)
-												destinationPos.pawn[0].currentPosition = destinationPos.pawn[0].homePosition;
-												destinationPos.pawn[0] = pawnClicked;
-											}
-										}
-										
-										//se tiver mais de um peão (barreira)
-										else {
-											debugMsg += " New position has 2 pawns.";
-										}
-										
-										//passa a vez para o proximo jogador
-										Game.nextTurn();
-										
-										debugMsg += " Pawn left home.\n";
-									}
-									
-									//se tirar menos de 5
-									else {
-										debugMsg += " Pawn can't leave home (choose another).\n";
-									}
+								//se nao tiver tirado nada
+								else {
+									printDebugMsg("Need to roll dice.");
 								}
 							}
 							
+							//peao clicado nao ta na posicao inicial
 							else {
-								debugMsg += " Pawn is not on home position.";
+								printDebugMsg("Pawn is not on home position.");
 									
-								//desanexa o peão clicado dessa posição
-								pawnClicked.currentPosition.pawn[0] = null;
-								
-								//se tiver peão 1 nessa posição
-								if (pawnClicked.currentPosition.pawn[1] != null) {
-									
-									//peão 1 passa a ser o peão 0
-									pawnClicked.currentPosition.pawn[0] = pawnClicked.currentPosition.pawn[1];
-									
-									//desanexa o peão 1 de onde tava
-									pawnClicked.currentPosition.pawn[1] = null;
-								}
-								
-								//atualiza a posição de destino do pawn clicked
+								pawnClicked.detachFromPos(pawnClicked.currentPosition);
 								pawnClicked.addPosition(Game.currentDice);
+								pawnClicked.attachToPos(pawnClicked.currentPosition, pawnClicked);	
 								
-								//obtém a posição de destino
-								Position destinationPos = pawnClicked.currentPosition;
-								
-								//debug
-								System.out.printf("destinationPos: %s%s\n", destinationPos.letter, destinationPos.number);
-
-								//se não tiver peão na posição de destino
-								if (destinationPos.pawn[0] == null) {
-									
-									//anexa o peão na posição de destino
-									destinationPos.pawn[0] = pawnClicked;
+								if (Game.currentDice != 6) {
+									Game.nextTurn();
 								}
-								
-								//se tiver um peão na posição de destino
-								else if (destinationPos.pawn[0] != null & destinationPos.pawn[1] == null) {
-									
-									//se o peão for do time do jogador
-									if (destinationPos.pawn[0].team == pawnClicked.team) {
-										
-										//cria a barreira
-										destinationPos.pawn[1] = pawnClicked;
-									}
-									
-									//se o peão não for do time do jogador
-									else {
-										
-										//come o peão adversário (manda ele pra posição inicial)
-										destinationPos.pawn[0].currentPosition = destinationPos.pawn[0].homePosition;
-										destinationPos.pawn[0] = pawnClicked;
-									}
-								}
-								
-								//se tiver mais de um peão (barreira)
 								else {
-									
+									Main.but_rollDice.setEnabled(true);
+									Game.setCurrentDice(0);
 								}
 								
-								//atualiza a quantidade de pawns na posição clicada
-								clickedPos.pawn[0] = null;
-								
-								//atualiza a quantidade de pawns na posição clicada
-								clickedPos.pawn[0] = null;
-								
-								//passa a vez para o proximo jogador
-								Game.nextTurn();
-																
-								debugMsg += " Pawn moved.\n";
+								printDebugMsg("Pawn moved.");
 							}
 						}
-						else {
-							debugMsg += " Pawn did not belong to team on turn.\n";
-						}
-					} 
-					else {
-						debugMsg += " Position has no pawn.\n";
-					}
-				}
-				
-				printDebugMsg(debugMsg);
+						else printDebugMsg("Pawn did not belong to team on turn.");
+					} else printDebugMsg("Position has no pawn.");
+					printDebugMsg("");
+				}	
 			}
 
 			@Override
@@ -470,6 +309,10 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 				
 			}
 		});
+		
+		if (Board.debugMode) {
+			Main.frame.setPreferredSize(new Dimension(frame_width, frame_heigth + 20));
+		}
 	}
 	
 	private static void printDebugMsg (String debugMsg) {

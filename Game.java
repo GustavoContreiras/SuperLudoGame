@@ -25,7 +25,7 @@ public class Game {
 		Game.currentTeam = Game.setTeamOnTurn();
 		
 		Game.insertPawnsInHomePositions();
-		Game.setCurrentDiceImage(0);	
+		Game.setCurrentDice(0);	
 	}
 	
 	public static void insertPawnsInHomePositions() {
@@ -54,7 +54,7 @@ public class Game {
 		
 		Main.lab_rolledA.setText("");
 		Game.currentTeam = Game.setTeamOnTurn();
-		Game.setCurrentDiceImage(0);
+		Game.setCurrentDice(0);
 		Main.but_rollDice.setEnabled(true);
 		Main.frame.repaint();
 	}
@@ -71,52 +71,52 @@ public class Game {
 		case 1:
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				Game.currentTeam = Game.setTeamOnTurn();
-				Game.setCurrentDiceImage(0);
+				Game.setCurrentDice(0);
 				rollDice.setEnabled(true);
 				return 0;
 			}
 			else {
-				Game.setCurrentDiceImage(1);
+				Game.setCurrentDice(1);
 				return 1;
 			}
 		case 2:
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				Game.currentTeam = Game.setTeamOnTurn();
-				Game.setCurrentDiceImage(0);
+				Game.setCurrentDice(0);
 				rollDice.setEnabled(true);
 				return 0;
 			}
 			else {
-				Game.setCurrentDiceImage(2);
+				Game.setCurrentDice(2);
 				return 2;
 			}
 		case 3:
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				Game.currentTeam = Game.setTeamOnTurn();
-				Game.setCurrentDiceImage(0);
+				Game.setCurrentDice(0);
 				rollDice.setEnabled(true);
 				return 0;
 			}
 			else {
-				Game.setCurrentDiceImage(3);
+				Game.setCurrentDice(3);
 				return 3;
 			}
 		case 4:
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				Game.currentTeam = Game.setTeamOnTurn();
-				Game.setCurrentDiceImage(0);
+				Game.setCurrentDice(0);
 				rollDice.setEnabled(true);
 				return 0;
 			}
 			else {
-				Game.setCurrentDiceImage(4);
+				Game.setCurrentDice(4);
 				return 4;
 			}
 		case 5:
-			Game.setCurrentDiceImage(5);
+			Game.setCurrentDice(5);
 			return 5;
 		case 6:
-			Game.setCurrentDiceImage(6);
+			Game.setCurrentDice(6);
 			return 6;
 		}
 		return 0;
@@ -158,7 +158,7 @@ public class Game {
 	    	}
 	    }
 
-    public static void setCurrentDiceImage(int dice) {
+    public static void setCurrentDice(int dice) {
     	currentDice = dice;
     	Main.frame.repaint();
     }
