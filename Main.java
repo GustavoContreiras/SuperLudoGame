@@ -227,22 +227,20 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 								
 									//se tirar 5 ou mais
 									if (Game.currentDice >= 5) {
+										debugMsg += " Rolled five or more.";
+																				
+										//desanexa o peão clicado dessa posição
+										pawnClicked.currentPosition.pawn[0] = null;
 										
-										//se o peão 0 da posição clicada for o peão clicado
-										if (pawnClicked.currentPosition.pawn[0] == pawnClicked) {
+										//se tiver peão 1 nessa posição
+										if (pawnClicked.currentPosition.pawn[1] != null) {
+											debugMsg += " Position has another pawn.";
 											
-											//desanexa o peão clicado dessa posição
-											pawnClicked.currentPosition.pawn[0] = null;
+											//peão 1 passa a ser o peão 0
+											pawnClicked.currentPosition.pawn[0] = pawnClicked.currentPosition.pawn[1];
 											
-											//se tiver peão 1 nessa posição
-											if (pawnClicked.currentPosition.pawn[1] != null) {
-												
-												//peão 1 passa a ser o peão 0
-												pawnClicked.currentPosition.pawn[0] = pawnClicked.currentPosition.pawn[1];
-												
-												//desanexa o peão 1 de onde tava
-												pawnClicked.currentPosition.pawn[1] = null;
-											}
+											//desanexa o peão 1 de onde tava
+											pawnClicked.currentPosition.pawn[1] = null;
 										}
 										
 										//adiciona posição pro pawn clicked
@@ -256,6 +254,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 										
 										//se não tiver peão na posição de destino
 										if (destinationPos.pawn[0] == null) {
+											debugMsg += " New position do not have pawns.";
 											
 											//anexa o peão na posição de destino
 											destinationPos.pawn[0] = pawnClicked;
@@ -263,9 +262,11 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 										
 										//se tiver um peão na posição de destino
 										else if (destinationPos.pawn[0] != null & destinationPos.pawn[1] == null) {
+											debugMsg += " New position already have a pawn.";
 											
 											//se o peão for do time do jogador
 											if (destinationPos.pawn[0].team == pawnClicked.team) {
+												debugMsg += " Pawn is of the same team.";
 												
 												//cria a barreira
 												destinationPos.pawn[1] = pawnClicked;
@@ -273,6 +274,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 											
 											//se o peão não for do time do jogador
 											else {
+												debugMsg += " Pawn is not from your team.";
 												
 												//come o peão adversário (manda ele pra posição inicial)
 												destinationPos.pawn[0].currentPosition = destinationPos.pawn[0].homePosition;
@@ -282,11 +284,8 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 										
 										//se tiver mais de um peão (barreira)
 										else {
-											
+											debugMsg += " New position has 2 pawns.";
 										}
-										
-										//atualiza a quantidade de pawns na posição clicada
-										clickedPos.pawn[0] = null;
 										
 										//passa a vez para o proximo jogador
 										Game.nextTurn();
@@ -319,11 +318,40 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 										//debug
 										System.out.printf("destinationPos: %s%s\n", destinationPos.letter, destinationPos.number);
 										
-										//atualiza o pawn da posição de destino
-										destinationPos.pawn[0] = pawnClicked;
+										//se não tiver peão na posição de destino
+										if (destinationPos.pawn[0] == null) {
+											debugMsg += " New position do not have pawns.";
+											
+											//anexa o peão na posição de destino
+											destinationPos.pawn[0] = pawnClicked;
+										}
 										
-										//atualiza a quantidade de pawns na posição clicada
-										clickedPos.pawn[0] = null;
+										//se tiver um peão na posição de destino
+										else if (destinationPos.pawn[0] != null & destinationPos.pawn[1] == null) {
+											debugMsg += " New position already have a pawn.";
+											
+											//se o peão for do time do jogador
+											if (destinationPos.pawn[0].team == pawnClicked.team) {
+												debugMsg += " Pawn is of the same team.";
+												
+												//cria a barreira
+												destinationPos.pawn[1] = pawnClicked;
+											}
+											
+											//se o peão não for do time do jogador
+											else {
+												debugMsg += " Pawn is not from your team.";
+												
+												//come o peão adversário (manda ele pra posição inicial)
+												destinationPos.pawn[0].currentPosition = destinationPos.pawn[0].homePosition;
+												destinationPos.pawn[0] = pawnClicked;
+											}
+										}
+										
+										//se tiver mais de um peão (barreira)
+										else {
+											debugMsg += " New position has 2 pawns.";
+										}
 										
 										//passa a vez para o proximo jogador
 										Game.nextTurn();
@@ -340,22 +368,18 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 							
 							else {
 								debugMsg += " Pawn is not on home position.";
+									
+								//desanexa o peão clicado dessa posição
+								pawnClicked.currentPosition.pawn[0] = null;
 								
-								//se o peão 0 da posição clicada for o peão clicado
-								if (pawnClicked.currentPosition.pawn[0] == pawnClicked) {
+								//se tiver peão 1 nessa posição
+								if (pawnClicked.currentPosition.pawn[1] != null) {
 									
-									//desanexa o peão clicado dessa posição
-									pawnClicked.currentPosition.pawn[0] = null;
+									//peão 1 passa a ser o peão 0
+									pawnClicked.currentPosition.pawn[0] = pawnClicked.currentPosition.pawn[1];
 									
-									//se tiver peão 1 nessa posição
-									if (pawnClicked.currentPosition.pawn[1] != null) {
-										
-										//peão 1 passa a ser o peão 0
-										pawnClicked.currentPosition.pawn[0] = pawnClicked.currentPosition.pawn[1];
-										
-										//desanexa o peão 1 de onde tava
-										pawnClicked.currentPosition.pawn[1] = null;
-									}
+									//desanexa o peão 1 de onde tava
+									pawnClicked.currentPosition.pawn[1] = null;
 								}
 								
 								//atualiza a posição de destino do pawn clicked
