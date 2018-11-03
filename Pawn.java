@@ -45,37 +45,29 @@ public class Pawn {
 	
 	public void attachToPos(Position pawnCurrentPosition, Pawn pawnClicked) {
 		
-		//se não tiver peão na posição de destino
 		if (pawnCurrentPosition.pawn[0] == null) {
 			System.out.println("New position do not have pawns.");
-			
-			//anexa o peão na posição de destino
 			pawnCurrentPosition.pawn[0] = pawnClicked;
 		}
 		
-		//se tiver um peão na posição de destino
-		else if (pawnCurrentPosition.pawn[0] != null & pawnCurrentPosition.pawn[1] == null) {
+		else if (pawnCurrentPosition.pawn[0] != null) {
 			System.out.println("New position already have a pawn.");
 			
-			//se o peão for do time do jogador
 			if (pawnCurrentPosition.pawn[0].team == pawnClicked.team) {
 				System.out.println("Pawn is of the same team.");
-				
-				//cria a barreira
 				pawnCurrentPosition.pawn[1] = pawnClicked;
 			}
 			
-			//se o peão não for do time do jogador
 			else {
 				System.out.println("Pawn is not from current team.");
 				
-				//come o peão adversário (manda ele pra posição inicial)
 				pawnCurrentPosition.pawn[0].currentPosition = pawnCurrentPosition.pawn[0].homePosition;
+				pawnCurrentPosition.pawn[0].currentPositionInx = -1;
+				
 				pawnCurrentPosition.pawn[0] = pawnClicked;
 			}
 		}
 		
-		//se tiver mais de um peão (barreira)
 		else {
 			System.out.println(" New position has 2 pawns.");
 		}
