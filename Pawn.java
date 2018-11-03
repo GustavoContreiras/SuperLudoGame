@@ -62,6 +62,7 @@ public class Pawn {
 				System.out.println("Pawn is not from current team.");
 				
 				pawnCurrentPosition.pawn[0].currentPosition = pawnCurrentPosition.pawn[0].homePosition;
+				pawnCurrentPosition.pawn[0].homePosition.pawn[0] = pawnCurrentPosition.pawn[0];
 				pawnCurrentPosition.pawn[0].currentPositionInx = -1;
 				
 				pawnCurrentPosition.pawn[0] = pawnClicked;
