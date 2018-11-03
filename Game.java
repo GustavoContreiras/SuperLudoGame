@@ -24,6 +24,7 @@ public class Game {
 		Game.blueTeam = new Team("Blue");
 		Game.currentTeam = Game.setTeamOnTurn();
 		
+		Game.resetPositions();
 		Game.insertPawnsInHomePositions();
 		Game.setCurrentDice(0);	
 	}
@@ -163,4 +164,24 @@ public class Game {
     	Main.frame.repaint();
     }
 
+    private static void resetPositions() {
+    	if (Game.redTeam != null & Game.greenTeam != null & Game.yellowTeam != null & Game.blueTeam != null) {
+			for (int i = 0; i < 57; i++) {
+				Game.redTeam.walkthrough[i].pawn[0] = null;
+				Game.redTeam.walkthrough[i].pawn[1] = null;
+			}
+			for (int i = 0; i < 57; i++) {
+				Game.greenTeam.walkthrough[i].pawn[0] = null;
+				Game.greenTeam.walkthrough[i].pawn[1] = null;
+			}
+			for (int i = 0; i < 57; i++) {
+				Game.yellowTeam.walkthrough[i].pawn[0] = null;
+				Game.yellowTeam.walkthrough[i].pawn[1] = null;
+			}
+			for (int i = 0; i < 57; i++) {
+				Game.blueTeam.walkthrough[i].pawn[0] = null;
+				Game.blueTeam.walkthrough[i].pawn[1] = null;
+			}
+		}
+    }
 }

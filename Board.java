@@ -142,21 +142,61 @@ public class Board extends JPanel {
     
     private void drawGreenPawns (Graphics2D g2d) {
     	
-		if (Game.greenTeam != null) {
-			for (int i = 0; i < 4; i++) {
-				if (Game.greenTeam.pawn[i] != null) {
+    	//se o time verde existir
+		if (Game.greenTeam != null) {	
+			
+			//percorre o array de peoes do time
+			for (int i = 0; i < 4; i++) { 
+				
+				//se o peão existir
+				if (Game.greenTeam.pawn[i] != null) { 
 					
-					int centerX = Game.greenTeam.pawn[i].currentPosition.x;
-					int centerY = Game.greenTeam.pawn[i].currentPosition.y;
-			    	
-			    	Ellipse2D circ = new Ellipse2D.Double();
-					circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn, centerY + radiusPawn);
-					g2d.setPaint(Color.GREEN);
-					g2d.fill(circ);
-					g2d.setPaint(Color.BLACK);
-					g2d.draw(circ);																	
-					g2d.setPaint(Color.BLACK);
-					drawPawnIdString(centerX, centerY, i, g2d);
+					//se não tiver outro peao nessa posição
+					if (Game.greenTeam.pawn[i].currentPosition.pawn[1] == null) { 
+					
+						int centerX = Game.greenTeam.pawn[i].currentPosition.x;
+						int centerY = Game.greenTeam.pawn[i].currentPosition.y;
+				    	
+				    	Ellipse2D circ = new Ellipse2D.Double();
+						circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn, centerY + radiusPawn);
+						g2d.setPaint(Color.GREEN);
+						g2d.fill(circ);
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circ);
+						g2d.setPaint(Color.BLACK);
+						drawPawnIdString(centerX, centerY, i, g2d);
+					}
+					
+					//se tiver outro peão nessa posição (barreira)
+					else {
+						
+						int centerX = Game.greenTeam.pawn[i].currentPosition.x;
+						int centerY = Game.greenTeam.pawn[i].currentPosition.y;
+						
+				    	Ellipse2D circExt = new Ellipse2D.Double();
+				    	circExt.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+6, centerY + radiusPawn+6);
+						g2d.setPaint(Color.GREEN);
+						g2d.fill(circExt);
+						
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circExt);
+						
+						Ellipse2D circWhite = new Ellipse2D.Double();
+						circWhite.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+2, centerY + radiusPawn+2);
+						g2d.setPaint(Color.WHITE);
+						g2d.fill(circWhite);
+						
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circWhite);
+						
+						Ellipse2D circ = new Ellipse2D.Double();
+						circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn-1, centerY + radiusPawn-1);
+						g2d.setPaint(Color.GREEN);
+						g2d.fill(circ);
+						
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circ);
+					}
 				}	
 			}
 		}
@@ -164,22 +204,61 @@ public class Board extends JPanel {
     
     private void drawYellowPawns(Graphics2D g2d) {
     	
-		if (Game.yellowTeam != null) {
-			for (int i = 0; i < 4; i++) {
-				if (Game.yellowTeam.pawn[i] != null) {
+    	//se o time amarelo existir
+		if (Game.yellowTeam != null) {	
+			
+			//percorre o array de peoes do time
+			for (int i = 0; i < 4; i++) { 
+				
+				//se o peão existir
+				if (Game.yellowTeam.pawn[i] != null) { 
 					
-					int centerX = Game.yellowTeam.pawn[i].currentPosition.x;
-					int centerY = Game.yellowTeam.pawn[i].currentPosition.y;
-			    	
-			    	Ellipse2D circ = new Ellipse2D.Double();
-					circ = new Ellipse2D.Double();
-					circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn, centerY + radiusPawn);
-					g2d.setPaint(Color.YELLOW);
-					g2d.fill(circ);
-					g2d.setPaint(Color.BLACK);
-					g2d.draw(circ);									
-					g2d.setPaint(Color.BLACK);
-					drawPawnIdString(centerX, centerY, i, g2d);
+					//se não tiver outro peao nessa posição
+					if (Game.yellowTeam.pawn[i].currentPosition.pawn[1] == null) { 
+					
+						int centerX = Game.yellowTeam.pawn[i].currentPosition.x;
+						int centerY = Game.yellowTeam.pawn[i].currentPosition.y;
+				    	
+				    	Ellipse2D circ = new Ellipse2D.Double();
+						circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn, centerY + radiusPawn);
+						g2d.setPaint(Color.YELLOW);
+						g2d.fill(circ);
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circ);
+						g2d.setPaint(Color.BLACK);
+						drawPawnIdString(centerX, centerY, i, g2d);
+					}
+					
+					//se tiver outro peão nessa posição (barreira)
+					else {
+						
+						int centerX = Game.yellowTeam.pawn[i].currentPosition.x;
+						int centerY = Game.yellowTeam.pawn[i].currentPosition.y;
+						
+				    	Ellipse2D circExt = new Ellipse2D.Double();
+				    	circExt.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+6, centerY + radiusPawn+6);
+						g2d.setPaint(Color.YELLOW);
+						g2d.fill(circExt);
+						
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circExt);
+						
+						Ellipse2D circWhite = new Ellipse2D.Double();
+						circWhite.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+2, centerY + radiusPawn+2);
+						g2d.setPaint(Color.WHITE);
+						g2d.fill(circWhite);
+						
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circWhite);
+						
+						Ellipse2D circ = new Ellipse2D.Double();
+						circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn-1, centerY + radiusPawn-1);
+						g2d.setPaint(Color.YELLOW);
+						g2d.fill(circ);
+						
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circ);
+					}
 				}	
 			}
 		}
@@ -187,22 +266,61 @@ public class Board extends JPanel {
     
     private void drawBluePawns(Graphics2D g2d) {
     	
-		if (Game.blueTeam != null) {
-			for (int i = 0; i < 4; i++) {
-				if (Game.blueTeam.pawn[i] != null) {
+    	//se o time azul existir
+		if (Game.blueTeam != null) {	
+			
+			//percorre o array de peoes do time
+			for (int i = 0; i < 4; i++) { 
+				
+				//se o peão existir
+				if (Game.blueTeam.pawn[i] != null) { 
 					
-					int centerX = Game.blueTeam.pawn[i].currentPosition.x;
-					int centerY = Game.blueTeam.pawn[i].currentPosition.y;
-
-			    	Ellipse2D circ = new Ellipse2D.Double();
-					circ = new Ellipse2D.Double();
-					circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn, centerY + radiusPawn);
-					g2d.setPaint(Color.BLUE);
-					g2d.fill(circ);
-					g2d.setPaint(Color.BLACK);
-					g2d.draw(circ);							
-					g2d.setPaint(Color.WHITE);
-					drawPawnIdString(centerX, centerY, i, g2d);	
+					//se não tiver outro peao nessa posição
+					if (Game.blueTeam.pawn[i].currentPosition.pawn[1] == null) { 
+					
+						int centerX = Game.blueTeam.pawn[i].currentPosition.x;
+						int centerY = Game.blueTeam.pawn[i].currentPosition.y;
+				    	
+				    	Ellipse2D circ = new Ellipse2D.Double();
+						circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn, centerY + radiusPawn);
+						g2d.setPaint(Color.BLUE);
+						g2d.fill(circ);
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circ);
+						g2d.setPaint(Color.WHITE);
+						drawPawnIdString(centerX, centerY, i, g2d);
+					}
+					
+					//se tiver outro peão nessa posição (barreira)
+					else {
+						
+						int centerX = Game.blueTeam.pawn[i].currentPosition.x;
+						int centerY = Game.blueTeam.pawn[i].currentPosition.y;
+						
+				    	Ellipse2D circExt = new Ellipse2D.Double();
+				    	circExt.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+6, centerY + radiusPawn+6);
+						g2d.setPaint(Color.BLUE);
+						g2d.fill(circExt);
+						
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circExt);
+						
+						Ellipse2D circWhite = new Ellipse2D.Double();
+						circWhite.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+2, centerY + radiusPawn+2);
+						g2d.setPaint(Color.WHITE);
+						g2d.fill(circWhite);
+						
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circWhite);
+						
+						Ellipse2D circ = new Ellipse2D.Double();
+						circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn-1, centerY + radiusPawn-1);
+						g2d.setPaint(Color.BLUE);
+						g2d.fill(circ);
+						
+						g2d.setPaint(Color.BLACK);
+						g2d.draw(circ);
+					}
 				}	
 			}
 		}
