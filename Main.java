@@ -195,7 +195,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 			public void mouseClicked(MouseEvent e) {
 								
 				//se clicar no tabuleiro
-				if (e.getX() < 600 & e.getY() < 600) {
+				if (e.getX() < 603 & e.getY() < 630) {
 										
 					Position clickedPos = Position.getMousePosition(e.getX(),e.getY());
 					
