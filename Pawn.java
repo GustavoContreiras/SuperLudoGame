@@ -20,15 +20,26 @@ public class Pawn {
 	}
 	
 	public Position addPosition(int inxToAdd) {
-		this.currentPositionInx += inxToAdd;
-		this.currentPosition = this.walkthrough[this.currentPositionInx];
 		
-		//debug
-		System.out.printf("newPos: %s%s\n", this.currentPosition.letter, this.currentPosition.number);
+		int inxNewPos = this.currentPositionInx + inxToAdd;
 		
-		Main.frame.repaint();
+		//se a posicao de destino tiver uma barreira
+		if (walkthrough[inxNewPos].pawn[0] != null & walkthrough[inxNewPos].pawn[1] != null) {
+			System.out.printf("New position has a barrier.\n", currentPosition.letter, currentPosition.number);
+			return currentPosition;
+		}
 		
-		return this.currentPosition;
+		//se a posição de destino não tiver uma barreira
+		else {
+			currentPositionInx += inxToAdd;
+			currentPosition = walkthrough[currentPositionInx];
+			
+			System.out.printf("newPos: %s%s\n", currentPosition.letter, currentPosition.number);
+			
+			Main.frame.repaint();
+			
+			return currentPosition;
+		}
 	}
 	
 	public void detachFromPos(Position pawnCurrentPosition) {
@@ -55,7 +66,10 @@ public class Pawn {
 			
 			if (pawnCurrentPosition.pawn[0].team == pawnClicked.team) {
 				System.out.println("Pawn is of the same team.");
+				
 				pawnCurrentPosition.pawn[1] = pawnClicked;
+				
+				System.out.println("Pawn moved.");
 			}
 			
 			else {
@@ -66,14 +80,15 @@ public class Pawn {
 				pawnCurrentPosition.pawn[0].currentPositionInx = -1;
 				
 				pawnCurrentPosition.pawn[0] = pawnClicked;
+				
+				System.out.println("Pawn moved.");
 			}
 		}
 		
 		else {
-			System.out.println(" New position has 2 pawns.");
+			System.out.println("New position has 2 pawns.");
 		}
 		
-		System.out.println("Pawn moved.");
 		System.out.printf("Pawn[0]: %s\nPawn[1]: %s\n", pawnCurrentPosition.pawn[0], pawnCurrentPosition.pawn[1]);
 		Main.frame.repaint();
 	}

@@ -45,7 +45,6 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	static JButton but_saveGame = new JButton("Save Game");
 	static JLabel lab_onTurn = new JLabel("On turn:");
 	static JButton but_rollDice = new JButton("Roll Dice");
-	
 			
 	public static void main(String[] args) {
 		showGUI();
@@ -264,19 +263,25 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 							else {
 								printDebugMsg("Pawn is not on home position.");
 									
-								pawnClicked.detachFromPos(pawnClicked.currentPosition);
-								pawnClicked.addPosition(Game.currentDice);
-								pawnClicked.attachToPos(pawnClicked.currentPosition, pawnClicked);	
-								
-								if (Game.currentDice != 6) {
-									Game.nextTurn();
+								if (Game.currentDice > 0) {
+									
+									pawnClicked.detachFromPos(pawnClicked.currentPosition);
+									pawnClicked.addPosition(Game.currentDice);
+									pawnClicked.attachToPos(pawnClicked.currentPosition, pawnClicked);	
+									
+									if (Game.currentDice != 6) {
+										Game.nextTurn();
+									}
+									
+									else {
+										Main.but_rollDice.setEnabled(true);
+										Game.setCurrentDice(0);
+									}
+									printDebugMsg("Pawn moved.");
 								}
 								else {
-									Main.but_rollDice.setEnabled(true);
-									Game.setCurrentDice(0);
+									printDebugMsg("Need to roll dice.");
 								}
-								
-								printDebugMsg("Pawn moved.");
 							}
 						}
 						else printDebugMsg("Pawn did not belong to team on turn.");

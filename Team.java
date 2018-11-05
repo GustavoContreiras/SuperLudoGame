@@ -4,6 +4,7 @@ public class Team {
 	Position[] walkthrough = new Position[57];
 	Pawn[] pawn = new Pawn[4];
 	String name = "";
+	int dicesRolled = 0;
 	
 	public Team (String team) {
 		
@@ -58,7 +59,7 @@ public class Team {
 		}
 		else {
 			return false;
-	}
+		}
 		
 	}
 	

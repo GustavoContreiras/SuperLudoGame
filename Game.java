@@ -4,6 +4,7 @@ import javax.swing.JButton;
 
 public class Game {
 	
+	static Pawn lastPawnMoved = null;
 	static Team redTeam = null;
 	static Team greenTeam = null;
 	static Team yellowTeam = null;
@@ -53,9 +54,10 @@ public class Game {
 	
 	public static void nextTurn () {
 		
-		Main.lab_rolledA.setText("");
-		Game.currentTeam = Game.setTeamOnTurn();
 		Game.setCurrentDice(0);
+		Main.lab_rolledA.setText(""); //nao funciona
+		Game.currentTeam.dicesRolled = 0;
+		Game.currentTeam = Game.setTeamOnTurn();
 		Main.but_rollDice.setEnabled(true);
 		Main.frame.repaint();
 	}
@@ -69,6 +71,7 @@ public class Game {
 		rollDice.setEnabled(false);
 		
 		switch (randomNumber) {
+		
 		case 1:
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				Game.currentTeam = Game.setTeamOnTurn();
@@ -80,6 +83,7 @@ public class Game {
 				Game.setCurrentDice(1);
 				return 1;
 			}
+			
 		case 2:
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				Game.currentTeam = Game.setTeamOnTurn();
@@ -91,6 +95,7 @@ public class Game {
 				Game.setCurrentDice(2);
 				return 2;
 			}
+			
 		case 3:
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				Game.currentTeam = Game.setTeamOnTurn();
@@ -102,6 +107,7 @@ public class Game {
 				Game.setCurrentDice(3);
 				return 3;
 			}
+			
 		case 4:
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				Game.currentTeam = Game.setTeamOnTurn();
@@ -113,13 +119,44 @@ public class Game {
 				Game.setCurrentDice(4);
 				return 4;
 			}
+			
 		case 5:
 			Game.setCurrentDice(5);
+			
+			if (Game.currentTeam.hasAllPawnsInHome()) {
+				Game.currentTeam.pawn[0].detachFromPos(Game.currentTeam.pawn[0].currentPosition);
+				Game.currentTeam.pawn[0].addPosition(1);
+				Game.currentTeam.pawn[0].attachToPos(Game.currentTeam.pawn[0].currentPosition, Game.currentTeam.pawn[0]);
+				Game.nextTurn();
+				Game.setCurrentDice(0);
+				rollDice.setEnabled(true);
+			}
+			
 			return 5;
+			
 		case 6:
 			Game.setCurrentDice(6);
+			
+			if (Game.currentTeam.hasAllPawnsInHome()) {
+				Game.currentTeam.pawn[0].detachFromPos(Game.currentTeam.pawn[0].currentPosition);
+				Game.currentTeam.pawn[0].addPosition(1);
+				Game.currentTeam.pawn[0].attachToPos(Game.currentTeam.pawn[0].currentPosition, Game.currentTeam.pawn[0]);
+				Game.setCurrentDice(0);
+				rollDice.setEnabled(true);
+			}
+			
+			Game.currentTeam.dicesRolled += 1;
+			Game.lastPawnMoved = Game.currentTeam.pawn[0];
+			
+			if (Game.currentTeam.dicesRolled == 3) {
+				Game.lastPawnMoved.currentPositionInx = -1;
+				Game.lastPawnMoved.currentPosition = Game.lastPawnMoved.homePosition;
+				Game.nextTurn();
+			}
+			
 			return 6;
 		}
+		
 		return 0;
 	}
 
