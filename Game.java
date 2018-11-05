@@ -26,30 +26,93 @@ public class Game {
 		Game.currentTeam = Game.setTeamOnTurn();
 		
 		Game.resetPositions();
-		Game.insertPawnsInHomePositions();
 		Game.setCurrentDice(0);	
 	}
 	
-	public static void insertPawnsInHomePositions() {
-		Position.B5.pawn[0] = Game.redTeam.pawn[0];
-		Position.E5.pawn[0] = Game.redTeam.pawn[1];
-		Position.B2.pawn[0] = Game.redTeam.pawn[2];
-		Position.E2.pawn[0] = Game.redTeam.pawn[3];
+	public static void makeMove(Position posClicked, int rolledDice, Team currentTeam) {
 		
-		Position.K2.pawn[0] = Game.greenTeam.pawn[0];
-		Position.K5.pawn[0] = Game.greenTeam.pawn[1];
-		Position.N2.pawn[0] = Game.greenTeam.pawn[2];
-		Position.N5.pawn[0] = Game.greenTeam.pawn[3];
+		Pawn pawn1 = null;
+		Pawn pawn2 = null;
+		Pawn pawn3 = null;
+		Pawn pawn4 = null;
+		Pawn pawnClicked = null;
 		
-		Position.N11.pawn[0] = Game.yellowTeam.pawn[0];
-		Position.K11.pawn[0] = Game.yellowTeam.pawn[1];
-		Position.N14.pawn[0] = Game.yellowTeam.pawn[2];
-		Position.K14.pawn[0] = Game.yellowTeam.pawn[3];
+		//pega os peoes dessa posicao
+		if (posClicked.pawn[0] != null) {
+			pawn1 = posClicked.pawn[0];		
+			
+			if (posClicked.pawn[1] != null) {
+				pawn2 = posClicked.pawn[1];
+				
+				if (posClicked.pawn[2] != null) {
+					pawn3 = posClicked.pawn[2];
+					
+					if (posClicked.pawn[3] != null) {
+						pawn4 = posClicked.pawn[3];
+					}
+				}
+			}
+		}
 		
-		Position.E14.pawn[0] = Game.blueTeam.pawn[0];
-		Position.E11.pawn[0] = Game.blueTeam.pawn[1];
-		Position.B14.pawn[0] = Game.blueTeam.pawn[2];
-		Position.B11.pawn[0] = Game.blueTeam.pawn[3];
+		
+		//pega o peao dessa posicao que pertence ao time corrente
+		if (pawn1 != null & pawn1.team == currentTeam) {
+			pawnClicked = pawn1;
+		}
+		else if (pawn2 != null & pawn2.team == currentTeam) {
+			pawnClicked = pawn2;
+		}
+		else if (pawn3 != null & pawn3.team == currentTeam) {
+			pawnClicked = pawn3;
+		}
+		else if (pawn4 != null & pawn4.team == currentTeam) {
+			pawnClicked = pawn4;
+		}
+		else {
+			pawnClicked = null;
+		}
+		
+		//PAWN CLICKED NA CASA INICIAL
+		if (pawnClicked.currentPositionInx == -1) {
+			System.out.println("Pawn is on home.");
+			
+			//ROLLED DICE EH 5
+			if (Game.currentDice == 5) {
+				pawnClicked.walk(1);
+				Game.nextTurn();
+			}
+			
+			//ROLLED DICE EH 6
+			else if (Game.currentDice == 6) {
+				Game.currentTeam.dicesRolled += 1;
+				Game.setCurrentDice(0);
+				Main.but_rollDice.setEnabled(true);
+				
+				pawnClicked.walk(1);
+			}
+			
+			//ROLLED DICE EH MENOR QUE 5
+			else {
+				System.out.println("Choose another pawn.");
+			}
+		}
+		
+		//PAWN CLICKED FORA DA CASA INICIAL
+		else {
+			System.out.println("Pawn is out from home.");
+			pawnClicked.walk(rolledDice);
+			
+			if (rolledDice != 6) {
+				Game.nextTurn();
+			}
+			
+			else {
+				Game.setCurrentDice(0);
+				Main.but_rollDice.setEnabled(true);
+			}
+		}
+		
+		Main.frame.repaint();
 	}
 	
 	public static void nextTurn () {
@@ -124,12 +187,10 @@ public class Game {
 			Game.setCurrentDice(5);
 			
 			if (Game.currentTeam.hasAllPawnsInHome()) {
-				Game.currentTeam.pawn[0].detachFromPos(Game.currentTeam.pawn[0].currentPosition);
-				Game.currentTeam.pawn[0].addPosition(1);
-				Game.currentTeam.pawn[0].attachToPos(Game.currentTeam.pawn[0].currentPosition, Game.currentTeam.pawn[0]);
-				Game.nextTurn();
+				Game.currentTeam.pawn[0].walk(1);
 				Game.setCurrentDice(0);
 				rollDice.setEnabled(true);
+				Game.nextTurn();
 			}
 			
 			return 5;
@@ -138,9 +199,7 @@ public class Game {
 			Game.setCurrentDice(6);
 			
 			if (Game.currentTeam.hasAllPawnsInHome()) {
-				Game.currentTeam.pawn[0].detachFromPos(Game.currentTeam.pawn[0].currentPosition);
-				Game.currentTeam.pawn[0].addPosition(1);
-				Game.currentTeam.pawn[0].attachToPos(Game.currentTeam.pawn[0].currentPosition, Game.currentTeam.pawn[0]);
+				Game.currentTeam.pawn[0].walk(1);
 				Game.setCurrentDice(0);
 				rollDice.setEnabled(true);
 			}
@@ -156,45 +215,44 @@ public class Game {
 			
 			return 6;
 		}
-		
 		return 0;
 	}
 
 	public static Team setTeamOnTurn() {
-	    	if (Game.currentTeam == null) {
-	    		Random random = new Random();
-	    		int max = 4;
-	    		int min = 1;
-	    		int randomNumber = random.nextInt(max + 1 - min) + min;
-	    		switch (randomNumber) {
-	    		case 1:
-	    			return Game.redTeam;
-	    		case 2:
-	    			return Game.greenTeam;
-	    		case 3:
-	    			return Game.yellowTeam;
-	    		case 4:
-	    			return Game.blueTeam;
-				default:
-					return null;
-	    		}
-	    	}
-	    	else if (Game.currentTeam == Game.redTeam) {
-	    		return Game.greenTeam;
-	    	}
-	    	else if (Game.currentTeam == Game.greenTeam) {
-	    		return Game.yellowTeam;
-	    	}
-	    	else if (Game.currentTeam == Game.yellowTeam) {
-	    		return Game.blueTeam;
-	    	}
-	    	else if (Game.currentTeam == Game.blueTeam) {
-	    		return Game.redTeam;
-	    	}
-	    	else {
-	    		return null;
-	    	}
-	    }
+    	if (Game.currentTeam == null) {
+    		Random random = new Random();
+    		int max = 4;
+    		int min = 1;
+    		int randomNumber = random.nextInt(max + 1 - min) + min;
+    		switch (randomNumber) {
+    		case 1:
+    			return Game.redTeam;
+    		case 2:
+    			return Game.greenTeam;
+    		case 3:
+    			return Game.yellowTeam;
+    		case 4:
+    			return Game.blueTeam;
+			default:
+				return null;
+    		}
+    	}
+    	else if (Game.currentTeam == Game.redTeam) {
+    		return Game.greenTeam;
+    	}
+    	else if (Game.currentTeam == Game.greenTeam) {
+    		return Game.yellowTeam;
+    	}
+    	else if (Game.currentTeam == Game.yellowTeam) {
+    		return Game.blueTeam;
+    	}
+    	else if (Game.currentTeam == Game.blueTeam) {
+    		return Game.redTeam;
+    	}
+    	else {
+    		return null;
+    	}
+    }
 
     public static void setCurrentDice(int dice) {
     	currentDice = dice;

@@ -244,7 +244,7 @@ public class Position{
 	int x, y;
 	String letter, number;
 	String name = letter + number;
-	Pawn[] pawn = new Pawn[2];
+	Pawn[] pawn = new Pawn[4];
 	
 	public Position(int x, int y) {
 		this.x = x;
@@ -1088,6 +1088,20 @@ public class Position{
 			
 		default:
 			return new Position(0,0,"X","99");
+		}
+	}
+
+	public boolean hasABarrier() {
+		if (this.pawn[0] != null & this.pawn[1] != null) {
+			if (this.pawn[0].team == this.pawn[1].team) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
 		}
 	}
 }

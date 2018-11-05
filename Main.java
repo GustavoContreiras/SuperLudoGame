@@ -196,97 +196,21 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 				//se clicar no tabuleiro
 				if (e.getX() < 603 & e.getY() < 630) {
 										
-					Position clickedPos = Position.getMousePosition(e.getX(),e.getY());
+					Position posClicked = Position.getMousePosition(e.getX(),e.getY());
+					System.out.printf("\nposClicked: %s%s (%d, %d)\n", posClicked.letter, posClicked.number, e.getX(), e.getY());
+					System.out.printf("posClicked.pawn[0]: %s\n", posClicked.pawn[0]);
+					System.out.printf("posClicked.pawn[1]: %s\n", posClicked.pawn[1]);
+					System.out.printf("posClicked.pawn[2]: %s\n", posClicked.pawn[2]);
+					System.out.printf("posClicked.pawn[3]: %s\n\n", posClicked.pawn[3]);
 					
-					//debug
-					System.out.printf("clickedPos: %s%s (%d, %d)\n", clickedPos.letter, clickedPos.number, e.getX(), e.getY());
-									
-					//se tiver peão nessa posição clicada
-					if (clickedPos.pawn[0] != null) {
-						printDebugMsg("Clicked position has pawn.");
-						
-						System.out.printf("Pawn[0]: %s\nPawn[1]: %s\n", clickedPos.pawn[0], clickedPos.pawn[1]);
-						
-						Pawn pawnClicked = clickedPos.pawn[0];
-						
-						//se o peão clicado for do time da vez
-						if (pawnClicked.team == Game.currentTeam) {
-							printDebugMsg("Pawn belong to team on turn.");
-						
-							//se o peao clicado tiver na posiçao inicial
-							if (pawnClicked.currentPosition == pawnClicked.homePosition) {
-								printDebugMsg("Pawn is on home position.");
-								
-								//se tirar 5
-								if (Game.currentDice == 5) {
-									printDebugMsg("Rolled five.");
-																			
-									pawnClicked.detachFromPos(pawnClicked.currentPosition);
-									pawnClicked.addPosition(1);
-									pawnClicked.attachToPos(pawnClicked.currentPosition, pawnClicked);
-									
-									Game.nextTurn();
-									
-									printDebugMsg("Pawn left home.");
-								}
-								
-								//se tirar 6
-								else if (Game.currentDice == 6) {
-									printDebugMsg("Rolled six.");
-																			
-									pawnClicked.detachFromPos(pawnClicked.currentPosition);
-									pawnClicked.addPosition(1);
-									pawnClicked.attachToPos(pawnClicked.currentPosition, pawnClicked);
-									
-									Main.but_rollDice.setEnabled(true);
-									Game.setCurrentDice(0);
-									
-									printDebugMsg("Pawn left home.");
-								}
-								
-								//se tirar de 1 a 4
-								else if (Game.currentDice > 0){
-									printDebugMsg("Pawn did not left home.");
-									
-									if (pawnClicked.team.hasAllPawnsInHome()) {
-										Game.nextTurn();
-									}
-								}
-								
-								//se nao tiver tirado nada
-								else {
-									printDebugMsg("Need to roll dice.");
-								}
-							}
-							
-							//peao clicado nao ta na posicao inicial
-							else {
-								printDebugMsg("Pawn is not on home position.");
-									
-								if (Game.currentDice > 0) {
-									
-									pawnClicked.detachFromPos(pawnClicked.currentPosition);
-									pawnClicked.addPosition(Game.currentDice);
-									pawnClicked.attachToPos(pawnClicked.currentPosition, pawnClicked);	
-									
-									if (Game.currentDice != 6) {
-										Game.nextTurn();
-									}
-									
-									else {
-										Main.but_rollDice.setEnabled(true);
-										Game.setCurrentDice(0);
-									}
-									printDebugMsg("Pawn moved.");
-								}
-								else {
-									printDebugMsg("Need to roll dice.");
-								}
-							}
-						}
-						else printDebugMsg("Pawn did not belong to team on turn.");
-					} else printDebugMsg("Position has no pawn.");
-					printDebugMsg("");
+					//se tiver peao na posicao clicada e tiver rolado o dado
+					if (posClicked.pawn[0] != null & Game.currentDice != 0) {
+						Game.makeMove(posClicked, Game.currentDice, Game.currentTeam);
+					}
+					else {
+						printDebugMsg("Need to roll dice or position do not have pawn.");
+					}
+					
 				}	
 			}
 

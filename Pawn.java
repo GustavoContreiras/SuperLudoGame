@@ -17,9 +17,27 @@ public class Pawn {
 		this.currentPosition = homePosition;
 		this.currentPositionInx = -1;
 		this.walkthrough = walkthrough;
+		
+		this.homePosition.pawn[0] = this;
 	}
 	
-	public Position addPosition(int inxToAdd) {
+	public void walk (int rolledDice) {
+		for (int i = 0; i < rolledDice; i++) {
+			
+			if (this.nextPos().hasABarrier() == false) {
+				this.detachFromPos(this.currentPosition);
+				this.addPosition(1);
+				this.attachToPos(this.currentPosition, this);
+				Main.frame.repaint();
+			}
+			
+			else {
+				i = rolledDice;
+			}
+		}
+	}
+	
+	private Position addPosition(int inxToAdd) {
 		
 		int inxNewPos = this.currentPositionInx + inxToAdd;
 		
@@ -42,7 +60,7 @@ public class Pawn {
 		}
 	}
 	
-	public void detachFromPos(Position pawnCurrentPosition) {
+	private void detachFromPos(Position pawnCurrentPosition) {
 		
 		pawnCurrentPosition.pawn[0] = null;
 		
@@ -54,7 +72,7 @@ public class Pawn {
 		Main.frame.repaint();
 	}
 	
-	public void attachToPos(Position pawnCurrentPosition, Pawn pawnClicked) {
+	private void attachToPos(Position pawnCurrentPosition, Pawn pawnClicked) {
 		
 		if (pawnCurrentPosition.pawn[0] == null) {
 			System.out.println("New position do not have pawns.");
@@ -91,5 +109,9 @@ public class Pawn {
 		
 		System.out.printf("Pawn[0]: %s\nPawn[1]: %s\n", pawnCurrentPosition.pawn[0], pawnCurrentPosition.pawn[1]);
 		Main.frame.repaint();
+	}
+
+	public Position nextPos() {
+		return walkthrough[currentPositionInx + 1];
 	}
 }
