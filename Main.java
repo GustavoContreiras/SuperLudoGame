@@ -228,6 +228,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 						System.out.printf("Need to roll dice or position do not have pawn.");
 					}
 					
+					Main.frame.repaint();
 				}	
 			}
 

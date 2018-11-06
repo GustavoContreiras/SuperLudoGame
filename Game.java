@@ -109,8 +109,6 @@ public class Game {
 				Main.but_rollDice.setEnabled(true);
 			}
 		}
-		
-		Main.frame.repaint();
 	}
 	
 	public static void prepareNextTurn () {
@@ -119,7 +117,8 @@ public class Game {
 		Game.setTeamOnTurn();
 		Game.currentTeam.dicesSixRolled = 0;
 		
-		Main.lab_rolledA.setText(""); //nao funciona
+		Main.lab_rolledA.setText("");
+		Main.lab_instructions.setText("");
 		Main.but_rollDice.setEnabled(true);
 		Main.frame.repaint();
 	}
@@ -209,6 +208,7 @@ public class Game {
 					Pawn pawnOnExitHouse = Game.currentTeam.walkthrough[0].pawn[0];
 					pawnOnExitHouse.walk(Game.currentDice);
 					Game.currentTeam.hasPawnOnExitHouse = false;
+					Game.setCurrentDice(0);
 				}
 				
 				//se o quarto peao nao tiver na casa inicial nem na de saida
