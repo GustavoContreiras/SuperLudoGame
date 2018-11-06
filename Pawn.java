@@ -107,7 +107,9 @@ public class Pawn {
 			System.out.println("New position has 2 pawns.");
 		}
 		
-		System.out.printf("Pawn[0]: %s\nPawn[1]: %s\n", pawnCurrentPosition.pawn[0], pawnCurrentPosition.pawn[1]);
+		System.out.printf("Pawn[0]: %s\nPawn[1]: %s\nPawn[2]: %s\nPawn[3]: %s\n\n", 
+						  pawnCurrentPosition.pawn[0], pawnCurrentPosition.pawn[1],
+						  pawnCurrentPosition.pawn[2], pawnCurrentPosition.pawn[3]);
 		Main.frame.repaint();
 	}
 

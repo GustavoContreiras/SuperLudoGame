@@ -165,6 +165,11 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					lab_rolledA.setText("Rolled a six!");
 					lab_rolledA.setFont(lab_font14);
 					break;
+				default:
+					lab_rolledA.setBounds(644, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_rolledA.setText("");
+					lab_rolledA.setFont(lab_font14);
+					break;
 				}
 				Main.frame.repaint();
 			}
@@ -208,7 +213,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 						Game.makeMove(posClicked, Game.currentDice, Game.currentTeam);
 					}
 					else {
-						printDebugMsg("Need to roll dice or position do not have pawn.");
+						System.out.printf("Need to roll dice or position do not have pawn.");
 					}
 					
 				}	
@@ -238,13 +243,5 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 				
 			}
 		});
-		
-		if (Board.debugMode) {
-			Main.frame.setPreferredSize(new Dimension(frame_width, frame_heigth + 20));
-		}
-	}
-	
-	private static void printDebugMsg (String debugMsg) {
-		System.out.println(debugMsg);
 	}
 }

@@ -11,7 +11,7 @@ public class Board extends JPanel {
 	private static final long serialVersionUID = -8919768790110412092L;
 
 	//SHOW GRID LETTERS AND NUMBERS
-	public final static boolean debugMode = false;
+	//public final static boolean debugMode = true;
 	
 	//TEAM COLORS
 	public final static Color redColor = new Color(198, 67, 49);
@@ -691,7 +691,7 @@ public class Board extends JPanel {
     }
     
     private void debugMode(Graphics2D g2d) {
-    	if (debugMode) {
+    	/*if (debugMode) {
 			
 			g2d.setPaint(Color.BLACK);
 			
@@ -726,6 +726,6 @@ public class Board extends JPanel {
 			g2d.drawString("13", 604, 502);
 			g2d.drawString("14", 604, 542);
 			g2d.drawString("15", 604, 585);
-		}
+		}*/
     }
 }

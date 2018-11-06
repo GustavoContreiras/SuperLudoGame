@@ -70,6 +70,7 @@ public class Game {
 		}
 		else {
 			pawnClicked = null;
+			System.out.println("Position do not have pawn of the current team.");
 		}
 		
 		//PAWN CLICKED NA CASA INICIAL
@@ -84,7 +85,7 @@ public class Game {
 			
 			//ROLLED DICE EH 6
 			else if (Game.currentDice == 6) {
-				Game.currentTeam.dicesRolled += 1;
+				Game.currentTeam.dicesSixRolled += 1;
 				Game.setCurrentDice(0);
 				Main.but_rollDice.setEnabled(true);
 				
@@ -119,7 +120,7 @@ public class Game {
 		
 		Game.setCurrentDice(0);
 		Main.lab_rolledA.setText(""); //nao funciona
-		Game.currentTeam.dicesRolled = 0;
+		Game.currentTeam.dicesSixRolled = 0;
 		Game.currentTeam = Game.setTeamOnTurn();
 		Main.but_rollDice.setEnabled(true);
 		Main.frame.repaint();
@@ -136,16 +137,20 @@ public class Game {
 		switch (randomNumber) {
 		
 		case 1:
+			Game.setCurrentDice(1);
+			
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				Game.currentTeam = Game.setTeamOnTurn();
 				Game.setCurrentDice(0);
 				rollDice.setEnabled(true);
 				return 0;
 			}
-			else {
-				Game.setCurrentDice(1);
-				return 1;
+			
+			else if (!Game.currentTeam.hasPawnToChoose()) {
+				
 			}
+				
+			return 1;
 			
 		case 2:
 			if (Game.currentTeam.hasAllPawnsInHome()) {
@@ -192,6 +197,12 @@ public class Game {
 				rollDice.setEnabled(true);
 				Game.nextTurn();
 			}
+			else if (!Game.currentTeam.hasPawnToChoose()){
+				Game.currentTeam.walkthrough[0].pawn[0].walk(Game.currentDice);
+				Game.setCurrentDice(0);
+				rollDice.setEnabled(true);
+				Game.nextTurn();
+			}
 			
 			return 5;
 			
@@ -201,13 +212,21 @@ public class Game {
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				Game.currentTeam.pawn[0].walk(1);
 				Game.setCurrentDice(0);
+				Game.currentTeam.hasPawnOnExitHouse = true;
+				rollDice.setEnabled(true);
+			}
+			else if (Game.currentTeam.hasThreePawnsInHome()){
+				Game.currentTeam.walkthrough[0].pawn[0].walk(Game.currentDice);
+				Game.setCurrentDice(0);
+				if ()
+				Game.currentTeam.hasPawnOnExitHouse = false;
 				rollDice.setEnabled(true);
 			}
 			
-			Game.currentTeam.dicesRolled += 1;
+			Game.currentTeam.dicesSixRolled += 1;
 			Game.lastPawnMoved = Game.currentTeam.pawn[0];
 			
-			if (Game.currentTeam.dicesRolled == 3) {
+			if (Game.currentTeam.dicesSixRolled == 3) {
 				Game.lastPawnMoved.currentPositionInx = -1;
 				Game.lastPawnMoved.currentPosition = Game.lastPawnMoved.homePosition;
 				Game.nextTurn();

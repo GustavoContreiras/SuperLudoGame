@@ -254,6 +254,8 @@ public class Position{
 		this.name = letter + number;
 		this.pawn[0] = null;
 		this.pawn[1] = null;
+		this.pawn[2] = null;
+		this.pawn[3] = null;
 	}
 	
 	public Position(int x, int y, String letter, String number) {
@@ -264,6 +266,8 @@ public class Position{
 		this.name = letter + number;
 		this.pawn[0] = null;
 		this.pawn[1] = null;
+		this.pawn[2] = null;
+		this.pawn[3] = null;
 	}
 	
 	public static int getCenterX(String letterAtoO) {

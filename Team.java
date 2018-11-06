@@ -4,7 +4,12 @@ public class Team {
 	Position[] walkthrough = new Position[57];
 	Pawn[] pawn = new Pawn[4];
 	String name = "";
-	int dicesRolled = 0;
+	
+	int dicesSixRolled = 0;
+	int pawnsOutsideHome = 0;
+	int pawnsFinished = 0;
+	
+	boolean hasPawnOnExitHouse = false;
 	
 	public Team (String team) {
 		
@@ -61,6 +66,30 @@ public class Team {
 			return false;
 		}
 		
+	}
+	
+	public boolean hasOnlyOnePawnsInHome() {
+		
+		if (Game.currentTeam.walkthrough[0].pawn[0] != null) {
+			
+			int j = 0;
+			
+			for (int i = 0; i < 4; i++) {
+				
+				if (Game.currentTeam.pawn[i] != Game.currentTeam.walkthrough[0].pawn[0]) {
+					
+					if (Game.currentTeam.pawn[i].currentPositionInx == -1) {
+						j++;
+					}
+				}
+				
+				if (j == 3) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 	
 	private Position[] createRedWalkthrough() {
