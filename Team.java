@@ -55,6 +55,50 @@ public class Team {
 		}
 	}
 	
+	public Pawn getPawnOutOfHome() {
+		
+		if (this == Game.redTeam) {
+			for (int i = 0; i < 57; i++) {
+				if (this.walkthrough[i].pawn[0] != null) {
+					if (this.walkthrough[i].pawn[0].team == Game.redTeam) {
+						return this.walkthrough[i].pawn[0];
+					}
+				}
+			}
+		}
+			
+		else if (this == Game.greenTeam) {
+			for (int i = 0; i < 57; i++) {
+				if (this.walkthrough[i].pawn[0] != null) {
+					if (this.walkthrough[i].pawn[0].team == Game.greenTeam) {
+						return this.walkthrough[i].pawn[0];
+					}
+				}
+			}
+		}
+			
+		else if (this == Game.yellowTeam) {
+			for (int i = 0; i < 57; i++) {
+				if (this.walkthrough[i].pawn[0] != null) {
+					if (this.walkthrough[i].pawn[0].team == Game.yellowTeam) {
+						return this.walkthrough[i].pawn[0];
+					}
+				}
+			}
+		}
+			
+		else if (this == Game.blueTeam) {
+			for (int i = 0; i < 57; i++) {
+				if (this.walkthrough[i].pawn[0] != null) {
+					if (this.walkthrough[i].pawn[0].team == Game.blueTeam) {
+						return this.walkthrough[i].pawn[0];
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
 	public boolean hasAllPawnsInHome() {
 		if (Game.currentTeam.pawn[0].currentPosition == Game.currentTeam.pawn[0].homePosition &
 			Game.currentTeam.pawn[1].currentPosition == Game.currentTeam.pawn[1].homePosition &
@@ -68,27 +112,21 @@ public class Team {
 		
 	}
 	
-	public boolean hasOnlyOnePawnsInHome() {
+	public boolean hasThreePawnsInHome() {
 		
-		if (Game.currentTeam.walkthrough[0].pawn[0] != null) {
+		int j = 0;
+		
+		for (int i = 0; i < 4; i++) {
 			
-			int j = 0;
+			if (Game.currentTeam.pawn[i].currentPositionInx == -1) {
+				j++;
+			}
 			
-			for (int i = 0; i < 4; i++) {
-				
-				if (Game.currentTeam.pawn[i] != Game.currentTeam.walkthrough[0].pawn[0]) {
-					
-					if (Game.currentTeam.pawn[i].currentPositionInx == -1) {
-						j++;
-					}
-				}
-				
-				if (j == 3) {
-					return true;
-				}
+			if (j == 3) {
+				return true;
 			}
 		}
-
+		
 		return false;
 	}
 	

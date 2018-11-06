@@ -30,6 +30,10 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static int lab_rolledDiceHeight = 35;
 	public static int lab_rolledDiceX = 644;
 	public static int lab_rolledDiceY = 350;
+	public static int lab_instructionsWidth = 200;
+	public static int lab_instructionsHeight = 35;
+	public static int lab_instructionsX = 643;
+	public static int lab_instructionsY = 410;
 	public static Font lab_font25 = new Font("Courier New", Font.BOLD, 25);
 	public static Font lab_font14 = new Font("Courier New", Font.BOLD, 14);
 	
@@ -45,6 +49,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	static JButton but_saveGame = new JButton("Save Game");
 	static JLabel lab_onTurn = new JLabel("On turn:");
 	static JButton but_rollDice = new JButton("Roll Dice");
+	static JLabel lab_instructions = new JLabel("");
 			
 	public static void main(String[] args) {
 		showGUI();
@@ -59,6 +64,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		configureLabelOnTurn();
 		configureLabelRolledA();
 		configureButtonRollDice();
+		configureLabelInstructions();
 					
 		frame.add(lab_rolledA);
 		frame.add(but_newGame);
@@ -66,6 +72,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		frame.add(but_saveGame);
 		frame.add(lab_onTurn);
 		frame.add(but_rollDice);
+		frame.add(lab_instructions);
 		
 		Board board = new Board();
 		
@@ -127,7 +134,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		but_rollDice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				int rolledDice = Game.rollDice(Game.currentTeam, but_rollDice);
+				int rolledDice = Game.rollDice();
 				
 				switch (rolledDice) {
 				case 0: 
@@ -184,6 +191,11 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	private static void configureLabelRolledA() {
 		lab_rolledA.setFont(lab_font14);
 		lab_rolledA.setBounds(lab_rolledDiceX, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+	}
+	
+	private static void configureLabelInstructions() {
+		lab_instructions.setFont(lab_font14);
+		lab_instructions.setBounds(lab_instructionsX, lab_instructionsY, lab_instructionsWidth, lab_instructionsHeight);
 	}
 
 	private static void configureFrameAndMouseListener() {
