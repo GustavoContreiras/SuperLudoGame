@@ -18,7 +18,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static int but_newGameY = 40;
 	public static int but_loadGameY = 100;
 	public static int but_saveGameY = 160;
-	public static int but_rollDiceY = 380;
+	public static int but_rollDiceY = 400;
 	public static Font but_font = new Font("Sans Serif",Font.BOLD,14);
 	
 	//LABELS POSITION, DIMENSION AND FONT
@@ -26,14 +26,22 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static int lab_onTurnHeight = 35;
 	public static int lab_onTurnX = 640;
 	public static int lab_onTurnY = 220;
+	
+	public static int lab_oldTeamWidth = 200;
+	public static int lab_oldTeamHeight = 35;
+	public static int lab_oldTeamX = 646;
+	public static int lab_oldTeamY = 355;
+	
 	public static int lab_rolledDiceWidth = 200;
 	public static int lab_rolledDiceHeight = 35;
 	public static int lab_rolledDiceX = 644;
-	public static int lab_rolledDiceY = 350;
+	public static int lab_rolledDiceY = 370;
+	
 	public static int lab_instructionsWidth = 200;
 	public static int lab_instructionsHeight = 35;
 	public static int lab_instructionsX = 643;
 	public static int lab_instructionsY = 410;
+	
 	public static Font lab_font25 = new Font("Courier New", Font.BOLD, 25);
 	public static Font lab_font14 = new Font("Courier New", Font.BOLD, 14);
 	
@@ -48,6 +56,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	static JButton but_loadGame = new JButton("Load Game");
 	static JButton but_saveGame = new JButton("Save Game");
 	static JLabel lab_onTurn = new JLabel("On turn:");
+	static JLabel lab_oldTeam = new JLabel("");
 	static JButton but_rollDice = new JButton("Roll Dice");
 	static JLabel lab_instructions = new JLabel("");
 			
@@ -62,6 +71,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		configureButtonLoadGame();
 		configureButtonSaveGame();
 		configureLabelOnTurn();
+		configureLabelOldTeam();
 		configureLabelRolledA();
 		configureButtonRollDice();
 		configureLabelInstructions();
@@ -71,6 +81,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		frame.add(but_loadGame);
 		frame.add(but_saveGame);
 		frame.add(lab_onTurn);
+		frame.add(lab_oldTeam);
 		frame.add(but_rollDice);
 		frame.add(lab_instructions);
 		
@@ -136,6 +147,21 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 				
 				int rolledDice = Game.rollDice();
 				
+				switch (Game.oldTeam.name) {
+				case "Red":
+					lab_oldTeam.setBounds(665, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
+					break;
+				case "Green":
+					lab_oldTeam.setBounds(660, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
+					break;
+				case "Yellow":
+					lab_oldTeam.setBounds(657, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
+					break;
+				case "Blue":
+					lab_oldTeam.setBounds(664, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
+					break;
+				}
+				
 				switch (rolledDice) {
 				case 0: 
 					lab_rolledA.setBounds(636, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
@@ -143,32 +169,38 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					lab_rolledA.setFont(lab_font14);
 					break;
 				case 1: 
-					lab_rolledA.setBounds(642, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_rolledA.setBounds(643, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_oldTeam.setText(Game.oldTeam.name + " team");
 					lab_rolledA.setText("Rolled an one!");
 					lab_rolledA.setFont(lab_font14);
 					break;
 				case 2: 
 					lab_rolledA.setBounds(644, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_oldTeam.setText(Game.oldTeam.name + " team");
 					lab_rolledA.setText("Rolled a two!");
 					lab_rolledA.setFont(lab_font14);
 					break;
 				case 3: 
 					lab_rolledA.setBounds(639, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_oldTeam.setText(Game.oldTeam.name + " team");
 					lab_rolledA.setText("Rolled a three!");
 					lab_rolledA.setFont(lab_font14);
 					break;
 				case 4: 
 					lab_rolledA.setBounds(642, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_oldTeam.setText(Game.oldTeam.name + " team");
 					lab_rolledA.setText("Rolled a four!");
 					lab_rolledA.setFont(lab_font14);
 					break;
 				case 5: 
 					lab_rolledA.setBounds(642, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_oldTeam.setText(Game.oldTeam.name + " team");
 					lab_rolledA.setText("Rolled a five!");
 					lab_rolledA.setFont(lab_font14);
 					break;
 				case 6: 
 					lab_rolledA.setBounds(644, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_oldTeam.setText(Game.oldTeam.name + " team");
 					lab_rolledA.setText("Rolled a six!");
 					lab_rolledA.setFont(lab_font14);
 					break;
@@ -186,6 +218,11 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	private static void configureLabelOnTurn() {
 		lab_onTurn.setFont(lab_font25);
 		lab_onTurn.setBounds(lab_onTurnX, lab_onTurnY, lab_onTurnWidth, lab_onTurnHeight);
+	}
+	
+	private static void configureLabelOldTeam() {
+		lab_oldTeam.setFont(lab_font14);
+		lab_oldTeam.setBounds(lab_oldTeamX, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
 	}
 	
 	private static void configureLabelRolledA() {
@@ -212,6 +249,9 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 								
 				//se clicar no tabuleiro
 				if (e.getX() < 603 & e.getY() < 630) {
+					
+					Main.lab_rolledA.setText("");
+					Main.lab_instructions.setText("");
 										
 					Position posClicked = Position.getMousePosition(e.getX(),e.getY());
 					System.out.printf("\nposClicked: %s%s (%d, %d)\n", posClicked.letter, posClicked.number, e.getX(), e.getY());

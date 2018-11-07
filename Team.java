@@ -99,11 +99,34 @@ public class Team {
 		return null;
 	}
 	
+	public Pawn getPawnOnExitHouse() {
+		return walkthrough[0].pawn[0];
+	}
+	
+	public int getNumberOfBarriers() {
+		
+		int k = 0;
+	
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (i != j){
+					
+					//se os peões do time tiverem a mesma posição...
+					if (Game.currentTeam.pawn[i].position == Game.currentTeam.pawn[j].position)  {
+						k++;
+					}
+				}
+			}
+		}
+		
+		return k/2;
+	}
+	
 	public boolean hasAllPawnsInHome() {
-		if (Game.currentTeam.pawn[0].currentPosition == Game.currentTeam.pawn[0].homePosition &
-			Game.currentTeam.pawn[1].currentPosition == Game.currentTeam.pawn[1].homePosition &
-			Game.currentTeam.pawn[2].currentPosition == Game.currentTeam.pawn[2].homePosition &
-			Game.currentTeam.pawn[3].currentPosition == Game.currentTeam.pawn[3].homePosition) {
+		if (Game.currentTeam.pawn[0].position == Game.currentTeam.pawn[0].homePosition &
+			Game.currentTeam.pawn[1].position == Game.currentTeam.pawn[1].homePosition &
+			Game.currentTeam.pawn[2].position == Game.currentTeam.pawn[2].homePosition &
+			Game.currentTeam.pawn[3].position == Game.currentTeam.pawn[3].homePosition) {
 			return true;
 		}
 		else {
@@ -118,11 +141,29 @@ public class Team {
 		
 		for (int i = 0; i < 4; i++) {
 			
-			if (Game.currentTeam.pawn[i].currentPositionInx == -1) {
+			if (Game.currentTeam.pawn[i].positionInx == -1) {
 				j++;
 			}
 			
 			if (j == 3) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean hasTwoPawnsInHome() {
+		
+		int j = 0;
+		
+		for (int i = 0; i < 4; i++) {
+			
+			if (Game.currentTeam.pawn[i].positionInx == -1) {
+				j++;
+			}
+			
+			if (j == 2) {
 				return true;
 			}
 		}

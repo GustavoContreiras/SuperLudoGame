@@ -7,6 +7,7 @@ public class Game {
 	static Team yellowTeam = null;
 	static Team blueTeam = null;
 	static Team currentTeam;
+	static Team oldTeam;
 	static int currentDice = -1;
 	
 	public Game() {
@@ -71,7 +72,7 @@ public class Game {
 		}
 		
 		//PAWN CLICKED NA CASA INICIAL
-		if (pawnClicked.currentPositionInx == -1) {
+		if (pawnClicked.positionInx == -1) {
 			System.out.println("Pawn is on home.");
 			
 			//ROLLED DICE EH 5
@@ -113,11 +114,13 @@ public class Game {
 	
 	public static void prepareNextTurn () {
 		
+		Game.oldTeam = Game.currentTeam;
 		Game.setCurrentDice(0);
 		Game.setTeamOnTurn();
 		Game.currentTeam.dicesSixRolled = 0;
 		
 		Main.lab_rolledA.setText("");
+		Main.lab_oldTeam.setText("");
 		Main.lab_instructions.setText("");
 		Main.but_rollDice.setEnabled(true);
 		Main.frame.repaint();
@@ -125,9 +128,12 @@ public class Game {
 	
 	public static int rollDice () {
 		
-		int randomNumber = (int) (Math.random() * 6 + 1);
+		/* REGRA: De um modo geral, todas as jogadas que não precisarem de inter-
+		venção do jogador terão de ser feitas automaticamente pelo programa. */
 		
 		Main.but_rollDice.setEnabled(false);
+		
+		int randomNumber = (int) (Math.random() * 6 + 1);
 		
 		switch (randomNumber) {
 			case 1:	Game.setCurrentDice(1);	break;
@@ -144,23 +150,37 @@ public class Game {
 				Game.prepareNextTurn();
 			}
 			
+			//se tiver 3 peoes na casa inicial...
 			else if (Game.currentTeam.hasThreePawnsInHome()) {
 				
-				Pawn pawnOutOfHome = Game.currentTeam.getPawnOutOfHome();
-				pawnOutOfHome.walk(Game.currentDice);
+				//anda automaticamente com o que nao ta na casa inicial
+				Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
+				Game.currentTeam.hasPawnOnExitHouse = false;
+				Game.prepareNextTurn();
+			}
+			
+			//se tiver 2 peoes na casa inicial...
+			else if (Game.currentTeam.hasTwoPawnsInHome()) {
 				
-				if (Game.currentTeam.walkthrough[0].pawn[0] != null) {
-					Game.currentTeam.hasPawnOnExitHouse = true;
+				//se tiver uma barreira formada
+				if (Game.currentTeam.getNumberOfBarriers() > 0) {
+					
+					//anda automaticamente com algum da barreira
+					Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
 				}
 				else {
-					Game.currentTeam.hasPawnOnExitHouse = false;
+					Main.lab_instructions.setText("Choose a pawn!");
 				}
-				
-				Game.prepareNextTurn();
 			}
 		}
 		
 		else if (randomNumber == 5) {
+			
+			/* REGRA: Um jogador terá de mover um peão de sua casa inicial para a
+			respectiva casa de saída quando, após lançar o dado, obtiver o valor 5.
+			Caso isso não seja possível, quer seja porque já existe um de seus peões
+			na casa de saída, ou porque já não há mais peões para serem retirados da
+			casa inicial, ele deverá, então, movimentar 5 casas com outro peão qualquer. */
 			
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				
@@ -169,30 +189,79 @@ public class Game {
 				Game.prepareNextTurn();
 			}
 			
+			//se tiver 3 peoes na casa inicial...
 			else if (Game.currentTeam.hasThreePawnsInHome()) {
 				
-				//se o quarto peao tiver na casa de saida
-				if (Game.currentTeam.hasPawnOnExitHouse) {
+				//se o peao fora da casa inicial estiver na casa de saida
+				if (Game.currentTeam.getPawnOnExitHouse() != null) {
 					
-					Pawn pawnOnExitHouse = Game.currentTeam.walkthrough[0].pawn[0];
-					pawnOnExitHouse.walk(Game.currentDice);
-					Game.currentTeam.hasPawnOnExitHouse = false;
+					Game.currentTeam.getPawnOnExitHouse().walk(Game.currentDice);
 					
 					Game.prepareNextTurn();
 				}
 				
-				//se o quarto peao nao tiver na casa inicial nem na de saida
+				//se o peao fora da casa inicial nao estiver na casa de saida (tira um da casa inicial)
 				else {
-					Main.lab_instructions.setText("Choose a pawn!");
-					Main.frame.repaint();
+					for (int i = 0; i < 4; i++) {
+						if (Game.currentTeam.pawn[i].positionInx == -1) {
+							Game.currentTeam.pawn[i].walk(1);
+							i = 4;
+						}
+					}
+				}
+			}
+			
+			//se tiver 2 peoes na casa inicial...
+			else if (Game.currentTeam.hasTwoPawnsInHome()) {
+				
+				//se tiver uma barreira formada
+				if (Game.currentTeam.getNumberOfBarriers() > 0) {
+					
+					//anda automaticamente com algum da barreira
+					Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
+				}
+				
+				//se nao tiver barreira formada
+				else {
+					
+					//se tiver peao na casa de saida...
+					if (Game.currentTeam.getPawnOnExitHouse() == null) {
+						Main.lab_instructions.setText("Choose a pawn!");
+					}
+					
+					//se nao tiver peao na casa de saida...
+					else {
+						for (int i = 0; i < 4; i++) {
+							if (Game.currentTeam.pawn[i].positionInx == -1) {
+								Game.currentTeam.pawn[i].walk(1);
+								Game.currentTeam.hasPawnOnExitHouse = true;
+								i = 4;
+							}
+						}
+					}
 				}
 			}
 		}
-		
+			
 		else if (randomNumber == 6) {
+			
+			/* REGRA: O jogador que tiver dois de seus peões formando uma barreira e
+			obtiver um 6 após lançar o dado estará obrigado a abrir essa barreira. A
+			única exceção a esta regra ocorrerá quando um peão da barreira não puder
+			ser movimentado. Caso existam duas barreiras, será desfeita aquela que 
+			estiver mais próxima da reta final do jogador. */
+			
+			/* REGRA: O jogador que obtiver um 6 poderá jogar o dado outra vez, após
+			movimentar um de seus peões. Se obtiver novamente 6, poderá realizar novo
+			lançamento, após movimentar um de seus peões. Se obtiver um 6 pela terceira
+			vez consecutiva, o último de seus peões que foi movimentado voltará para a
+			casa inicial. */
 			
 			Main.but_rollDice.setEnabled(true);
 			
+			Game.oldTeam = Game.currentTeam;
+			
+			//4 peões na casa inicial
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				
 				Game.currentTeam.pawn[0].walk(1);
@@ -200,9 +269,10 @@ public class Game {
 				Game.currentTeam.hasPawnOnExitHouse = true;
 			}
 			
+			//3 peões na casa inicial
 			else if (Game.currentTeam.hasThreePawnsInHome()) {
 				
-				//se o quarto peao tiver na casa de saida
+				//se o peao fora da casa inicial estiver na casa de saida
 				if (Game.currentTeam.hasPawnOnExitHouse) {
 					
 					Pawn pawnOnExitHouse = Game.currentTeam.walkthrough[0].pawn[0];
@@ -211,7 +281,21 @@ public class Game {
 					Game.setCurrentDice(0);
 				}
 				
-				//se o quarto peao nao tiver na casa inicial nem na de saida
+				//se o peao fora da casa inicial nao estiver na casa de saida
+				else {
+					Main.lab_instructions.setText("Choose a pawn!");
+				}
+			}
+			
+			//2 peões na casa inicial
+			else if (Game.currentTeam.hasTwoPawnsInHome()) {
+				
+				//se tiver uma barreira formada
+				if (Game.currentTeam.getNumberOfBarriers() > 0) {
+					
+					//anda automaticamente com algum da barreira
+					Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
+				}
 				else {
 					Main.lab_instructions.setText("Choose a pawn!");
 				}

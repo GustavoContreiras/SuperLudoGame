@@ -90,10 +90,10 @@ public class Board extends JPanel {
 				if (Game.redTeam.pawn[i] != null) { 
 					
 					//se não tiver outro peao nessa posição
-					if (Game.redTeam.pawn[i].currentPosition.pawn[1] == null) { 
+					if (Game.redTeam.pawn[i].position.pawn[1] == null) { 
 					
-						int centerX = Game.redTeam.pawn[i].currentPosition.x;
-						int centerY = Game.redTeam.pawn[i].currentPosition.y;
+						int centerX = Game.redTeam.pawn[i].position.x;
+						int centerY = Game.redTeam.pawn[i].position.y;
 				    	
 				    	Ellipse2D circ = new Ellipse2D.Double();
 						circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn, centerY + radiusPawn);
@@ -108,8 +108,8 @@ public class Board extends JPanel {
 					//se tiver outro peão nessa posição (barreira)
 					else {
 						
-						int centerX = Game.redTeam.pawn[i].currentPosition.x;
-						int centerY = Game.redTeam.pawn[i].currentPosition.y;
+						int centerX = Game.redTeam.pawn[i].position.x;
+						int centerY = Game.redTeam.pawn[i].position.y;
 						
 				    	Ellipse2D circExt = new Ellipse2D.Double();
 				    	circExt.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+6, centerY + radiusPawn+6);
@@ -152,10 +152,10 @@ public class Board extends JPanel {
 				if (Game.greenTeam.pawn[i] != null) { 
 					
 					//se não tiver outro peao nessa posição
-					if (Game.greenTeam.pawn[i].currentPosition.pawn[1] == null) { 
+					if (Game.greenTeam.pawn[i].position.pawn[1] == null) { 
 					
-						int centerX = Game.greenTeam.pawn[i].currentPosition.x;
-						int centerY = Game.greenTeam.pawn[i].currentPosition.y;
+						int centerX = Game.greenTeam.pawn[i].position.x;
+						int centerY = Game.greenTeam.pawn[i].position.y;
 				    	
 				    	Ellipse2D circ = new Ellipse2D.Double();
 						circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn, centerY + radiusPawn);
@@ -170,8 +170,8 @@ public class Board extends JPanel {
 					//se tiver outro peão nessa posição (barreira)
 					else {
 						
-						int centerX = Game.greenTeam.pawn[i].currentPosition.x;
-						int centerY = Game.greenTeam.pawn[i].currentPosition.y;
+						int centerX = Game.greenTeam.pawn[i].position.x;
+						int centerY = Game.greenTeam.pawn[i].position.y;
 						
 				    	Ellipse2D circExt = new Ellipse2D.Double();
 				    	circExt.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+6, centerY + radiusPawn+6);
@@ -214,10 +214,10 @@ public class Board extends JPanel {
 				if (Game.yellowTeam.pawn[i] != null) { 
 					
 					//se não tiver outro peao nessa posição
-					if (Game.yellowTeam.pawn[i].currentPosition.pawn[1] == null) { 
+					if (Game.yellowTeam.pawn[i].position.pawn[1] == null) { 
 					
-						int centerX = Game.yellowTeam.pawn[i].currentPosition.x;
-						int centerY = Game.yellowTeam.pawn[i].currentPosition.y;
+						int centerX = Game.yellowTeam.pawn[i].position.x;
+						int centerY = Game.yellowTeam.pawn[i].position.y;
 				    	
 				    	Ellipse2D circ = new Ellipse2D.Double();
 						circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn, centerY + radiusPawn);
@@ -232,8 +232,8 @@ public class Board extends JPanel {
 					//se tiver outro peão nessa posição (barreira)
 					else {
 						
-						int centerX = Game.yellowTeam.pawn[i].currentPosition.x;
-						int centerY = Game.yellowTeam.pawn[i].currentPosition.y;
+						int centerX = Game.yellowTeam.pawn[i].position.x;
+						int centerY = Game.yellowTeam.pawn[i].position.y;
 						
 				    	Ellipse2D circExt = new Ellipse2D.Double();
 				    	circExt.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+6, centerY + radiusPawn+6);
@@ -276,10 +276,10 @@ public class Board extends JPanel {
 				if (Game.blueTeam.pawn[i] != null) { 
 					
 					//se não tiver outro peao nessa posição
-					if (Game.blueTeam.pawn[i].currentPosition.pawn[1] == null) { 
+					if (Game.blueTeam.pawn[i].position.pawn[1] == null) { 
 					
-						int centerX = Game.blueTeam.pawn[i].currentPosition.x;
-						int centerY = Game.blueTeam.pawn[i].currentPosition.y;
+						int centerX = Game.blueTeam.pawn[i].position.x;
+						int centerY = Game.blueTeam.pawn[i].position.y;
 				    	
 				    	Ellipse2D circ = new Ellipse2D.Double();
 						circ.setFrameFromCenter(centerX, centerY, centerX + radiusPawn, centerY + radiusPawn);
@@ -294,8 +294,8 @@ public class Board extends JPanel {
 					//se tiver outro peão nessa posição (barreira)
 					else {
 						
-						int centerX = Game.blueTeam.pawn[i].currentPosition.x;
-						int centerY = Game.blueTeam.pawn[i].currentPosition.y;
+						int centerX = Game.blueTeam.pawn[i].position.x;
+						int centerY = Game.blueTeam.pawn[i].position.y;
 						
 				    	Ellipse2D circExt = new Ellipse2D.Double();
 				    	circExt.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+6, centerY + radiusPawn+6);
@@ -432,6 +432,14 @@ public class Board extends JPanel {
 		g2d.fillPolygon(xPointsRed, yPointsRed, 3);
 		g2d.setPaint(Color.BLACK);
 		g2d.drawPolygon(xPointsRed, yPointsRed, 3);
+		
+		//WHITE TRIANGLE
+		int xPointsWhite[] = {50,70,50};
+		int yPointsWhite[] = {250,260,270};
+		g2d.setPaint(Color.WHITE);
+		g2d.fillPolygon(xPointsWhite, yPointsWhite, 3);
+		g2d.setPaint(Color.BLACK);
+		g2d.drawPolygon(xPointsWhite, yPointsWhite, 3);
     }
     
     private void drawGreenPolygons (Graphics2D g2d) {
@@ -495,6 +503,14 @@ public class Board extends JPanel {
 		g2d.fillPolygon(xPointsGreen, yPointsGreen, 3);
 		g2d.setPaint(Color.BLACK);
 		g2d.drawPolygon(xPointsGreen, yPointsGreen, 3);
+		
+		//WHITE TRIANGLE
+		int xPointsWhite[] = {330,350,340};
+		int yPointsWhite[] = {50,50,70};
+		g2d.setPaint(Color.WHITE);
+		g2d.fillPolygon(xPointsWhite, yPointsWhite, 3);
+		g2d.setPaint(Color.BLACK);
+		g2d.drawPolygon(xPointsWhite, yPointsWhite, 3);
     }
     
     private void drawYellowPolygons (Graphics2D g2d) {
@@ -558,6 +574,14 @@ public class Board extends JPanel {
 		g2d.fillPolygon(xPointsYellow, yPointsYellow, 3);
 		g2d.setPaint(Color.BLACK);
 		g2d.drawPolygon(xPointsYellow, yPointsYellow, 3);
+		
+		//WHITE TRIANGLE
+		int xPointsWhite[] = {530,540,550};
+		int yPointsWhite[] = {350,330,350};
+		g2d.setPaint(Color.WHITE);
+		g2d.fillPolygon(xPointsWhite, yPointsWhite, 3);
+		g2d.setPaint(Color.BLACK);
+		g2d.drawPolygon(xPointsWhite, yPointsWhite, 3);
     }
     
     private void drawBluePolygons (Graphics2D g2d) {
@@ -621,6 +645,14 @@ public class Board extends JPanel {
 		g2d.fillPolygon(xPointsBlue, yPointsBlue, 3);
 		g2d.setPaint(Color.BLACK);
 		g2d.drawPolygon(xPointsBlue, yPointsBlue, 3);
+		
+		//WHITE TRIANGLE
+		int xPointsWhite[] = {250,260,270};
+		int yPointsWhite[] = {550,530,550};
+		g2d.setPaint(Color.WHITE);
+		g2d.fillPolygon(xPointsWhite, yPointsWhite, 3);
+		g2d.setPaint(Color.BLACK);
+		g2d.drawPolygon(xPointsWhite, yPointsWhite, 3);
     }
     
     private void drawTeamOnTurnSquare (Graphics2D g2d) {

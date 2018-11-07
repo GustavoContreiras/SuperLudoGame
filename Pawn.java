@@ -2,8 +2,8 @@
 public class Pawn {
 	
 	public Position homePosition;
-	public Position currentPosition;
-	public int currentPositionInx;
+	public Position position;
+	public int positionInx;
 	
 	public Position[] walkthrough = new Position[57];
 	
@@ -14,8 +14,8 @@ public class Pawn {
 		this.id = id;
 		this.team = team;
 		this.homePosition = homePosition;
-		this.currentPosition = homePosition;
-		this.currentPositionInx = -1;
+		this.position = homePosition;
+		this.positionInx = -1;
 		this.walkthrough = walkthrough;
 		
 		this.homePosition.pawn[0] = this;
@@ -25,9 +25,9 @@ public class Pawn {
 		for (int i = 0; i < rolledDice; i++) {
 			
 			if (this.nextPos().hasABarrier() == false) {
-				this.detachFromPos(this.currentPosition);
+				this.detachFromPos(this.position);
 				this.addPosition(1);
-				this.attachToPos(this.currentPosition, this);
+				this.attachToPos(this.position, this);
 				Main.frame.repaint();
 			}
 			
@@ -39,24 +39,24 @@ public class Pawn {
 	
 	private Position addPosition(int inxToAdd) {
 		
-		int inxNewPos = this.currentPositionInx + inxToAdd;
+		int inxNewPos = this.positionInx + inxToAdd;
 		
 		//se a posicao de destino tiver uma barreira
 		if (walkthrough[inxNewPos].pawn[0] != null & walkthrough[inxNewPos].pawn[1] != null) {
-			System.out.printf("New position has a barrier.\n", currentPosition.letter, currentPosition.number);
-			return currentPosition;
+			System.out.printf("New position has a barrier.\n", position.letter, position.number);
+			return position;
 		}
 		
 		//se a posição de destino não tiver uma barreira
 		else {
-			currentPositionInx += inxToAdd;
-			currentPosition = walkthrough[currentPositionInx];
+			positionInx += inxToAdd;
+			position = walkthrough[positionInx];
 			
-			System.out.printf("newPos: %s%s\n", currentPosition.letter, currentPosition.number);
+			System.out.printf("newPos: %s%s\n", position.letter, position.number);
 			
 			Main.frame.repaint();
 			
-			return currentPosition;
+			return position;
 		}
 	}
 	
@@ -93,9 +93,9 @@ public class Pawn {
 			else {
 				System.out.println("Pawn is not from current team.");
 				
-				pawnCurrentPosition.pawn[0].currentPosition = pawnCurrentPosition.pawn[0].homePosition;
+				pawnCurrentPosition.pawn[0].position = pawnCurrentPosition.pawn[0].homePosition;
 				pawnCurrentPosition.pawn[0].homePosition.pawn[0] = pawnCurrentPosition.pawn[0];
-				pawnCurrentPosition.pawn[0].currentPositionInx = -1;
+				pawnCurrentPosition.pawn[0].positionInx = -1;
 				
 				pawnCurrentPosition.pawn[0] = pawnClicked;
 				
@@ -114,6 +114,6 @@ public class Pawn {
 	}
 
 	public Position nextPos() {
-		return walkthrough[currentPositionInx + 1];
+		return walkthrough[positionInx + 1];
 	}
 }
