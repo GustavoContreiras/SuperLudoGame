@@ -576,8 +576,8 @@ public class Board extends JPanel {
 		g2d.drawPolygon(xPointsYellow, yPointsYellow, 3);
 		
 		//WHITE TRIANGLE
-		int xPointsWhite[] = {530,540,550};
-		int yPointsWhite[] = {350,330,350};
+		int xPointsWhite[] = {530,550,550};
+		int yPointsWhite[] = {340,330,350};
 		g2d.setPaint(Color.WHITE);
 		g2d.fillPolygon(xPointsWhite, yPointsWhite, 3);
 		g2d.setPaint(Color.BLACK);
