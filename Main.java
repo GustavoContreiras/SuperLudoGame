@@ -40,7 +40,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static int lab_instructionsWidth = 200;
 	public static int lab_instructionsHeight = 35;
 	public static int lab_instructionsX = 643;
-	public static int lab_instructionsY = 410;
+	public static int lab_instructionsY = 430;
 	
 	public static Font lab_font25 = new Font("Courier New", Font.BOLD, 25);
 	public static Font lab_font14 = new Font("Courier New", Font.BOLD, 14);
@@ -83,11 +83,8 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		frame.add(lab_onTurn);
 		frame.add(lab_oldTeam);
 		frame.add(but_rollDice);
-		frame.add(lab_instructions);
-		
-		Board board = new Board();
-		
-		frame.add(board);
+		frame.add(lab_instructions);		
+		frame.add(new Board());
 		frame.repaint();
     }
 	
@@ -152,13 +149,13 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					lab_oldTeam.setBounds(665, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
 					break;
 				case "Green":
-					lab_oldTeam.setBounds(660, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
-					break;
-				case "Yellow":
 					lab_oldTeam.setBounds(657, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
 					break;
+				case "Yellow":
+					lab_oldTeam.setBounds(652, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
+					break;
 				case "Blue":
-					lab_oldTeam.setBounds(664, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
+					lab_oldTeam.setBounds(661, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
 					break;
 				}
 				
@@ -175,7 +172,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					lab_rolledA.setFont(lab_font14);
 					break;
 				case 2: 
-					lab_rolledA.setBounds(644, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_rolledA.setBounds(646, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
 					lab_oldTeam.setText(Game.oldTeam.name + " team");
 					lab_rolledA.setText("Rolled a two!");
 					lab_rolledA.setFont(lab_font14);
@@ -187,19 +184,19 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					lab_rolledA.setFont(lab_font14);
 					break;
 				case 4: 
-					lab_rolledA.setBounds(642, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_rolledA.setBounds(644, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
 					lab_oldTeam.setText(Game.oldTeam.name + " team");
 					lab_rolledA.setText("Rolled a four!");
 					lab_rolledA.setFont(lab_font14);
 					break;
 				case 5: 
-					lab_rolledA.setBounds(642, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_rolledA.setBounds(644, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
 					lab_oldTeam.setText(Game.oldTeam.name + " team");
 					lab_rolledA.setText("Rolled a five!");
 					lab_rolledA.setFont(lab_font14);
 					break;
 				case 6: 
-					lab_rolledA.setBounds(644, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
+					lab_rolledA.setBounds(646, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
 					lab_oldTeam.setText(Game.oldTeam.name + " team");
 					lab_rolledA.setText("Rolled a six!");
 					lab_rolledA.setFont(lab_font14);
@@ -210,6 +207,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					lab_rolledA.setFont(lab_font14);
 					break;
 				}
+				
 				Main.frame.repaint();
 			}
 		});	
@@ -257,8 +255,6 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					System.out.printf("\nposClicked: %s%s (%d, %d)\n", posClicked.letter, posClicked.number, e.getX(), e.getY());
 					System.out.printf("posClicked.pawn[0]: %s\n", posClicked.pawn[0]);
 					System.out.printf("posClicked.pawn[1]: %s\n", posClicked.pawn[1]);
-					System.out.printf("posClicked.pawn[2]: %s\n", posClicked.pawn[2]);
-					System.out.printf("posClicked.pawn[3]: %s\n\n", posClicked.pawn[3]);
 					
 					//se tiver peao na posicao clicada e tiver rolado o dado
 					if (posClicked.pawn[0] != null & Game.currentDice != 0) {

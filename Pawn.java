@@ -22,19 +22,31 @@ public class Pawn {
 	}
 	
 	public void walk (int rolledDice) {
-		for (int i = 0; i < rolledDice; i++) {
+		/*for (int i = 0; i < rolledDice; i++) {
 			
 			if (this.nextPos().hasABarrier() == false) {
 				this.detachFromPos(this.position);
 				this.addPosition(1);
-				this.attachToPos(this.position, this);
+				this.attachToPos(this);
 				Main.frame.repaint();
 			}
 			
 			else {
 				i = rolledDice;
 			}
+		}*/
+		
+		if (this.positionInx != 56) {
+			this.detachFromPos(this.position);
+			this.addPosition(rolledDice);
+			this.attachToPos(this);
 		}
+		else {
+			System.out.println("Pawn has finished his walkthrough");
+		}
+		Main.frame.repaint();
+		
+		System.out.printf("Pawn[0]: %s\nPawn[1]: %s\n\n", this.position.pawn[0], this.position.pawn[1]);
 	}
 	
 	private Position addPosition(int inxToAdd) {
@@ -53,9 +65,7 @@ public class Pawn {
 			position = walkthrough[positionInx];
 			
 			System.out.printf("newPos: %s%s\n", position.letter, position.number);
-			
-			Main.frame.repaint();
-			
+						
 			return position;
 		}
 	}
@@ -72,20 +82,21 @@ public class Pawn {
 		Main.frame.repaint();
 	}
 	
-	private void attachToPos(Position pawnCurrentPosition, Pawn pawnClicked) {
+	private void attachToPos(Pawn pawn) {
 		
-		if (pawnCurrentPosition.pawn[0] == null) {
+		if (pawn.position.pawn[0] == null) {
 			System.out.println("New position do not have pawns.");
-			pawnCurrentPosition.pawn[0] = pawnClicked;
+			pawn.position.pawn[0] = pawn;
 		}
 		
-		else if (pawnCurrentPosition.pawn[0] != null) {
+		else if (pawn.position.pawn[0] != null) {
 			System.out.println("New position already have a pawn.");
 			
-			if (pawnCurrentPosition.pawn[0].team == pawnClicked.team) {
+			if (pawn.position.pawn[0].team == pawn.team) {
 				System.out.println("Pawn is of the same team.");
 				
-				pawnCurrentPosition.pawn[1] = pawnClicked;
+				pawn.position.pawn[1] = pawn.position.pawn[0];
+				pawn.position.pawn[0] = pawn;
 				
 				System.out.println("Pawn moved.");
 			}
@@ -93,11 +104,11 @@ public class Pawn {
 			else {
 				System.out.println("Pawn is not from current team.");
 				
-				pawnCurrentPosition.pawn[0].position = pawnCurrentPosition.pawn[0].homePosition;
-				pawnCurrentPosition.pawn[0].homePosition.pawn[0] = pawnCurrentPosition.pawn[0];
-				pawnCurrentPosition.pawn[0].positionInx = -1;
+				pawn.position.pawn[0].position = pawn.position.pawn[0].homePosition;
+				pawn.position.pawn[0].homePosition.pawn[0] = pawn.position.pawn[0];
+				pawn.position.pawn[0].positionInx = -1;
 				
-				pawnCurrentPosition.pawn[0] = pawnClicked;
+				pawn.position.pawn[0] = pawn;
 				
 				System.out.println("Pawn moved.");
 			}
@@ -106,11 +117,6 @@ public class Pawn {
 		else {
 			System.out.println("New position has 2 pawns.");
 		}
-		
-		System.out.printf("Pawn[0]: %s\nPawn[1]: %s\nPawn[2]: %s\nPawn[3]: %s\n\n", 
-						  pawnCurrentPosition.pawn[0], pawnCurrentPosition.pawn[1],
-						  pawnCurrentPosition.pawn[2], pawnCurrentPosition.pawn[3]);
-		Main.frame.repaint();
 	}
 
 	public Position nextPos() {

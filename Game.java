@@ -31,8 +31,6 @@ public class Game {
 		
 		Pawn pawn1 = null;
 		Pawn pawn2 = null;
-		Pawn pawn3 = null;
-		Pawn pawn4 = null;
 		Pawn pawnClicked = null;
 		
 		//pega os peoes dessa posicao
@@ -41,14 +39,6 @@ public class Game {
 			
 			if (posClicked.pawn[1] != null) {
 				pawn2 = posClicked.pawn[1];
-				
-				if (posClicked.pawn[2] != null) {
-					pawn3 = posClicked.pawn[2];
-					
-					if (posClicked.pawn[3] != null) {
-						pawn4 = posClicked.pawn[3];
-					}
-				}
 			}
 		}
 		
@@ -59,12 +49,6 @@ public class Game {
 		}
 		else if (pawn2 != null & pawn2.team == currentTeam) {
 			pawnClicked = pawn2;
-		}
-		else if (pawn3 != null & pawn3.team == currentTeam) {
-			pawnClicked = pawn3;
-		}
-		else if (pawn4 != null & pawn4.team == currentTeam) {
-			pawnClicked = pawn4;
 		}
 		else {
 			pawnClicked = null;
@@ -86,6 +70,7 @@ public class Game {
 				Game.currentTeam.dicesSixRolled += 1;
 				Game.setCurrentDice(0);
 				Main.but_rollDice.setEnabled(true);
+				Main.lab_oldTeam.setText("");
 				
 				pawnClicked.walk(1);
 			}
@@ -107,6 +92,7 @@ public class Game {
 			
 			else {
 				Game.setCurrentDice(0);
+				Main.lab_oldTeam.setText("");
 				Main.but_rollDice.setEnabled(true);
 			}
 		}
@@ -132,6 +118,7 @@ public class Game {
 		venção do jogador terão de ser feitas automaticamente pelo programa. */
 		
 		Main.but_rollDice.setEnabled(false);
+		Main.lab_instructions.setBounds(Main.lab_instructionsX, Main.lab_instructionsY, Main.lab_instructionsWidth, Main.lab_instructionsHeight);
 		
 		int randomNumber = (int) (Math.random() * 6 + 1);
 		
@@ -155,7 +142,6 @@ public class Game {
 				
 				//anda automaticamente com o que nao ta na casa inicial
 				Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
-				Game.currentTeam.hasPawnOnExitHouse = false;
 				Game.prepareNextTurn();
 			}
 			
@@ -167,9 +153,12 @@ public class Game {
 					
 					//anda automaticamente com algum da barreira
 					Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
+					Game.prepareNextTurn();
 				}
 				else {
+					Game.oldTeam = Game.currentTeam;
 					Main.lab_instructions.setText("Choose a pawn!");
+					Main.but_rollDice.setEnabled(false);
 				}
 			}
 		}
@@ -185,7 +174,6 @@ public class Game {
 			if (Game.currentTeam.hasAllPawnsInHome()) {
 				
 				Game.currentTeam.pawn[0].walk(1);
-				Game.currentTeam.hasPawnOnExitHouse = true;
 				Game.prepareNextTurn();
 			}
 			
@@ -196,7 +184,6 @@ public class Game {
 				if (Game.currentTeam.getPawnOnExitHouse() != null) {
 					
 					Game.currentTeam.getPawnOnExitHouse().walk(Game.currentDice);
-					
 					Game.prepareNextTurn();
 				}
 				
@@ -205,6 +192,7 @@ public class Game {
 					for (int i = 0; i < 4; i++) {
 						if (Game.currentTeam.pawn[i].positionInx == -1) {
 							Game.currentTeam.pawn[i].walk(1);
+							Game.prepareNextTurn();
 							i = 4;
 						}
 					}
@@ -219,14 +207,17 @@ public class Game {
 					
 					//anda automaticamente com algum da barreira
 					Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
+					Game.prepareNextTurn();
 				}
 				
 				//se nao tiver barreira formada
 				else {
 					
 					//se tiver peao na casa de saida...
-					if (Game.currentTeam.getPawnOnExitHouse() == null) {
+					if (Game.currentTeam.getPawnOnExitHouse() != null) {
+						Game.oldTeam = Game.currentTeam;
 						Main.lab_instructions.setText("Choose a pawn!");
+						Main.but_rollDice.setEnabled(false);
 					}
 					
 					//se nao tiver peao na casa de saida...
@@ -234,7 +225,7 @@ public class Game {
 						for (int i = 0; i < 4; i++) {
 							if (Game.currentTeam.pawn[i].positionInx == -1) {
 								Game.currentTeam.pawn[i].walk(1);
-								Game.currentTeam.hasPawnOnExitHouse = true;
+								Game.prepareNextTurn();
 								i = 4;
 							}
 						}
@@ -266,24 +257,23 @@ public class Game {
 				
 				Game.currentTeam.pawn[0].walk(1);
 				Game.setCurrentDice(0);
-				Game.currentTeam.hasPawnOnExitHouse = true;
 			}
 			
 			//3 peões na casa inicial
 			else if (Game.currentTeam.hasThreePawnsInHome()) {
 				
 				//se o peao fora da casa inicial estiver na casa de saida
-				if (Game.currentTeam.hasPawnOnExitHouse) {
+				if (Game.currentTeam.getPawnOnExitHouse() != null) {
 					
-					Pawn pawnOnExitHouse = Game.currentTeam.walkthrough[0].pawn[0];
-					pawnOnExitHouse.walk(Game.currentDice);
-					Game.currentTeam.hasPawnOnExitHouse = false;
+					Game.currentTeam.getPawnOnExitHouse().walk(Game.currentDice);
 					Game.setCurrentDice(0);
 				}
 				
 				//se o peao fora da casa inicial nao estiver na casa de saida
 				else {
+					Game.oldTeam = Game.currentTeam;
 					Main.lab_instructions.setText("Choose a pawn!");
+					Main.but_rollDice.setEnabled(false);
 				}
 			}
 			
@@ -297,7 +287,9 @@ public class Game {
 					Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
 				}
 				else {
+					Game.oldTeam = Game.currentTeam;
 					Main.lab_instructions.setText("Choose a pawn!");
+					Main.but_rollDice.setEnabled(false);
 				}
 			}
 		}

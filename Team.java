@@ -127,6 +127,7 @@ public class Team {
 			Game.currentTeam.pawn[1].position == Game.currentTeam.pawn[1].homePosition &
 			Game.currentTeam.pawn[2].position == Game.currentTeam.pawn[2].homePosition &
 			Game.currentTeam.pawn[3].position == Game.currentTeam.pawn[3].homePosition) {
+			System.out.println("Has all pawns in home.");
 			return true;
 		}
 		else {
@@ -146,6 +147,7 @@ public class Team {
 			}
 			
 			if (j == 3) {
+				System.out.println("Has three pawns in home.");
 				return true;
 			}
 		}
@@ -164,6 +166,7 @@ public class Team {
 			}
 			
 			if (j == 2) {
+				System.out.println("Has two pawns in home.");
 				return true;
 			}
 		}
