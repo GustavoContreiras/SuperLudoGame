@@ -46,7 +46,7 @@ public class Pawn {
 		}
 		Main.frame.repaint();
 		
-		System.out.printf("Pawn[0]: %s\nPawn[1]: %s\n\n", this.position.pawn[0], this.position.pawn[1]);
+		System.out.printf("Pawn[0]: %s\nPawn[1]: %s\n", this.position.pawn[0], this.position.pawn[1]);
 	}
 	
 	private Position addPosition(int inxToAdd) {
@@ -97,8 +97,6 @@ public class Pawn {
 				
 				pawn.position.pawn[1] = pawn.position.pawn[0];
 				pawn.position.pawn[0] = pawn;
-				
-				System.out.println("Pawn moved.");
 			}
 			
 			else {
@@ -109,8 +107,6 @@ public class Pawn {
 				pawn.position.pawn[0].positionInx = -1;
 				
 				pawn.position.pawn[0] = pawn;
-				
-				System.out.println("Pawn moved.");
 			}
 		}
 		

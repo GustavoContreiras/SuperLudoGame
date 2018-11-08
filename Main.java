@@ -177,7 +177,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					lab_rolledA.setText("Rolled a two!");
 					lab_rolledA.setFont(lab_font14);
 					break;
-				case 3: 
+				case 3:
 					lab_rolledA.setBounds(639, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
 					lab_oldTeam.setText(Game.oldTeam.name + " team");
 					lab_rolledA.setText("Rolled a three!");
@@ -257,11 +257,11 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					System.out.printf("posClicked.pawn[1]: %s\n", posClicked.pawn[1]);
 					
 					//se tiver peao na posicao clicada e tiver rolado o dado
-					if (posClicked.pawn[0] != null & Game.currentDice != 0) {
+					if (posClicked.pawn[0] != null & Game.currentDice != 0 & posClicked.pawn[0].team == Game.currentTeam) {
 						Game.makeMove(posClicked, Game.currentDice, Game.currentTeam);
 					}
 					else {
-						System.out.printf("Need to roll dice or position do not have pawn.");
+						System.out.printf("Need to roll dice or position do not have pawn or pawn is not from current team.\n");
 					}
 					
 					Main.frame.repaint();

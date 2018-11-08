@@ -123,11 +123,11 @@ public class Team {
 	}
 	
 	public boolean hasAllPawnsInHome() {
-		if (Game.currentTeam.pawn[0].position == Game.currentTeam.pawn[0].homePosition &
-			Game.currentTeam.pawn[1].position == Game.currentTeam.pawn[1].homePosition &
-			Game.currentTeam.pawn[2].position == Game.currentTeam.pawn[2].homePosition &
-			Game.currentTeam.pawn[3].position == Game.currentTeam.pawn[3].homePosition) {
-			System.out.println("Has all pawns in home.");
+		if (Game.currentTeam.pawn[0].positionInx == -1 &
+			Game.currentTeam.pawn[1].positionInx == -1 &
+			Game.currentTeam.pawn[2].positionInx == -1 &
+			Game.currentTeam.pawn[3].positionInx == -1) {
+			System.out.printf("\nHas all pawns in home.\n");
 			return true;
 		}
 		else {
@@ -147,7 +147,7 @@ public class Team {
 			}
 			
 			if (j == 3) {
-				System.out.println("Has three pawns in home.");
+				System.out.printf("\nHas three pawns in home.\n");
 				return true;
 			}
 		}
@@ -166,7 +166,7 @@ public class Team {
 			}
 			
 			if (j == 2) {
-				System.out.println("Has two pawns in home.");
+				System.out.printf("\nHas two pawns in home.\n");
 				return true;
 			}
 		}

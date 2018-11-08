@@ -118,7 +118,6 @@ public class Game {
 		venção do jogador terão de ser feitas automaticamente pelo programa. */
 		
 		Main.but_rollDice.setEnabled(false);
-		Main.lab_instructions.setBounds(Main.lab_instructionsX, Main.lab_instructionsY, Main.lab_instructionsWidth, Main.lab_instructionsHeight);
 		
 		int randomNumber = (int) (Math.random() * 6 + 1);
 		
@@ -343,6 +342,9 @@ public class Game {
     }
 
     public static void setCurrentDice(int dice) {
+    	if (dice > 0) 
+    		System.out.printf("\n" + Game.currentTeam.name + " team rolled %d.", dice);
+    	
     	currentDice = dice;
     	Main.frame.repaint();
     }
