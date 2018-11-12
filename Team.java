@@ -100,7 +100,17 @@ public class Team {
 	}
 	
 	public Pawn getPawnOnExitHouse() {
-		return walkthrough[0].pawn[0];
+		if (this.walkthrough[0].pawn[0] != null) {
+			if (this.walkthrough[0].pawn[0].team == Game.currentTeam ) {
+				return this.walkthrough[0].pawn[0];
+			}
+			else {
+				return null;
+			}
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public int getNumberOfBarriers() {

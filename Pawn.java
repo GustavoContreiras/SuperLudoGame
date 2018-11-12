@@ -22,21 +22,8 @@ public class Pawn {
 	}
 	
 	public void walk (int rolledDice) {
-		/*for (int i = 0; i < rolledDice; i++) {
-			
-			if (this.nextPos().hasABarrier() == false) {
-				this.detachFromPos(this.position);
-				this.addPosition(1);
-				this.attachToPos(this);
-				Main.frame.repaint();
-			}
-			
-			else {
-				i = rolledDice;
-			}
-		}*/
 		
-		if (this.positionInx != 56) {
+		if (this.positionInx < 56) {
 			this.detachFromPos(this.position);
 			this.addPosition(rolledDice);
 			this.attachToPos(this);
@@ -84,29 +71,46 @@ public class Pawn {
 	
 	private void attachToPos(Pawn pawn) {
 		
-		if (pawn.position.pawn[0] == null) {
+		Position newPos = pawn.position;
+		
+		if (newPos.pawn[0] == null) {
 			System.out.println("New position do not have pawns.");
-			pawn.position.pawn[0] = pawn;
+			newPos.pawn[0] = pawn;
 		}
 		
-		else if (pawn.position.pawn[0] != null) {
+		else if (newPos.pawn[0] != null) {
 			System.out.println("New position already have a pawn.");
 			
-			if (pawn.position.pawn[0].team == pawn.team) {
+			if (newPos.pawn[0].team == pawn.team) {
 				System.out.println("Pawn is of the same team.");
 				
-				pawn.position.pawn[1] = pawn.position.pawn[0];
-				pawn.position.pawn[0] = pawn;
+				newPos.pawn[1] = pawn.position.pawn[0];
+				newPos.pawn[0] = pawn;
 			}
 			
 			else {
 				System.out.println("Pawn is not from current team.");
 				
-				pawn.position.pawn[0].position = pawn.position.pawn[0].homePosition;
-				pawn.position.pawn[0].homePosition.pawn[0] = pawn.position.pawn[0];
-				pawn.position.pawn[0].positionInx = -1;
+				//se não for casa de saída...
+				if (newPos != Position.B7 & newPos != Position.I2 &
+					newPos != Position.N9 & newPos != Position.G14) {
+					
+					System.out.println("New position is not exit house.");
 				
-				pawn.position.pawn[0] = pawn;
+					newPos.pawn[0].position = newPos.pawn[0].homePosition;
+					newPos.pawn[0].homePosition.pawn[0] = newPos.pawn[0];
+					newPos.pawn[0].positionInx = -1;
+					
+					newPos.pawn[0] = pawn;
+				}
+				
+				//se for casa de saida...
+				else {
+					System.out.println("New position is exit house.");
+					
+					//falta checar se o peao na casa de saida eh da cor da casa de saida
+					newPos.pawn[1] = pawn;
+				}
 			}
 		}
 		

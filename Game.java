@@ -59,25 +59,61 @@ public class Game {
 		if (pawnClicked.positionInx == -1) {
 			System.out.println("Pawn is on home.");
 			
-			//ROLLED DICE EH 5
-			if (Game.currentDice == 5) {
-				pawnClicked.walk(1);
-				Game.prepareNextTurn();
-			}
+			//se nao tiver peao na casa de saida ou o peao for de outro time
+			if (Game.currentTeam.getPawnOnExitHouse() == null) {
 			
-			//ROLLED DICE EH 6
-			else if (Game.currentDice == 6) {
-				Game.currentTeam.dicesSixRolled += 1;
-				Game.setCurrentDice(0);
-				Main.but_rollDice.setEnabled(true);
-				Main.lab_oldTeam.setText("");
+				//ROLLED DICE EH 5
+				if (Game.currentDice == 5) {
+					pawnClicked.walk(1);
+					Game.prepareNextTurn();
+				}
 				
-				pawnClicked.walk(1);
+				//ROLLED DICE EH 6
+				else if (Game.currentDice == 6) {
+					Game.currentTeam.dicesSixRolled += 1;
+					Game.setCurrentDice(0);
+					Main.but_rollDice.setEnabled(true);
+					Main.lab_oldTeam.setText("");
+					
+					pawnClicked.walk(1);
+				}
+				
+				//ROLLED DICE EH MENOR QUE 5
+				else {
+					System.out.println("Choose another pawn.");
+					Main.lab_instructions.setText("Choose another.");
+					Main.frame.repaint();
+				}
 			}
-			
-			//ROLLED DICE EH MENOR QUE 5
+			else if (Game.currentTeam.getPawnOnExitHouse().team != Game.currentTeam) {
+				
+				//ROLLED DICE EH 5
+				if (Game.currentDice == 5) {
+					pawnClicked.walk(1);
+					Game.prepareNextTurn();
+				}
+				
+				//ROLLED DICE EH 6
+				else if (Game.currentDice == 6) {
+					Game.currentTeam.dicesSixRolled += 1;
+					Game.setCurrentDice(0);
+					Main.but_rollDice.setEnabled(true);
+					Main.lab_oldTeam.setText("");
+					
+					pawnClicked.walk(1);
+				}
+				
+				//ROLLED DICE EH MENOR QUE 5
+				else {
+					System.out.println("Choose another pawn.");
+					Main.lab_instructions.setText("Choose another.");
+					Main.frame.repaint();
+				}
+			}
 			else {
-				System.out.println("Choose another pawn.");
+				System.out.println("Exit house already have a pawn of current team (choose another).");
+				Main.lab_instructions.setText("Choose another.");
+				Main.frame.repaint();
 			}
 		}
 		
