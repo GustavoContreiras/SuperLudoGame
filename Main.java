@@ -83,7 +83,8 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		frame.add(lab_onTurn);
 		frame.add(lab_oldTeam);
 		frame.add(but_rollDice);
-		frame.add(lab_instructions);		
+		frame.add(lab_instructions);	
+		
 		frame.add(new Board());
 		frame.repaint();
     }
@@ -212,7 +213,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 			}
 		});	
 	}
-
+	
 	private static void configureLabelOnTurn() {
 		lab_onTurn.setFont(lab_font25);
 		lab_onTurn.setBounds(lab_onTurnX, lab_onTurnY, lab_onTurnWidth, lab_onTurnHeight);
@@ -236,6 +237,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	private static void configureFrameAndMouseListener() {
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(frame_width, frame_heigth));
+		if (Board.debugMode) frame.setPreferredSize(new Dimension(frame_width, frame_heigth+20));
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);

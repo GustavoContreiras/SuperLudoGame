@@ -63,6 +63,9 @@ public class Team {
 					if (this.walkthrough[i].pawn[0].team == Game.redTeam) {
 						return this.walkthrough[i].pawn[0];
 					}
+					else if (this.walkthrough[i].pawn[1].team == Game.redTeam) {
+						return this.walkthrough[i].pawn[1];
+					}
 				}
 			}
 		}
@@ -72,6 +75,9 @@ public class Team {
 				if (this.walkthrough[i].pawn[0] != null) {
 					if (this.walkthrough[i].pawn[0].team == Game.greenTeam) {
 						return this.walkthrough[i].pawn[0];
+					}
+					else if (this.walkthrough[i].pawn[1].team == Game.greenTeam) {
+						return this.walkthrough[i].pawn[1];
 					}
 				}
 			}
@@ -83,6 +89,9 @@ public class Team {
 					if (this.walkthrough[i].pawn[0].team == Game.yellowTeam) {
 						return this.walkthrough[i].pawn[0];
 					}
+					else if (this.walkthrough[i].pawn[1].team == Game.yellowTeam) {
+						return this.walkthrough[i].pawn[1];
+					}
 				}
 			}
 		}
@@ -92,6 +101,9 @@ public class Team {
 				if (this.walkthrough[i].pawn[0] != null) {
 					if (this.walkthrough[i].pawn[0].team == Game.blueTeam) {
 						return this.walkthrough[i].pawn[0];
+					}
+					else if (this.walkthrough[i].pawn[1].team == Game.blueTeam) {
+						return this.walkthrough[i].pawn[1];
 					}
 				}
 			}

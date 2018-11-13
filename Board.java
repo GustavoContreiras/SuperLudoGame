@@ -11,7 +11,7 @@ public class Board extends JPanel {
 	private static final long serialVersionUID = -8919768790110412092L;
 
 	//SHOW GRID LETTERS AND NUMBERS
-	//public final static boolean debugMode = true;
+	public final static boolean debugMode = true;
 	
 	//TEAM COLORS
 	public final static Color redColor = new Color(198, 67, 49);
@@ -136,7 +136,7 @@ public class Board extends JPanel {
 						g2d.draw(circ);
 					}
 					
-					//se tiver outro peão nessa posição (e nao for do time amarelo)
+					//se tiver outro peão nessa posição (e nao for do time vermelho)
 					else if (Game.redTeam.pawn[i].position.pawn[1].team != Game.redTeam) {
 						
 						int centerX = Game.redTeam.pawn[i].position.x;
@@ -144,7 +144,7 @@ public class Board extends JPanel {
 						
 				    	Ellipse2D circExt = new Ellipse2D.Double();
 				    	circExt.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+6, centerY + radiusPawn+6);
-						g2d.setPaint(Color.BLUE);
+						g2d.setPaint(Color.RED);
 						g2d.fill(circExt);
 						
 						g2d.setPaint(Color.BLACK);
@@ -230,7 +230,7 @@ public class Board extends JPanel {
 						g2d.draw(circ);
 					}
 					
-					//se tiver outro peão nessa posição (e nao for do time amarelo)
+					//se tiver outro peão nessa posição (e nao for do time verde)
 					else if (Game.greenTeam.pawn[i].position.pawn[1].team != Game.greenTeam) {
 						
 						int centerX = Game.greenTeam.pawn[i].position.x;
@@ -238,7 +238,7 @@ public class Board extends JPanel {
 						
 				    	Ellipse2D circExt = new Ellipse2D.Double();
 				    	circExt.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+6, centerY + radiusPawn+6);
-						g2d.setPaint(Color.BLUE);
+						g2d.setPaint(Color.GREEN);
 						g2d.fill(circExt);
 						
 						g2d.setPaint(Color.BLACK);
@@ -248,7 +248,7 @@ public class Board extends JPanel {
 							g2d.setPaint(Color.RED);
 						}
 						else if (Game.greenTeam.pawn[i].position.pawn[1].team == Game.yellowTeam) {
-							g2d.setPaint(Color.GREEN);
+							g2d.setPaint(Color.YELLOW);
 						}
 						else if (Game.greenTeam.pawn[i].position.pawn[1].team == Game.blueTeam) {
 							g2d.setPaint(Color.BLUE);
@@ -332,7 +332,7 @@ public class Board extends JPanel {
 						
 				    	Ellipse2D circExt = new Ellipse2D.Double();
 				    	circExt.setFrameFromCenter(centerX, centerY, centerX + radiusPawn+6, centerY + radiusPawn+6);
-						g2d.setPaint(Color.BLUE);
+						g2d.setPaint(Color.YELLOW);
 						g2d.fill(circExt);
 						
 						g2d.setPaint(Color.BLACK);
@@ -851,7 +851,7 @@ public class Board extends JPanel {
     }
     
     private void debugMode(Graphics2D g2d) {
-    	/*if (debugMode) {
+    	if (debugMode) {
 			
 			g2d.setPaint(Color.BLACK);
 			
@@ -886,6 +886,6 @@ public class Board extends JPanel {
 			g2d.drawString("13", 604, 502);
 			g2d.drawString("14", 604, 542);
 			g2d.drawString("15", 604, 585);
-		}*/
+		}
     }
 }
