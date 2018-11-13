@@ -1,3 +1,6 @@
+package systems;
+
+import graphics.*;
 
 public class Pawn {
 	

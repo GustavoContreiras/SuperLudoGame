@@ -1,9 +1,10 @@
+package systems;
 
 public class Team {
 	
-	Position[] walkthrough = new Position[57];
-	Pawn[] pawn = new Pawn[4];
-	String name = "";
+	public Position[] walkthrough = new Position[57];
+	public Pawn[] pawn = new Pawn[4];
+	public String name = "";
 	
 	int dicesSixRolled = 0;
 	int pawnsOutsideHome = 0;
@@ -474,4 +475,16 @@ public class Team {
 		
 		return walkthrough;
 	}	
+
+	public Position[] getTeamPosition () {
+		return walkthrough;
+	}
+	
+	public Pawn getTeamPawn(int i) {
+		return pawn[i];
+	}
+	
+	public String getTeamName() {
+		return name;
+	}
 }

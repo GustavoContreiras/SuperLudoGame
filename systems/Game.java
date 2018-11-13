@@ -1,15 +1,18 @@
+package systems;
+
+import graphics.*;
 
 public class Game {
 	
 	//static Pawn lastPawnMoved = null;
-	static Team redTeam = null;
-	static Team greenTeam = null;
-	static Team yellowTeam = null;
-	static Team blueTeam = null;
-	static Team currentTeam;
-	static Team oldTeam;
-	static int oldDice = 0;
-	static int currentDice = -1;
+	public static Team redTeam = null;
+	public static Team greenTeam = null;
+	public static Team yellowTeam = null;
+	public static Team blueTeam = null;
+	public static Team currentTeam;
+	public static Team oldTeam;
+	public static int oldDice = 0;
+	public static int currentDice = -1;
 	
 	public Game() {
 				

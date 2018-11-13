@@ -1,3 +1,4 @@
+package systems;
 
 public class Position{
 		
@@ -241,11 +242,11 @@ public class Position{
 	static Position O14 = new Position(580, 540);
 	static Position O15 = new Position(580, 580);
 	
-	int x, y;
-	String letter, number;
-	String name = letter + number;
-	Pawn[] pawn = new Pawn[4];
-	Team owner;
+	public int x, y;
+	public String letter, number;
+	public String name = letter + number;
+	public Pawn[] pawn = new Pawn[4];
+	public Team owner;
 	
 	public Position(int x, int y) {
 		this.x = x;
