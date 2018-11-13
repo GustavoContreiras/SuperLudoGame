@@ -254,22 +254,37 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					Main.lab_instructions.setText("");
 										
 					Position posClicked = Position.getMousePosition(e.getX(),e.getY());
-					System.out.printf("\nposClicked: %s%s (%d, %d)\n", posClicked.letter, posClicked.number, e.getX(), e.getY());
-					System.out.printf("posClicked.pawn[0]: %s\n", posClicked.pawn[0]);
-					System.out.printf("posClicked.pawn[1]: %s\n", posClicked.pawn[1]);
 					
-					//se tiver peao na posicao clicada e tiver rolado o dado
-					if (posClicked.pawn[0] != null & Game.currentDice != 0) {
-						
-						if (posClicked.pawn[0].team == Game.currentTeam ) {
+					System.out.printf("\nposClicked: %s%s (%d, %d)\n", posClicked.letter, posClicked.number, e.getX(), e.getY());
+					
+					
+					if (posClicked.pawn[0] != null) {
+						System.out.printf("posClicked.pawn[0]: %s", posClicked.pawn[0]);
+						System.out.printf(" (%s Team)\n", posClicked.pawn[0].team.name);
+					}
+					
+					if (posClicked.pawn[1] != null) {
+						System.out.printf("posClicked.pawn[1]: %s", posClicked.pawn[1]);
+						System.out.printf(" (%s Team)\n", posClicked.pawn[1].team.name);
+					}
+					
+					//se tiver peao [0] na posicao clicada e tiver rolado o dado
+					if (posClicked.pawn[0] != null & Game.currentDice != 0) {	
+						if (posClicked.pawn[0].team == Game.currentTeam) {
 							Game.makeMove(posClicked, Game.currentDice, Game.currentTeam);
 						}
-						else {
-							System.out.printf("Pawn is not from current team.\n");
+					}
+					
+					//se tiver peao [1] na posicao clicada e tiver rolado o dado
+					if (posClicked.pawn[1] != null & Game.currentDice != 0) {
+						
+						if (posClicked.pawn[1].team == Game.currentTeam) {
+							Game.makeMove(posClicked, Game.currentDice, Game.currentTeam);
 						}
 					}
+					
 					else {
-						System.out.printf("Need to roll dice or position do not have pawn.\n");
+						System.out.printf("Need to roll dice or position do not have pawn or pawn is not from current team.\n");
 					}
 					
 					Main.frame.repaint();

@@ -1,7 +1,7 @@
 
 public class Game {
 	
-	static Pawn lastPawnMoved = null;
+	//static Pawn lastPawnMoved = null;
 	static Team redTeam = null;
 	static Team greenTeam = null;
 	static Team yellowTeam = null;
@@ -33,17 +33,14 @@ public class Game {
 		Pawn pawn2 = null;
 		Pawn pawnClicked = null;
 		
-		//pega os peoes dessa posicao
 		if (posClicked.pawn[0] != null) {
-			pawn1 = posClicked.pawn[0];		
-			
-			if (posClicked.pawn[1] != null) {
-				pawn2 = posClicked.pawn[1];
-			}
+			pawn1 = posClicked.pawn[0];					
 		}
 		
+		if (posClicked.pawn[1] != null) {
+			pawn2 = posClicked.pawn[1];
+		}
 		
-		//pega o peao dessa posicao que pertence ao time corrente
 		if (pawn1 != null & pawn1.team == currentTeam) {
 			pawnClicked = pawn1;
 		}

@@ -33,7 +33,12 @@ public class Pawn {
 		}
 		Main.frame.repaint();
 		
-		System.out.printf("Pawn[0]: %s\nPawn[1]: %s\n", this.position.pawn[0], this.position.pawn[1]);
+		if (this.position.pawn[0] != null) {
+			System.out.printf("newPos.Pawn[0]: %s (%s Team)\n", this.position.pawn[0], this.position.pawn[0].team.name);
+		}
+		if (this.position.pawn[1] != null) {
+			System.out.printf("newPos.Pawn[1]: %s (%s Team)\n", this.position.pawn[1], this.position.pawn[1].team.name);
+		}
 	}
 	
 	private Position addPosition(int inxToAdd) {
@@ -59,14 +64,29 @@ public class Pawn {
 	
 	private void detachFromPos(Position pawnCurrentPosition) {
 		
-		pawnCurrentPosition.pawn[0] = null;
-		
-		if (pawnCurrentPosition.pawn[1] != null) {
-			pawnCurrentPosition.pawn[0] = pawnCurrentPosition.pawn[1];
-			pawnCurrentPosition.pawn[1] = null;
+		//se tiver na posiçao [0] e for do time da vez
+		if (pawnCurrentPosition.pawn[0] != null & pawnCurrentPosition.pawn[0].team == Game.currentTeam) {
+			
+			//desanexa
+			pawnCurrentPosition.pawn[0] = null;
+			
+			//se tiver algum na posicao [1]
+			if (pawnCurrentPosition.pawn[1] != null) {
+				
+				//passa pra posicao [0]
+				pawnCurrentPosition.pawn[0] = pawnCurrentPosition.pawn[1];
+				
+				//desanexa da [1]
+				pawnCurrentPosition.pawn[1] = null;
+			}
 		}
 		
-		Main.frame.repaint();
+		//se tiver na posicao [1] e for do time da vez
+		else if (pawnCurrentPosition.pawn[1] != null & pawnCurrentPosition.pawn[1].team == Game.currentTeam) {
+			
+			//desanexa
+			pawnCurrentPosition.pawn[1] = null;
+		}
 	}
 	
 	private void attachToPos(Pawn pawn) {

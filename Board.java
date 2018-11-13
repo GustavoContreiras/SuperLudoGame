@@ -106,7 +106,8 @@ public class Board extends JPanel {
 					}
 					
 					//se tiver outro peão nessa posição (barreira)
-					else if (Game.redTeam.pawn[i].position.pawn[1].team == Game.redTeam) {
+					else if (Game.redTeam.pawn[i].position.pawn[1].team == Game.redTeam &
+							 Game.redTeam.pawn[i].position.pawn[0].team == Game.redTeam) {
 						
 						int centerX = Game.redTeam.pawn[i].position.x;
 						int centerY = Game.redTeam.pawn[i].position.y;
@@ -200,7 +201,8 @@ public class Board extends JPanel {
 					}
 					
 					//se tiver outro peão nessa posição (barreira)
-					else if (Game.greenTeam.pawn[i].position.pawn[1].team == Game.greenTeam){
+					else if (Game.greenTeam.pawn[i].position.pawn[0].team == Game.greenTeam &
+							 Game.greenTeam.pawn[i].position.pawn[1].team == Game.greenTeam){
 						
 						int centerX = Game.greenTeam.pawn[i].position.x;
 						int centerY = Game.greenTeam.pawn[i].position.y;
@@ -294,7 +296,8 @@ public class Board extends JPanel {
 					}
 					
 					//se tiver outro peão nessa posição (barreira)
-					else if (Game.yellowTeam.pawn[i].position.pawn[1].team != Game.yellowTeam) {
+					else if (Game.yellowTeam.pawn[i].position.pawn[0].team == Game.yellowTeam &
+							 Game.yellowTeam.pawn[i].position.pawn[1].team == Game.yellowTeam) {
 						
 						int centerX = Game.yellowTeam.pawn[i].position.x;
 						int centerY = Game.yellowTeam.pawn[i].position.y;
@@ -387,8 +390,9 @@ public class Board extends JPanel {
 						drawPawnIdString(centerX, centerY, i, g2d);
 					}
 					
-					//se tiver outro peão nessa posição (e for do time azul)
-					else if (Game.blueTeam.pawn[i].position.pawn[1].team == Game.blueTeam){
+					//se tiver outro peão nessa posição (barreira)
+					else if (Game.blueTeam.pawn[i].position.pawn[0].team == Game.blueTeam & 
+							 Game.blueTeam.pawn[i].position.pawn[1].team == Game.blueTeam){
 						
 						int centerX = Game.blueTeam.pawn[i].position.x;
 						int centerY = Game.blueTeam.pawn[i].position.y;

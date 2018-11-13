@@ -59,11 +59,15 @@ public class Team {
 		
 		if (this == Game.redTeam) {
 			for (int i = 0; i < 57; i++) {
+				
 				if (this.walkthrough[i].pawn[0] != null) {
 					if (this.walkthrough[i].pawn[0].team == Game.redTeam) {
 						return this.walkthrough[i].pawn[0];
 					}
-					else if (this.walkthrough[i].pawn[1].team == Game.redTeam) {
+				}
+				
+				if (this.walkthrough[i].pawn[1] != null) {
+					if (this.walkthrough[i].pawn[1].team == Game.redTeam) {
 						return this.walkthrough[i].pawn[1];
 					}
 				}
@@ -72,11 +76,15 @@ public class Team {
 			
 		else if (this == Game.greenTeam) {
 			for (int i = 0; i < 57; i++) {
+				
 				if (this.walkthrough[i].pawn[0] != null) {
 					if (this.walkthrough[i].pawn[0].team == Game.greenTeam) {
 						return this.walkthrough[i].pawn[0];
 					}
-					else if (this.walkthrough[i].pawn[1].team == Game.greenTeam) {
+				}
+				
+				if (this.walkthrough[i].pawn[1] != null) {
+					if (this.walkthrough[i].pawn[1].team == Game.greenTeam) {
 						return this.walkthrough[i].pawn[1];
 					}
 				}
@@ -85,11 +93,15 @@ public class Team {
 			
 		else if (this == Game.yellowTeam) {
 			for (int i = 0; i < 57; i++) {
+				
 				if (this.walkthrough[i].pawn[0] != null) {
 					if (this.walkthrough[i].pawn[0].team == Game.yellowTeam) {
 						return this.walkthrough[i].pawn[0];
 					}
-					else if (this.walkthrough[i].pawn[1].team == Game.yellowTeam) {
+				}
+				
+				if (this.walkthrough[i].pawn[1] != null) {
+					if (this.walkthrough[i].pawn[1].team == Game.yellowTeam) {
 						return this.walkthrough[i].pawn[1];
 					}
 				}
@@ -98,11 +110,15 @@ public class Team {
 			
 		else if (this == Game.blueTeam) {
 			for (int i = 0; i < 57; i++) {
+				
 				if (this.walkthrough[i].pawn[0] != null) {
 					if (this.walkthrough[i].pawn[0].team == Game.blueTeam) {
 						return this.walkthrough[i].pawn[0];
 					}
-					else if (this.walkthrough[i].pawn[1].team == Game.blueTeam) {
+				}
+				
+				if (this.walkthrough[i].pawn[1] != null) {
+					if (this.walkthrough[i].pawn[1].team == Game.blueTeam) {
 						return this.walkthrough[i].pawn[1];
 					}
 				}
