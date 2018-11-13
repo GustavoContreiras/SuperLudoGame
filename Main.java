@@ -7,10 +7,6 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	//to remove warning
 	private static final long serialVersionUID = 4582338413465297014L;
 	
-	//IMAGES POSITION
-	public static int img_diceX = 670;
-	public static int img_diceY = 275;
-	
 	//BUTTONS POSITION, DIMENSION AND FONT
 	public static int but_width = 150;
 	public static int but_height = 35;
@@ -101,7 +97,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		});
 	}
 	
-	private static void configureButtonLoadGame() {		
+	private static void configureButtonLoadGame() {
 		but_loadGame.setBounds(but_menuX, but_loadGameY, but_width,but_height);
 		but_loadGame.setFont(but_font);
 		but_loadGame.setEnabled(true);

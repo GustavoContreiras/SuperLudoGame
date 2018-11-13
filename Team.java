@@ -212,6 +212,21 @@ public class Team {
 		return false;
 	}
 	
+	public int countPawnsInHome() {
+		
+		int j = 0;
+		
+		for (int i = 0; i < 4; i++) {
+			
+			if (Game.currentTeam.pawn[i].positionInx == -1) {
+				j++;
+			}
+		}
+		
+		System.out.printf("\nHas %d pawns in home.\n", j);
+		return j;
+	}
+	
 	private Position[] createRedWalkthrough() {
 		walkthrough[0] = Position.B7;
 		walkthrough[1] = Position.C7;

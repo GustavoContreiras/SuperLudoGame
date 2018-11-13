@@ -23,6 +23,12 @@ public class Board extends JPanel {
 	public final static int radiusPawn = 8;
 	public final static int radiusWhiteCircle = 25;
 	
+	//IMAGES POSITION
+	public static int img_diceX = 670;
+	public static int img_diceY = 275;
+	public static int img_diceMinX = 734;
+	public static int img_diceMinY = 309;
+	
 	//IMAGES DIRECTORY
 	private final static String dice0Dir = "Dado0.png";
 	private final static String dice1Dir = "Dado1.png";
@@ -32,11 +38,20 @@ public class Board extends JPanel {
 	private final static String dice5Dir = "Dado5.png";
 	private final static String dice6Dir = "Dado6.png";
 	
+	private final static String dice1MinDir = "Dado1Min.png";
+	private final static String dice2MinDir = "Dado2Min.png";
+	private final static String dice3MinDir = "Dado3Min.png";
+	private final static String dice4MinDir = "Dado4Min.png";
+	private final static String dice5MinDir = "Dado5Min.png";
+	private final static String dice6MinDir = "Dado6Min.png";
+	
 	//IMAGES ARRAY
 	private static Image[] diceImgs = new Image[7];	
+	private static Image[] diceMinImgs = new Image[7];
 	
 	{
 		try {
+			
 			diceImgs[0] = ImageIO.read(new File(dice0Dir));
 			diceImgs[1] = ImageIO.read(new File(dice1Dir));
 			diceImgs[2] = ImageIO.read(new File(dice2Dir));
@@ -44,6 +59,15 @@ public class Board extends JPanel {
 			diceImgs[4] = ImageIO.read(new File(dice4Dir));
 			diceImgs[5] = ImageIO.read(new File(dice5Dir));
 			diceImgs[6] = ImageIO.read(new File(dice6Dir));
+			
+			diceMinImgs[0] = null;
+			diceMinImgs[1] = ImageIO.read(new File(dice1MinDir));
+			diceMinImgs[2] = ImageIO.read(new File(dice2MinDir));
+			diceMinImgs[3] = ImageIO.read(new File(dice3MinDir));
+			diceMinImgs[4] = ImageIO.read(new File(dice4MinDir));
+			diceMinImgs[5] = ImageIO.read(new File(dice5MinDir));
+			diceMinImgs[6] = ImageIO.read(new File(dice6MinDir));
+			
 		} catch (IOException e) { // TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
@@ -74,6 +98,9 @@ public class Board extends JPanel {
 		
 		drawTeamOnTurnSquare(g2d);
 		drawDiceImg(g2d);
+		
+		drawLastTeamOnTurnSquare(g2d);
+		drawLastDiceImg(g2d);
 		
 		debugMode(g2d);
 	}
@@ -809,30 +836,75 @@ public class Board extends JPanel {
 		}
     }
     
+    private void drawLastTeamOnTurnSquare (Graphics2D g2d) {
+    	if (Game.oldTeam != null) {
+			
+			if (Game.oldTeam == Game.redTeam) {
+				g2d.setPaint(Board.redColor);
+			}
+			else if (Game.oldTeam == Game.greenTeam) {
+				g2d.setPaint(Board.greenColor);
+			}
+			else if (Game.oldTeam == Game.yellowTeam) {
+				g2d.setPaint(Board.yellowColor);
+			}
+			else if (Game.oldTeam == Game.blueTeam) {
+				g2d.setPaint(Board.blueColor);
+			}
+			Rectangle2D lastTeamOnTurn = new Rectangle2D.Double(732, 307, 25, 25);
+			g2d.fill(lastTeamOnTurn); 
+			g2d.setPaint(Color.BLACK); 
+			g2d.draw(lastTeamOnTurn);
+		}
+    }
+    
     private void drawDiceImg (Graphics g2d) {
     	switch (Game.currentDice) {
 		case -1:
 			break;
 		case 0:
-			g2d.drawImage(diceImgs[0], Main.img_diceX, Main.img_diceY, null);
+			g2d.drawImage(diceImgs[0], img_diceX, img_diceY, null);
 			break;
 		case 1:
-			g2d.drawImage(diceImgs[1], Main.img_diceX, Main.img_diceY, null);
+			g2d.drawImage(diceImgs[1], img_diceX, img_diceY, null);
 			break;
 		case 2:
-			g2d.drawImage(diceImgs[2], Main.img_diceX, Main.img_diceY, null);
+			g2d.drawImage(diceImgs[2], img_diceX, img_diceY, null);
 			break;
 		case 3:
-			g2d.drawImage(diceImgs[3], Main.img_diceX, Main.img_diceY, null);
+			g2d.drawImage(diceImgs[3], img_diceX, img_diceY, null);
 			break;
 		case 4:
-			g2d.drawImage(diceImgs[4], Main.img_diceX, Main.img_diceY, null);
+			g2d.drawImage(diceImgs[4], img_diceX, img_diceY, null);
 			break;
 		case 5:
-			g2d.drawImage(diceImgs[5], Main.img_diceX, Main.img_diceY, null);
+			g2d.drawImage(diceImgs[5], img_diceX, img_diceY, null);
 			break;
 		case 6:
-			g2d.drawImage(diceImgs[6], Main.img_diceX, Main.img_diceY, null);
+			g2d.drawImage(diceImgs[6], img_diceX, img_diceY, null);
+			break;
+		}
+    }
+
+    private void drawLastDiceImg (Graphics g2d) {
+    	switch (Game.oldDice) {
+		case 1:
+			g2d.drawImage(diceMinImgs[1], img_diceMinX, img_diceMinY, null);
+			break;
+		case 2:
+			g2d.drawImage(diceMinImgs[2], img_diceMinX, img_diceMinY, null);
+			break;
+		case 3:
+			g2d.drawImage(diceMinImgs[3], img_diceMinX, img_diceMinY, null);
+			break;
+		case 4:
+			g2d.drawImage(diceMinImgs[4], img_diceMinX, img_diceMinY, null);
+			break;
+		case 5:
+			g2d.drawImage(diceMinImgs[5], img_diceMinX, img_diceMinY, null);
+			break;
+		case 6:
+			g2d.drawImage(diceMinImgs[6], img_diceMinX, img_diceMinY, null);
 			break;
 		}
     }

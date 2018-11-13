@@ -245,6 +245,7 @@ public class Position{
 	String letter, number;
 	String name = letter + number;
 	Pawn[] pawn = new Pawn[4];
+	Team owner;
 	
 	public Position(int x, int y) {
 		this.x = x;
@@ -268,6 +269,22 @@ public class Position{
 		this.pawn[1] = null;
 		this.pawn[2] = null;
 		this.pawn[3] = null;
+		
+		if (this.name == "B7") {
+			this.owner = Game.redTeam;
+		}
+		else if (this.name == "I2") {
+			this.owner = Game.greenTeam;
+		}
+		else if (this.name == "N9") {
+			this.owner = Game.yellowTeam;
+		}
+		else if (this.name == "G14") {
+			this.owner = Game.blueTeam;
+		}
+		else {
+			this.owner = null;
+		}
 	}
 	
 	public static int getCenterX(String letterAtoO) {
