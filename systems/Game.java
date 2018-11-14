@@ -4,21 +4,22 @@ import graphics.*;
 
 class Game {
 	
-	//static Pawn lastPawnMoved = null;
 	public static Team redTeam = null;
 	public static Team greenTeam = null;
 	public static Team yellowTeam = null;
 	public static Team blueTeam = null;
 	public static Team currentTeam;
 	public static Team oldTeam;
+	
+	static Pawn lastPawnMoved = null;
 	public static int oldDice = 0;
 	public static int currentDice = -1;
+	public static boolean flag_firstMove = true;
 	
 	public Game() {
 				
 		Main.but_rollDice.setEnabled(true);
 		Main.but_saveGame.setEnabled(true);
-		Main.lab_rolledA.setText("");
 		
 		Game.currentTeam = null;
 		Game.redTeam = new Team("Red");
@@ -66,16 +67,15 @@ class Game {
 				//ROLLED DICE EH 5
 				if (Game.currentDice == 5) {
 					pawnClicked.walk(1);
+					Game.setLastDice(Game.currentDice);
 					Game.prepareNextTurn();
 				}
 				
 				//ROLLED DICE EH 6
 				else if (Game.currentDice == 6) {
 					Game.currentTeam.dicesSixRolled += 1;
-					Game.setCurrentDice(0);
 					Main.but_rollDice.setEnabled(true);
-					Main.lab_oldTeam.setText("");
-					
+					Game.setLastDice(Game.currentDice);
 					pawnClicked.walk(1);
 				}
 				
@@ -90,6 +90,7 @@ class Game {
 				
 				//ROLLED DICE EH 5
 				if (Game.currentDice == 5) {
+					Game.setLastDice(Game.currentDice);
 					pawnClicked.walk(1);
 					Game.prepareNextTurn();
 				}
@@ -97,10 +98,8 @@ class Game {
 				//ROLLED DICE EH 6
 				else if (Game.currentDice == 6) {
 					Game.currentTeam.dicesSixRolled += 1;
-					Game.setCurrentDice(0);
 					Main.but_rollDice.setEnabled(true);
-					Main.lab_oldTeam.setText("");
-					
+					Game.setLastDice(Game.currentDice);
 					pawnClicked.walk(1);
 				}
 				
@@ -121,6 +120,7 @@ class Game {
 		//PAWN CLICKED FORA DA CASA INICIAL
 		else {
 			System.out.println("Pawn is out from home.");
+			Game.setLastDice(Game.currentDice);
 			pawnClicked.walk(rolledDice);
 			
 			if (rolledDice != 6) {
@@ -129,20 +129,17 @@ class Game {
 			
 			else {
 				Game.setCurrentDice(0);
-				Main.lab_oldTeam.setText("");
 				Main.but_rollDice.setEnabled(true);
 			}
 		}
 	}
 	
 	public static void prepareNextTurn () {
-		
+	
 		Game.setCurrentDice(0);
 		Game.setTeamOnTurn();
 		Game.currentTeam.dicesSixRolled = 0;
 		
-		Main.lab_rolledA.setText("");
-		Main.lab_oldTeam.setText("");
 		Main.lab_instructions.setText("");
 		Main.but_rollDice.setEnabled(true);
 	}
@@ -152,9 +149,14 @@ class Game {
 		/* REGRA: De um modo geral, todas as jogadas que não precisarem de inter-
 		venção do jogador terão de ser feitas automaticamente pelo programa. */
 		
-		Main.but_rollDice.setEnabled(false);
+		Game.lastPawnMoved = null;
 		
-		Game.oldTeam = Game.currentTeam;
+		Game.setLastDice(Game.currentDice);
+		Game.setOldTeam(Game.currentTeam);
+		
+		Game.flag_firstMove = false;
+		
+		Main.but_rollDice.setEnabled(false);
 		
 		int randomNumber = (int) (Math.random() * 6 + 1);
 		
@@ -174,7 +176,7 @@ class Game {
 			case 1:
 				
 				//manda escolher um peao
-				Game.oldTeam = Game.currentTeam;
+				Game.setLastDice(0);
 				Main.lab_instructions.setText("Choose a pawn!");
 				Main.but_rollDice.setEnabled(false);
 				break;
@@ -183,7 +185,7 @@ class Game {
 				
 				//se tiver uma barreira formada
 				if (Game.currentTeam.getNumberOfBarriers() > 0) {
-					
+										
 					//anda automaticamente com algum da barreira
 					Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
 					Game.prepareNextTurn();
@@ -194,7 +196,7 @@ class Game {
 				else {
 					
 					//manda escolher um peao
-					Game.oldTeam = Game.currentTeam;
+					Game.setLastDice(0);
 					Main.lab_instructions.setText("Choose a pawn!");
 					Main.but_rollDice.setEnabled(false);
 				}
@@ -227,12 +229,16 @@ class Game {
 				
 				//se tiver peao na casa de saida...
 				if (Game.currentTeam.getPawnOnExitHouse() != null) {
+					Game.setLastDice(0);
 					Main.lab_instructions.setText("Choose a pawn!");
 					Main.but_rollDice.setEnabled(false);
 				}
 				
 				//se nao tiver peao na casa de saida...
 				else {
+					
+					Game.oldTeam = Game.currentTeam;
+					
 					for (int i = 0; i < 4; i++) {
 						if (Game.currentTeam.pawn[i].positionInx == -1) {
 							Game.currentTeam.pawn[i].walk(1);
@@ -249,6 +255,8 @@ class Game {
 				//se tiver uma barreira formada
 				if (Game.currentTeam.getNumberOfBarriers() > 0) {
 					
+					Game.oldTeam = Game.currentTeam;
+					
 					//anda automaticamente com algum da barreira
 					Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
 					Game.prepareNextTurn();
@@ -259,12 +267,16 @@ class Game {
 					
 					//se tiver peao na casa de saida...
 					if (Game.currentTeam.getPawnOnExitHouse() != null) {
+						Game.setLastDice(0);
 						Main.lab_instructions.setText("Choose a pawn!");
 						Main.but_rollDice.setEnabled(false);
 					}
 					
 					//se nao tiver peao na casa de saida...
 					else {
+						
+						Game.oldTeam = Game.currentTeam;
+						
 						for (int i = 0; i < 4; i++) {
 							if (Game.currentTeam.pawn[i].positionInx == -1) {
 								Game.currentTeam.pawn[i].walk(1);
@@ -278,6 +290,8 @@ class Game {
 				break;
 				
 			case 3:
+				
+				Game.oldTeam = Game.currentTeam;
 				
 				//se o peao fora da casa inicial estiver na casa de saida
 				if (Game.currentTeam.getPawnOnExitHouse() != null) {
@@ -321,6 +335,8 @@ class Game {
 			
 			Main.but_rollDice.setEnabled(true);
 			
+			Game.setOldTeam(Game.currentTeam);
+			
 			Game.currentTeam.dicesSixRolled += 1;
 			
 			System.out.printf(" (%dx)", Game.currentTeam.dicesSixRolled);
@@ -336,12 +352,13 @@ class Game {
 				
 				//se tiver uma barreira formada
 				if (Game.currentTeam.getNumberOfBarriers() > 0) {
-					
+										
 					//anda automaticamente com algum da barreira
 					Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
 				}
 				
 				else {
+					Game.setLastDice(0);
 					Main.lab_instructions.setText("Choose a pawn!");
 					Main.but_rollDice.setEnabled(false);
 				}
@@ -349,6 +366,7 @@ class Game {
 				break;
 				
 			case 3:
+				
 				Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
 				Game.setCurrentDice(0);
 				break;
@@ -404,8 +422,10 @@ class Game {
     		}
     		else {
         		Game.currentTeam = null;
-        	}
+        	}	
     	}
+    	if (Game.currentTeam != null)
+    		System.out.printf("\nTeam on turn: %s Team\n", Game.currentTeam.name);
     }
 
     public static void setCurrentDice(int dice) {
@@ -415,7 +435,15 @@ class Game {
     	currentDice = dice;
     	Main.frame.repaint();
     }
+    
+    public static void setLastDice(int dice) {
+    	oldDice = dice;
+    	Main.frame.repaint();
+    }
 
+    public static void setOldTeam (Team team) {
+    	Game.oldTeam = team;
+    }
     private static void resetPositions() {
     	if (Game.redTeam != null & Game.greenTeam != null & Game.yellowTeam != null & Game.blueTeam != null) {
 			for (int i = 0; i < 57; i++) {

@@ -30,6 +30,10 @@ class Pawn {
 			this.detachFromPos(this.position);
 			this.addPosition(rolledDice);
 			this.attachToPos(this);
+			Game.lastPawnMoved = this;
+			if (Game.lastPawnMoved != null) {
+				System.out.printf("lastPawnMoved.id: %d\n", Game.lastPawnMoved.id);
+			}
 		}
 		else {
 			System.out.println("Pawn has finished his walkthrough");
@@ -37,10 +41,10 @@ class Pawn {
 		Main.frame.repaint();
 		
 		if (this.position.pawn[0] != null) {
-			System.out.printf("newPos.Pawn[0]: %s (%s Team)\n", this.position.pawn[0], this.position.pawn[0].team.name);
+			System.out.printf("newPos.Pawn[0].id: %d (%s Team)\n", this.position.pawn[0].id, this.position.pawn[0].team.name);
 		}
 		if (this.position.pawn[1] != null) {
-			System.out.printf("newPos.Pawn[1]: %s (%s Team)\n", this.position.pawn[1], this.position.pawn[1].team.name);
+			System.out.printf("newPos.Pawn[1].id: %d (%s Team)\n", this.position.pawn[1].id, this.position.pawn[1].team.name);
 		}
 	}
 	

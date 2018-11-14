@@ -18,7 +18,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static int but_newGameY = 40;
 	public static int but_loadGameY = 100;
 	public static int but_saveGameY = 160;
-	public static int but_rollDiceY = 400;
+	public static int but_rollDiceY = 370;
 	public static Font but_font = new Font("Sans Serif",Font.BOLD,14);
 	
 	//LABELS POSITION, DIMENSION AND FONT
@@ -27,7 +27,12 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static int lab_onTurnX = 640;
 	public static int lab_onTurnY = 220;
 	
-	public static int lab_oldTeamWidth = 200;
+	public static int lab_lastMoveWidth = 200;
+	public static int lab_lastMoveHeight = 35;
+	public static int lab_lastMoveX = 628;
+	public static int lab_lastMoveY = 340;
+	
+	/*public static int lab_oldTeamWidth = 200;
 	public static int lab_oldTeamHeight = 35;
 	public static int lab_oldTeamX = 646;
 	public static int lab_oldTeamY = 355;
@@ -35,15 +40,15 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static int lab_rolledDiceWidth = 200;
 	public static int lab_rolledDiceHeight = 35;
 	public static int lab_rolledDiceX = 644;
-	public static int lab_rolledDiceY = 370;
+	public static int lab_rolledDiceY = 370;*/
 	
 	public static int lab_instructionsWidth = 200;
 	public static int lab_instructionsHeight = 35;
 	public static int lab_instructionsX = 643;
 	public static int lab_instructionsY = 430;
 	
-	public static Font lab_font25 = new Font("Courier New", Font.BOLD, 25);
-	public static Font lab_font14 = new Font("Courier New", Font.BOLD, 14);
+	public static Font fnt_couriernew25 = new Font("Courier New", Font.BOLD, 25);
+	public static Font fnt_couriernew14 = new Font("Courier New", Font.BOLD, 14);
 	
 	//FRAME DIMENSION
 	public static int frame_width = 800;
@@ -51,12 +56,11 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	
 	//MAIN CLASS STATIC VARIABLES
 	public static JFrame frame = new JFrame("Ludo");
-	public static JLabel lab_rolledA = new JLabel("");
 	public static JButton but_newGame = new JButton("New Game");
 	public static JButton but_loadGame = new JButton("Load Game");
 	public static JButton but_saveGame = new JButton("Save Game");
 	public static JLabel lab_onTurn = new JLabel("On turn:");
-	public static JLabel lab_oldTeam = new JLabel("");
+	public static JLabel lab_lastMove = new JLabel("Last move:");
 	public static JButton but_rollDice = new JButton("Roll Dice");
 	public static JLabel lab_instructions = new JLabel("");
 			
@@ -71,17 +75,15 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		configureButtonLoadGame();
 		configureButtonSaveGame();
 		configureLabelOnTurn();
-		configureLabelOldTeam();
-		configureLabelRolledA();
+		configureLabelLastMove();
 		configureButtonRollDice();
 		configureLabelInstructions();
 					
-		frame.add(lab_rolledA);
 		frame.add(but_newGame);
 		frame.add(but_loadGame);
 		frame.add(but_saveGame);
 		frame.add(lab_onTurn);
-		frame.add(lab_oldTeam);
+		frame.add(lab_lastMove);
 		frame.add(but_rollDice);
 		frame.add(lab_instructions);	
 		
@@ -96,7 +98,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		but_newGame.setMnemonic(KeyEvent.VK_N); //ALT+N
 		but_newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CtrlGame.getCtrlGame().resetGame();
+				CtrlGame.getController().reset();
 			}
 		});
 	}
@@ -142,95 +144,25 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		but_rollDice.setMnemonic(KeyEvent.VK_R); //ALT+R
 		but_rollDice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				int rolledDice = CtrlGame.getCtrlGame().rollDice();
-				
-				switch (CtrlGame.getCtrlGame().getTeamName("oldTeam")) {
-				case "Red":
-					lab_oldTeam.setBounds(665, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
-					break;
-				case "Green":
-					lab_oldTeam.setBounds(657, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
-					break;
-				case "Yellow":
-					lab_oldTeam.setBounds(652, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
-					break;
-				case "Blue":
-					lab_oldTeam.setBounds(661, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
-					break;
-				}
-				
-				switch (rolledDice) {
-				case 0: 
-					lab_rolledA.setBounds(636, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
-					lab_rolledA.setText("Not high enough!");
-					lab_rolledA.setFont(lab_font14);
-					break;
-				case 1: 
-					lab_rolledA.setBounds(643, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
-					lab_oldTeam.setText(CtrlGame.getCtrlGame().getTeamName("oldTeam") + " team");
-					lab_rolledA.setText("Rolled an one!");
-					lab_rolledA.setFont(lab_font14);
-					break;
-				case 2: 
-					lab_rolledA.setBounds(646, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
-					lab_oldTeam.setText(CtrlGame.getCtrlGame().getTeamName("oldTeam") + " team");
-					lab_rolledA.setText("Rolled a two!");
-					lab_rolledA.setFont(lab_font14);
-					break;
-				case 3:
-					lab_rolledA.setBounds(639, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
-					lab_oldTeam.setText(CtrlGame.getCtrlGame().getTeamName("oldTeam") + " team");
-					lab_rolledA.setText("Rolled a three!");
-					lab_rolledA.setFont(lab_font14);
-					break;
-				case 4: 
-					lab_rolledA.setBounds(644, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
-					lab_oldTeam.setText(CtrlGame.getCtrlGame().getTeamName("oldTeam") + " team");
-					lab_rolledA.setText("Rolled a four!");
-					lab_rolledA.setFont(lab_font14);
-					break;
-				case 5: 
-					lab_rolledA.setBounds(644, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
-					lab_oldTeam.setText(CtrlGame.getCtrlGame().getTeamName("oldTeam") + " team");
-					lab_rolledA.setText("Rolled a five!");
-					lab_rolledA.setFont(lab_font14);
-					break;
-				case 6: 
-					lab_rolledA.setBounds(646, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
-					lab_oldTeam.setText(CtrlGame.getCtrlGame().getTeamName("oldTeam") + " team");
-					lab_rolledA.setText("Rolled a six!");
-					lab_rolledA.setFont(lab_font14);
-					break;
-				default:
-					lab_rolledA.setBounds(644, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
-					lab_rolledA.setText("");
-					lab_rolledA.setFont(lab_font14);
-					break;
-				}
-				
+				CtrlGame game = CtrlGame.getController();
+				game.rollDice();
 				Main.frame.repaint();
 			}
 		});	
 	}
 	
 	private static void configureLabelOnTurn() {
-		lab_onTurn.setFont(lab_font25);
+		lab_onTurn.setFont(fnt_couriernew25);
 		lab_onTurn.setBounds(lab_onTurnX, lab_onTurnY, lab_onTurnWidth, lab_onTurnHeight);
 	}
 	
-	private static void configureLabelOldTeam() {
-		lab_oldTeam.setFont(lab_font14);
-		lab_oldTeam.setBounds(lab_oldTeamX, lab_oldTeamY, lab_oldTeamWidth, lab_oldTeamHeight);
+	private static void configureLabelLastMove() {
+		lab_lastMove.setFont(fnt_couriernew14);
+		lab_lastMove.setBounds(lab_lastMoveX, lab_lastMoveY, lab_lastMoveWidth, lab_lastMoveHeight);
 	}
-	
-	private static void configureLabelRolledA() {
-		lab_rolledA.setFont(lab_font14);
-		lab_rolledA.setBounds(lab_rolledDiceX, lab_rolledDiceY, lab_rolledDiceWidth, lab_rolledDiceHeight);
-	}
-	
+
 	private static void configureLabelInstructions() {
-		lab_instructions.setFont(lab_font14);
+		lab_instructions.setFont(fnt_couriernew14);
 		lab_instructions.setBounds(lab_instructionsX, lab_instructionsY, lab_instructionsWidth, lab_instructionsHeight);
 	}
 
@@ -250,49 +182,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 				//se clicar no tabuleiro
 				if (e.getX() < 603 & e.getY() < 630) {
 					
-					Main.lab_rolledA.setText("");
-					Main.lab_instructions.setText("");
-					
-					/*
-					Position posClicked = Position.getMousePosition(e.getX(),e.getY());
-					
-					System.out.printf("\nposClicked: %s%s (%d, %d)\n", posClicked.letter, posClicked.number, e.getX(), e.getY());
-					
-					
-					if (posClicked.pawn[0] != null) {
-						System.out.printf("posClicked.pawn[0]: %s", posClicked.pawn[0]);
-						System.out.printf(" (%s Team)\n", posClicked.pawn[0].team.name);
-					}
-					
-					if (posClicked.pawn[1] != null) {
-						System.out.printf("posClicked.pawn[1]: %s", posClicked.pawn[1]);
-						System.out.printf(" (%s Team)\n", posClicked.pawn[1].team.name);
-					}
-					
-					//se tiver peao [0] na posicao clicada e tiver rolado o dado
-					if (posClicked.pawn[0] != null & Game.currentDice != 0) {	
-						if (posClicked.pawn[0].team == Game.currentTeam) {
-							CtrlGame.getCtrlGame().makeMove(posClicked,
-									CtrlGame.getCtrlGame().getGameDice("currentDice"), CtrlGame.getCtrlGame().getGameTeam("currentTeam"));
-						}
-					}
-					
-					//se tiver peao [1] na posicao clicada e tiver rolado o dado
-					if (posClicked.pawn[1] != null & Game.currentDice != 0) {
-						
-						if (posClicked.pawn[1].team == Game.currentTeam) {
-							CtrlGame.getCtrlGame().makeMove(posClicked,
-									CtrlGame.getCtrlGame().getGameDice("currentDice"), CtrlGame.getCtrlGame().getGameTeam("currentTeam"));
-						}
-					}
-					
-					else {
-						System.out.printf("Need to roll dice or position do not have pawn or pawn is not from current team.\n");
-					}
-					*/
-					
-					CtrlGame.getCtrlGame().mouseClicked(e.getX(), e.getY());
-					
+					CtrlGame.getController().mouseClicked(e.getX(), e.getY());
 					Main.frame.repaint();
 				}	
 			}

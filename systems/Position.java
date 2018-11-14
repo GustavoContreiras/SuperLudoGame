@@ -1128,19 +1128,18 @@ class Position{
 	}
 
 	public static void mouseClicked (int x, int y) {
+		
 		Position posClicked = Position.getMousePosition(x, y);
 		
 		System.out.printf("\nposClicked: %s%s (%d, %d)\n", posClicked.letter, posClicked.number, x, y);
 		
 		
 		if (posClicked.pawn[0] != null) {
-			System.out.printf("posClicked.pawn[0]: %s", posClicked.pawn[0]);
-			System.out.printf(" (%s Team)\n", posClicked.pawn[0].team.name);
+			System.out.printf("posClicked.pawn[0].id: %d (%s Team)", posClicked.pawn[0].id, posClicked.pawn[0].team.name);
 		}
 		
 		if (posClicked.pawn[1] != null) {
-			System.out.printf("posClicked.pawn[1]: %s", posClicked.pawn[1]);
-			System.out.printf(" (%s Team)\n", posClicked.pawn[1].team.name);
+			System.out.printf("posClicked.pawn[1].id: %d (%s Team)\\n", posClicked.pawn[1].id, posClicked.pawn[1].team.name);
 		}
 		
 		//se tiver peao [0] na posicao clicada e tiver rolado o dado
