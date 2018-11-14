@@ -2,7 +2,7 @@ package systems;
 
 import graphics.*;
 
-public class Game {
+class Game {
 	
 	//static Pawn lastPawnMoved = null;
 	public static Team redTeam = null;

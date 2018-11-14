@@ -44,14 +44,18 @@ public class CtrlGame {
 	
 	public String getTeamName (String var) {
 		switch (var) {
-		case "redTeam": return Game.redTeam.name;
-		case "greenTeam": return Game.greenTeam.name;
-		case "yellowTeam": return Game.yellowTeam.name;
-		case "blueTeam": return Game.blueTeam.name;
-		case "currentTeam": return Game.currentTeam.name;
-		case "oldTeam": return Game.oldTeam.name;
-		default: return null;
+			case "redTeam": return Game.redTeam.name;
+			case "greenTeam": return Game.greenTeam.name;
+			case "yellowTeam": return Game.yellowTeam.name;
+			case "blueTeam": return Game.blueTeam.name;
+			case "currentTeam": return Game.currentTeam.name;
+			case "oldTeam": return Game.oldTeam.name;
+			default: return null;
+		}
 	}
+	
+	public void mouseClicked (int x, int y) {
+		Position.mouseClicked(x, y);
 	}
 	
 	public int rollDice() {

@@ -252,7 +252,8 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					
 					Main.lab_rolledA.setText("");
 					Main.lab_instructions.setText("");
-										
+					
+					/*
 					Position posClicked = Position.getMousePosition(e.getX(),e.getY());
 					
 					System.out.printf("\nposClicked: %s%s (%d, %d)\n", posClicked.letter, posClicked.number, e.getX(), e.getY());
@@ -288,6 +289,9 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					else {
 						System.out.printf("Need to roll dice or position do not have pawn or pawn is not from current team.\n");
 					}
+					*/
+					
+					CtrlGame.getCtrlGame().mouseClicked(e.getX(), e.getY());
 					
 					Main.frame.repaint();
 				}	

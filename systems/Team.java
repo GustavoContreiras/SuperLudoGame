@@ -1,6 +1,6 @@
 package systems;
 
-public class Team {
+class Team {
 	
 	public Position[] walkthrough = new Position[57];
 	public Pawn[] pawn = new Pawn[4];

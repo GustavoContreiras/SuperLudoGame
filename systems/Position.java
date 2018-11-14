@@ -1,6 +1,6 @@
 package systems;
 
-public class Position{
+class Position{
 		
 	static Position A1 = new Position(20, 20);
 	static Position A2 = new Position(20, 60);
@@ -1124,6 +1124,42 @@ public class Position{
 		}
 		else {
 			return false;
+		}
+	}
+
+	public static void mouseClicked (int x, int y) {
+		Position posClicked = Position.getMousePosition(x, y);
+		
+		System.out.printf("\nposClicked: %s%s (%d, %d)\n", posClicked.letter, posClicked.number, x, y);
+		
+		
+		if (posClicked.pawn[0] != null) {
+			System.out.printf("posClicked.pawn[0]: %s", posClicked.pawn[0]);
+			System.out.printf(" (%s Team)\n", posClicked.pawn[0].team.name);
+		}
+		
+		if (posClicked.pawn[1] != null) {
+			System.out.printf("posClicked.pawn[1]: %s", posClicked.pawn[1]);
+			System.out.printf(" (%s Team)\n", posClicked.pawn[1].team.name);
+		}
+		
+		//se tiver peao [0] na posicao clicada e tiver rolado o dado
+		if (posClicked.pawn[0] != null & Game.currentDice != 0) {	
+			if (posClicked.pawn[0].team == Game.currentTeam) {
+                Game.makeMove(posClicked, Game.currentDice, Game.currentTeam);
+			}
+		}
+		
+		//se tiver peao [1] na posicao clicada e tiver rolado o dado
+		if (posClicked.pawn[1] != null & Game.currentDice != 0) {
+			
+			if (posClicked.pawn[1].team == Game.currentTeam) {
+                Game.makeMove(posClicked, Game.currentDice, Game.currentTeam);
+			}
+		}
+		
+		else {
+			System.out.printf("Need to roll dice or position do not have pawn or pawn is not from current team.\n");
 		}
 	}
 }

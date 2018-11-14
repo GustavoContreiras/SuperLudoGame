@@ -2,7 +2,7 @@ package systems;
 
 import graphics.*;
 
-public class Pawn {
+class Pawn {
 	
 	public Position homePosition;
 	public Position position;
