@@ -161,56 +161,13 @@ class Team {
 		return k/2;
 	}
 	
-	public boolean hasAllPawnsInHome() {
-		if (Game.currentTeam.pawn[0].positionInx == -1 &
-			Game.currentTeam.pawn[1].positionInx == -1 &
-			Game.currentTeam.pawn[2].positionInx == -1 &
-			Game.currentTeam.pawn[3].positionInx == -1) {
-			System.out.printf("\nHas all pawns in home.\n");
-			return true;
-		}
-		else {
-			return false;
-		}
-		
-	}
-	
-	public boolean hasThreePawnsInHome() {
-		
-		int j = 0;
-		
+	public boolean hasMovablePawn() {
 		for (int i = 0; i < 4; i++) {
-			
-			if (Game.currentTeam.pawn[i].positionInx == -1) {
-				j++;
-			}
-			
-			if (j == 3) {
-				System.out.printf("\nHas three pawns in home.\n");
-				return true;
+			if (!this.pawn[i].canWalk(Game.currentDice)) {
+				return false;
 			}
 		}
-		
-		return false;
-	}
-	
-	public boolean hasTwoPawnsInHome() {
-		
-		int j = 0;
-		
-		for (int i = 0; i < 4; i++) {
-			
-			if (Game.currentTeam.pawn[i].positionInx == -1) {
-				j++;
-			}
-			
-			if (j == 2) {
-				System.out.printf("\nHas two pawns in home.\n");
-				return true;
-			}
-		}
-		
-		return false;
+		return true;
 	}
 	
 	public int countPawnsInHome() {

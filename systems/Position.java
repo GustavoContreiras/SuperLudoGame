@@ -1,5 +1,7 @@
 package systems;
 
+import graphics.Main;
+
 class Position{
 		
 	static Position A1 = new Position(20, 20);
@@ -1126,7 +1128,7 @@ class Position{
 			return false;
 		}
 	}
-
+	
 	public static void mouseClicked (int x, int y) {
 		
 		Position posClicked = Position.getMousePosition(x, y);
@@ -1135,11 +1137,11 @@ class Position{
 		
 		
 		if (posClicked.pawn[0] != null) {
-			System.out.printf("posClicked.pawn[0].id: %d (%s Team)", posClicked.pawn[0].id, posClicked.pawn[0].team.name);
+			System.out.printf("posClicked.pawn[0].id: %d (%s Team)\n", posClicked.pawn[0].id, posClicked.pawn[0].team.name);
 		}
 		
 		if (posClicked.pawn[1] != null) {
-			System.out.printf("posClicked.pawn[1].id: %d (%s Team)\\n", posClicked.pawn[1].id, posClicked.pawn[1].team.name);
+			System.out.printf("posClicked.pawn[1].id: %d (%s Team)\n", posClicked.pawn[1].id, posClicked.pawn[1].team.name);
 		}
 		
 		//se tiver peao [0] na posicao clicada e tiver rolado o dado
@@ -1160,5 +1162,7 @@ class Position{
 		else {
 			System.out.printf("Need to roll dice or position do not have pawn or pawn is not from current team.\n");
 		}
+		
+		Main.lab_instructions.setText("");
 	}
 }

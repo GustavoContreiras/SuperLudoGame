@@ -94,7 +94,6 @@ public class CtrlGame {
 		return Game.oldDice;
 	}
 	
-	
 	//PAWN	
 	public Pawn getLastPawnMoved () {
 		return Game.lastPawnMoved;

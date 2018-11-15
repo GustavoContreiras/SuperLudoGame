@@ -45,7 +45,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static int lab_instructionsWidth = 200;
 	public static int lab_instructionsHeight = 35;
 	public static int lab_instructionsX = 643;
-	public static int lab_instructionsY = 430;
+	public static int lab_instructionsY = 400;
 	
 	public static Font fnt_couriernew25 = new Font("Courier New", Font.BOLD, 25);
 	public static Font fnt_couriernew14 = new Font("Courier New", Font.BOLD, 14);
@@ -99,6 +99,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		but_newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CtrlGame.getController().reset();
+				Main.frame.repaint();
 			}
 		});
 	}
@@ -144,8 +145,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		but_rollDice.setMnemonic(KeyEvent.VK_R); //ALT+R
 		but_rollDice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CtrlGame game = CtrlGame.getController();
-				game.rollDice();
+				CtrlGame.getController().rollDice();
 				Main.frame.repaint();
 			}
 		});	
@@ -182,8 +182,11 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 				//se clicar no tabuleiro
 				if (e.getX() < 603 & e.getY() < 630) {
 					
-					CtrlGame.getController().mouseClicked(e.getX(), e.getY());
-					Main.frame.repaint();
+					//se for o botao esquerdo
+					if (e.getButton() == MouseEvent.BUTTON1) {
+						CtrlGame.getController().mouseClicked(e.getX(), e.getY());
+						Main.frame.repaint();	
+					}
 				}	
 			}
 
@@ -199,6 +202,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 				
 			}
 
+			
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO Auto-generated method stub
