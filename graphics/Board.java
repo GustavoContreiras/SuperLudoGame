@@ -894,7 +894,7 @@ public class Board extends JPanel {
     	
     	CtrlGame game = CtrlGame.getController();
     	
-    	if (game.isFirstMove() == false) {
+    	if (game.isFirstMove() == false & CtrlGame.getController().getDice("oldDice") != 0) {
     	
     		//se for o time vermelho
     		if (game.getOldTeam() == game.getRedTeam()) {
