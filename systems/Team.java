@@ -126,17 +126,67 @@ class Team {
 	}
 	
 	public Pawn getPawnOnExitHouse() {
+		
+		//se a posicao tiver um peao em [0]
 		if (this.walkthrough[0].pawn[0] != null) {
+			
+			//se o peao [0] dessa posicao for do time corrente
 			if (this.walkthrough[0].pawn[0].team == Game.currentTeam ) {
 				return this.walkthrough[0].pawn[0];
 			}
+			
+			//se o peao [0] nao for do time corrente
 			else {
-				return null;
+				
+				//se a posicao tiver um peao em [1]
+				if (this.walkthrough[0].pawn[1] != null) {
+					
+					//se o peao [1] dessa posicao for do time corrente
+					if (this.walkthrough[0].pawn[1].team == Game.currentTeam ) {
+						return this.walkthrough[0].pawn[1];
+					}
+					
+					//se o peao [1] dessa posicao nao for do time corrente
+					else {
+						return null;
+					}
+				}
 			}
 		}
-		else {
-			return null;
+		
+		return null;
+	}
+	
+	public Pawn getPawnClosestToFinish() {
+		
+		int higherPositionInx = 0;
+		Pawn pawnClosestToFinish = null;
+		
+		for (int i = 0; i < 4; i++) {
+			if (this.pawn[i].positionInx > higherPositionInx) {
+				pawnClosestToFinish = this.pawn[i];
+				higherPositionInx = this.pawn[i].positionInx;
+			}
 		}
+		
+		return pawnClosestToFinish;
+	}
+	
+	public Pawn getPawnOnBarrier() {
+		
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (i != j){
+					
+					//se os peões do time tiverem a mesma posição...
+					if (Game.currentTeam.pawn[i].position == Game.currentTeam.pawn[j].position)  {
+						return Game.currentTeam.pawn[i];
+					}
+				}
+			}
+		}
+		
+		return null;
 	}
 	
 	public int countBarriers() {
@@ -206,7 +256,7 @@ class Team {
 			}
 		}
 		
-		System.out.printf("\nHas %d pawns in home.\n", j);
+		System.out.printf("Has %d pawns in home.\n", j);
 		return j;
 	}
 	

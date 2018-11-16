@@ -11,8 +11,8 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	//to remove warning
 	private static final long serialVersionUID = 4582338413465297014L;
 	
-	//SHOW GRID LETTERS AND NUMBERS, CHEAT ROLL DICE BUTTON
-	public final static boolean debugMode = false;
+	//SHOW GRID LETTERS AND NUMBERS, ENABLES CHEATING
+	public final static boolean debugMode = true;
 	
 	//BUTTONS POSITION, DIMENSION AND FONT
 	public static int but_width = 150;
@@ -22,7 +22,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static int but_loadGameY = 100;
 	public static int but_saveGameY = 160;
 	public static int but_rollDiceY = 370;
-	public static Font fnt_sansserif14 = new Font("Sans Serif",Font.BOLD,14);
+	public static Font fnt_sansSerif14 = new Font("Sans Serif",Font.BOLD,14);
 	
 	//LABELS POSITION, DIMENSION AND FONT
 	public static int lab_onTurnWidth = 200;
@@ -40,8 +40,8 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static int lab_instructionsX = 643;
 	public static int lab_instructionsY = 400;
 	
-	public static Font fnt_couriernew25 = new Font("Courier New", Font.BOLD, 25);
-	public static Font fnt_couriernew14 = new Font("Courier New", Font.BOLD, 14);
+	public static Font fnt_courierNew25 = new Font("Courier New", Font.BOLD, 25);
+	public static Font fnt_courierNew14 = new Font("Courier New", Font.BOLD, 14);
 	
 	//FRAME DIMENSION
 	public static int frame_width = 800;
@@ -86,20 +86,26 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	
 	private static void configureButtonNewGame() {
 		but_newGame.setBounds(but_menuX, but_newGameY, but_width, but_height);
-		but_newGame.setFont(fnt_sansserif14);
+		but_newGame.setFont(fnt_sansSerif14);
 		but_newGame.setEnabled(true);
 		but_newGame.setMnemonic(KeyEvent.VK_N); //ALT+N
 		but_newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CtrlGame.getController().reset();
 				Main.frame.repaint();
+				
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e1) { // TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 	}
 	
 	private static void configureButtonLoadGame() {
 		but_loadGame.setBounds(but_menuX, but_loadGameY, but_width,but_height);
-		but_loadGame.setFont(fnt_sansserif14);
+		but_loadGame.setFont(fnt_sansSerif14);
 		but_loadGame.setEnabled(true);
 		but_loadGame.setMnemonic(KeyEvent.VK_L); //ALT+L
 		but_loadGame.addActionListener(new ActionListener() {
@@ -110,13 +116,19 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 				if (option == JFileChooser.APPROVE_OPTION) {
 		            //File file = fileChooser.getSelectedFile();
 		        }
+				
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e1) { // TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 	}
 	
 	private static void configureButtonSaveGame() {
 		but_saveGame.setBounds(but_menuX, but_saveGameY,but_width,but_height);
-		but_saveGame.setFont(fnt_sansserif14);
+		but_saveGame.setFont(fnt_sansSerif14);
 		but_saveGame.setEnabled(false);
 		but_saveGame.setMnemonic(KeyEvent.VK_S); //ALT+S
 		but_saveGame.addActionListener(new ActionListener() {
@@ -127,36 +139,50 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 				if (option == JFileChooser.APPROVE_OPTION) {
 		            //File file = fileChooser.getSelectedFile();
 		        }
+				
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e1) { // TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 	}
 	
 	private static void configureButtonRollDice() {
 		but_rollDice.setBounds(but_menuX, but_rollDiceY,but_width,but_height);
-		but_rollDice.setFont(fnt_sansserif14);
+		but_rollDice.setFont(fnt_sansSerif14);
 		but_rollDice.setEnabled(false);
 		but_rollDice.setMnemonic(KeyEvent.VK_R); //ALT+R
 		but_rollDice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				CtrlGame.getController().rollDice();
 				CtrlGame.getController().makeMoveAfterRollDice();
+				
 				Main.frame.repaint();
+				
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e1) { // TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});	
 	}
 	
 	private static void configureLabelOnTurn() {
-		lab_onTurn.setFont(fnt_couriernew25);
+		lab_onTurn.setFont(fnt_courierNew25);
 		lab_onTurn.setBounds(lab_onTurnX, lab_onTurnY, lab_onTurnWidth, lab_onTurnHeight);
 	}
 	
 	private static void configureLabelLastMove() {
-		lab_lastMove.setFont(fnt_couriernew14);
+		lab_lastMove.setFont(fnt_courierNew14);
 		lab_lastMove.setBounds(lab_lastMoveX, lab_lastMoveY, lab_lastMoveWidth, lab_lastMoveHeight);
 	}
 
 	private static void configureLabelInstructions() {
-		lab_instructions.setFont(fnt_couriernew14);
+		lab_instructions.setFont(fnt_courierNew14);
 		lab_instructions.setBounds(lab_instructionsX, lab_instructionsY, lab_instructionsWidth, lab_instructionsHeight);
 	}
 

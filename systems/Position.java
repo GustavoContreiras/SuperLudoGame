@@ -1148,6 +1148,7 @@ class Position{
 		if (posClicked.pawn[0] != null & Game.currentDice != 0) {	
 			if (posClicked.pawn[0].team == Game.currentTeam) {
                 Game.makeMoveAfterClick(posClicked, Game.currentDice, Game.currentTeam);
+                Main.lab_instructions.setText("");
 			}
 		}
 		
@@ -1156,13 +1157,12 @@ class Position{
 			
 			if (posClicked.pawn[1].team == Game.currentTeam) {
                 Game.makeMoveAfterClick(posClicked, Game.currentDice, Game.currentTeam);
+                Main.lab_instructions.setText("");
 			}
 		}
 		
 		else {
 			System.out.printf("Need to roll dice or position do not have pawn or pawn is not from current team.\n");
 		}
-		
-		Main.lab_instructions.setText("");
 	}
 }

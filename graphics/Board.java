@@ -120,19 +120,19 @@ public class Board extends JPanel {
 		drawLastDiceImg(g2d);
 		drawLastPawnMoved(g2d);
 		
-		debugMode(g2d);
+		drawGridPositions(g2d);
 	}
         
     private void drawRedPawns (Graphics2D g2d) {
     	    	
     	//se o time vermelho existir
-		if (CtrlGame.getController().getTeam("redTeam") != null) {	
+		if (CtrlGame.getController().getRedTeam() != null) {	
 			
 			//percorre o array de peoes do time
 			for (int i = 0; i < 4; i++) { 
 				
 				//se o peão existir
-				if (CtrlGame.getController().checkTeamPawn("redTeam", i)) { 
+				if (CtrlGame.getController().checkRedTeamPawnExistence(i)) { 
 					
 					//se não tiver outro peao nessa posição
 					if (CtrlGame.getController().checkPawnPositionVacancy("redTeam", i)) { 
@@ -217,13 +217,13 @@ public class Board extends JPanel {
     private void drawGreenPawns (Graphics2D g2d) {
     	
     	//se o time verde existir
-		if (CtrlGame.getController().getTeam("greenTeam") != null) {	
+		if (CtrlGame.getController().getGreenTeam() != null) {	
 			
 			//percorre o array de peoes do time
 			for (int i = 0; i < 4; i++) { 
 				
 				//se o peão existir
-				if (CtrlGame.getController().checkTeamPawn("greenTeam", i)) { 
+				if (CtrlGame.getController().checkGreenTeamPawnExistence(i)) { 
 					
 					//se não tiver outro peao nessa posição
 					if (CtrlGame.getController().checkPawnPositionVacancy("greenTeam", i)) { 
@@ -308,13 +308,13 @@ public class Board extends JPanel {
     private void drawYellowPawns(Graphics2D g2d) {
     	
     	//se o time amarelo existir
-		if (CtrlGame.getController().getTeam("yellowTeam") != null) {	
+		if (CtrlGame.getController().getYellowTeam() != null) {	
 			
 			//percorre o array de peoes do time
 			for (int i = 0; i < 4; i++) { 
 				
 				//se o peão existir
-				if (CtrlGame.getController().checkTeamPawn("yellowTeam", i)) { 
+				if (CtrlGame.getController().checkYellowTeamPawnExistence(i)) { 
 					
 					//se não tiver outro peao nessa posição
 					if (CtrlGame.getController().checkPawnPositionVacancy("yellowTeam", i)) { 
@@ -399,13 +399,13 @@ public class Board extends JPanel {
     private void drawBluePawns(Graphics2D g2d) {
     	
     	//se o time azul existir
-		if (CtrlGame.getController().getTeam("blueTeam") != null) {	
+		if (CtrlGame.getController().getBlueTeam() != null) {	
 			
 			//percorre o array de peoes do time
 			for (int i = 0; i < 4; i++) { 
 				
 				//se o peão existir
-				if (CtrlGame.getController().checkTeamPawn("blueTeam", i)) { 
+				if (CtrlGame.getController().checkBlueTeamPawnExistence(i)) { 
 					
 					//se não tiver outro peao nessa posição
 					if (CtrlGame.getController().checkPawnPositionVacancy("blueTeam", i)) { 
@@ -495,7 +495,7 @@ public class Board extends JPanel {
 	    	Ellipse2D circ = new Ellipse2D.Double();
 			circ.setFrameFromCenter(lastPawnX, lastPawnY, lastPawnX + radiusPawn, lastPawnY + radiusPawn);
 			
-			if (CtrlGame.getController().getLastPawnMovedTeam() == CtrlGame.getController().getTeam("redTeam")) {
+			if (CtrlGame.getController().getLastPawnMovedTeam() == CtrlGame.getController().getRedTeam()) {
 				g2d.setPaint(Color.RED);
 				g2d.fill(circ);
 				g2d.setPaint(Color.BLACK);
@@ -504,7 +504,7 @@ public class Board extends JPanel {
 				drawPawnIdString(lastPawnX, lastPawnY, CtrlGame.getController().getLastPawnMovedId(), g2d);
 			}
 			
-			else if (CtrlGame.getController().getLastPawnMovedTeam() == CtrlGame.getController().getTeam("greenTeam")) {
+			else if (CtrlGame.getController().getLastPawnMovedTeam() == CtrlGame.getController().getGreenTeam()) {
 				g2d.setPaint(Color.GREEN);
 				g2d.fill(circ);
 				g2d.setPaint(Color.BLACK);
@@ -513,7 +513,7 @@ public class Board extends JPanel {
 				drawPawnIdString(lastPawnX, lastPawnY, CtrlGame.getController().getLastPawnMovedId(), g2d);
 			}
 			
-			else if (CtrlGame.getController().getLastPawnMovedTeam() == CtrlGame.getController().getTeam("yellowTeam")) {
+			else if (CtrlGame.getController().getLastPawnMovedTeam() == CtrlGame.getController().getYellowTeam()) {
 				g2d.setPaint(Color.YELLOW);
 				g2d.fill(circ);
 				g2d.setPaint(Color.BLACK);
@@ -522,7 +522,7 @@ public class Board extends JPanel {
 				drawPawnIdString(lastPawnX, lastPawnY, CtrlGame.getController().getLastPawnMovedId(), g2d);
 			}
 			
-			else if (CtrlGame.getController().getLastPawnMovedTeam() == CtrlGame.getController().getTeam("blueTeam")) {
+			else if (CtrlGame.getController().getLastPawnMovedTeam() == CtrlGame.getController().getBlueTeam()) {
 				g2d.setPaint(Color.BLUE);
 				g2d.fill(circ);
 				g2d.setPaint(Color.BLACK);
@@ -649,6 +649,7 @@ public class Board extends JPanel {
 		g2d.drawPolygon(xPointsWhite, yPointsWhite, 3);
     }
     
+    
     private void drawGreenPolygons (Graphics2D g2d) {
     	
     	Ellipse2D circ;
@@ -719,6 +720,7 @@ public class Board extends JPanel {
 		g2d.setPaint(Color.BLACK);
 		g2d.drawPolygon(xPointsWhite, yPointsWhite, 3);
     }
+    
     
     private void drawYellowPolygons (Graphics2D g2d) {
     	
@@ -791,6 +793,8 @@ public class Board extends JPanel {
 		g2d.drawPolygon(xPointsWhite, yPointsWhite, 3);
     }
     
+    
+   
     private void drawBluePolygons (Graphics2D g2d) {
     	
     	Ellipse2D circ;
@@ -862,6 +866,7 @@ public class Board extends JPanel {
 		g2d.drawPolygon(xPointsWhite, yPointsWhite, 3);
     }
     
+    
     private void drawTeamOnTurnSquare (Graphics2D g2d) {
     	
     	CtrlGame game = CtrlGame.getController();
@@ -887,11 +892,12 @@ public class Board extends JPanel {
 		}
     }
     
+
     private void drawLastTeamOnTurnSquare (Graphics2D g2d) {
     	
     	CtrlGame game = CtrlGame.getController();
     	
-    	if (game.isFirstMove() == false & CtrlGame.getController().getDice("oldDice") != 0) {
+    	if (game.isFirstMove() == false & CtrlGame.getController().getOldDice() != 0) {
     	
     		//se for o time vermelho
     		if (game.getOldTeam() == game.getRedTeam()) {
@@ -920,8 +926,9 @@ public class Board extends JPanel {
     	}
     }
     
+ 
     private void drawDiceImg (Graphics g2d) {
-    	switch (CtrlGame.getController().getDice("currentDice")) {
+    	switch (CtrlGame.getController().getCurrentDice()) {
 		case -1:
 			break;
 		case 0:
@@ -948,8 +955,9 @@ public class Board extends JPanel {
 		}
     }
 
+
     private void drawLastDiceImg (Graphics g2d) {
-    	switch (CtrlGame.getController().getDice("oldDice")) {
+    	switch (CtrlGame.getController().getOldDice()) {
     	case 0:
     		break;
 		case 1:
@@ -973,6 +981,7 @@ public class Board extends JPanel {
 		}
     }
     
+
     private void drawPawnIdString (int centerX, int centerY, int i, Graphics g2d) {
     	switch (i) {
 		case 1:
@@ -990,7 +999,7 @@ public class Board extends JPanel {
 		}
     }
     
-    private void debugMode(Graphics2D g2d) {
+    private void drawGridPositions(Graphics2D g2d) {
     	if (Main.debugMode) {
 			
 			g2d.setPaint(Color.BLACK);

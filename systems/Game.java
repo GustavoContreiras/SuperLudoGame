@@ -269,16 +269,17 @@ class Game {
 					
 					//se nao tiver peao na casa de saida...
 					else {
-						
-						Game.oldTeam = Game.currentTeam;
-						
 						for (int i = 0; i < 4; i++) {
 							if (Game.currentTeam.pawn[i].positionInx == -1) {
-								Game.currentTeam.pawn[i].walk(1);
-								i = 4;
+								
+								//se puder andar
+								if (Game.currentTeam.pawn[i].canWalk(Game.currentDice)) {
+									Game.currentTeam.pawn[i].walk(1);
+									i = 4;
+								}
+								Game.prepareNextTurn();
 							}
 						}
-						Game.prepareNextTurn();
 					}
 							
 					break;
@@ -291,7 +292,7 @@ class Game {
 					if (Game.currentTeam.getPawnOnExitHouse() != null) {
 						
 						//se puder andar
-						if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
+						if (Game.currentTeam.getPawnOnExitHouse().canWalk(Game.currentDice)) {
 							Game.currentTeam.getPawnOnExitHouse().walk(Game.currentDice);
 						}
 						Game.prepareNextTurn();
@@ -303,12 +304,10 @@ class Game {
 							if (Game.currentTeam.pawn[i].positionInx == -1) {
 								
 								//se puder andar
-								if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
-									Game.currentTeam.pawn[i].walk(1);
-									
+								if (Game.currentTeam.pawn[i].canWalk(Game.currentDice)) {
+									Game.currentTeam.pawn[i].walk(1);		
 									i = 4;
 								}
-								
 								Game.prepareNextTurn();
 							}
 						}
@@ -347,7 +346,7 @@ class Game {
 				
 				Game.currentTeam.dicesSixRolled += 1;
 				
-				//se tiver tirado 6 3 vezes
+				//se tiver tirado 6 no dado 3 vezes seguidas
 				if (Game.currentTeam.dicesSixRolled == 3) {
 					if (savedLastPawnMoved != null) {
 						System.out.printf("\nSending to home pawn %d (%s Team).", savedLastPawnMoved.id, savedLastPawnMoved.team.name);
@@ -365,11 +364,18 @@ class Game {
 						//se tiver duas barreiras formadas
 						if (Game.currentTeam.countBarriers() == 2) {
 							
+							if (Game.currentTeam.getPawnClosestToFinish().canWalk(Game.currentDice)) {
+								Game.currentTeam.getPawnClosestToFinish().walk(Game.currentDice);
+							}
+							Game.setCurrentDice(0);
 						}
 						
 						//se tiver uma barreira formada
 						else if (Game.currentTeam.countBarriers() == 1) {
-							
+							if (Game.currentTeam.getPawnOnBarrier().canWalk(Game.currentDice)) {
+								Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
+							}
+							Game.setCurrentDice(0);
 						}
 						
 						//se nao tiver barreira formada
