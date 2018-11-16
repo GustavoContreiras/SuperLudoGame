@@ -7,10 +7,7 @@ class Team {
 	public String name = "";
 	
 	int dicesSixRolled = 0;
-	int pawnsOutsideHome = 0;
 	int pawnsFinished = 0;
-	
-	boolean hasPawnOnExitHouse = false;
 	
 	public Team (String team) {
 		
@@ -142,7 +139,7 @@ class Team {
 		}
 	}
 	
-	public int getNumberOfBarriers() {
+	public int countBarriers() {
 		
 		int k = 0;
 	
@@ -161,13 +158,41 @@ class Team {
 		return k/2;
 	}
 	
-	public boolean hasMovablePawn() {
-		for (int i = 0; i < 4; i++) {
-			if (!this.pawn[i].canWalk(Game.currentDice)) {
-				return false;
+	public int countMovablePawns() {
+		
+		int count = 0;
+		
+		//se nao tiver tirado 5
+		if (Game.currentDice != 5) {
+			
+			for (int i = 0; i < 4; i++) {
+				
+				//se nao tiver na casa inicial checa se pode andar o dado rolado
+				if (this.pawn[i].positionInx != -1 & this.pawn[i].canWalk(Game.currentDice)) {
+					count++;
+				}
 			}
 		}
-		return true;
+		
+		
+		//se tiver tirado 5
+		else {
+			
+			for (int i = 0; i < 4; i++) {
+				
+				//se tiver fora da casa inicial checa se pode andar 5
+				if (this.pawn[i].positionInx != -1 & this.pawn[i].canWalk(Game.currentDice)) {
+					count++;
+				}
+				
+				//se tiver na casa inicial checa se pode andar 1
+				else if (this.pawn[i].positionInx == -1 & this.pawn[i].canWalk(1)) {
+					count++;
+				}
+			}
+		}
+		
+		return count;
 	}
 	
 	public int countPawnsInHome() {
@@ -433,15 +458,15 @@ class Team {
 		return walkthrough;
 	}	
 
-	public Position[] getTeamPosition () {
+	public Position[] getWalkthrough () {
 		return walkthrough;
 	}
 	
-	public Pawn getTeamPawn(int i) {
+	public Pawn getPawnByInx(int i) {
 		return pawn[i];
 	}
 	
-	public String getTeamName() {
+	public String getName() {
 		return name;
 	}
 }

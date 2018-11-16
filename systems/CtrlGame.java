@@ -1,12 +1,12 @@
 package systems;
 
 public class CtrlGame {
+	
 	private static CtrlGame ctrl = null;
 	
 	private CtrlGame() {
 		
 	}
-	
 	
 	//GAME
 	public static CtrlGame getController() {
@@ -28,8 +28,8 @@ public class CtrlGame {
 		return Game.flag_firstMove;
 	}
 	
-	public void mouseClicked (int x, int y) {
-		Position.mouseClicked(x, y);
+	public void doMouseClick (int x, int y) {
+		Position.doMouseClick(x, y);
 	}
 	
 	public int rollDice() {
@@ -201,7 +201,11 @@ public class CtrlGame {
 		return this.getTeam(team).pawn[i].position.y;
 	}
 	
-	public void makeMove(Position posClicked, int rolledDice, Team currentTeam) {
-		Game.makeMove(posClicked, rolledDice, currentTeam);
+	public void makeMoveAfterClick(Position posClicked, int rolledDice, Team currentTeam) {
+		Game.makeMoveAfterClick(posClicked, rolledDice, currentTeam);
+	}
+	
+	public void makeMoveAfterRollDice() {
+		Game.makeMoveAfterRollDice();
 	}
 }

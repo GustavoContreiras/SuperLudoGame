@@ -18,7 +18,7 @@ class Game {
 	public static int currentDice = -1;
 	public static boolean flag_firstMove = true;
 	
-	public Game() {
+	public Game () {
 				
 		Main.but_rollDice.setEnabled(true);
 		Main.but_saveGame.setEnabled(true);
@@ -31,10 +31,11 @@ class Game {
 		
 		Game.resetPositions();
 		Game.setCurrentDice(0);
+		Game.setLastDice(0);
 		Game.setTeamOnTurn();
 	}
 	
-	public static void makeMove(Position posClicked, int rolledDice, Team currentTeam) {
+	public static void makeMoveAfterClick (Position posClicked, int rolledDice, Team currentTeam) {
 		
 		Pawn pawn1 = null;
 		Pawn pawn2 = null;
@@ -136,75 +137,18 @@ class Game {
 		}
 	}
 	
-	public static void prepareNextTurn () {
-	
-		Game.setCurrentDice(0);
-		Game.setTeamOnTurn();
-		Game.currentTeam.dicesSixRolled = 0;
-		
-		Main.lab_instructions.setText("");
-		Main.but_rollDice.setEnabled(true);
-	}
-	
-	public static int rollDice () {
-		
-		/* REGRA: De um modo geral, todas as jogadas que não precisarem de inter-
-		venção do jogador terão de ser feitas automaticamente pelo programa. */
-		
-		int numberCheated = 0;
-		
-		if (Board.debugMode) {
-			
-			String cheatRollDice = JOptionPane.showInputDialog("Choose how much you want to roll:");
-			
-			if (cheatRollDice == null) {
-				numberCheated = 0;
-			}
-			else {
-				
-				numberCheated = Integer.parseInt(cheatRollDice);
-				
-				if (numberCheated < 0 | numberCheated > 6) {
-					numberCheated = 0;
-				}
-			}
-			
-	        System.out.printf("\nNumber rolled by cheating: %d", numberCheated);
-		}
+	public static void makeMoveAfterRollDice () {
 		
 		Pawn savedLastPawnMoved = Game.lastPawnMoved;
 		Game.lastPawnMoved = null;
-		
-		Game.setLastDice(Game.currentDice);
-		Game.setOldTeam(Game.currentTeam);
-		
-		Game.flag_firstMove = false;
-		
-		Main.but_rollDice.setEnabled(false);
-		
-		int randomNumber = 0;
-		
-		if (numberCheated == 0) {
-			randomNumber = (int) (Math.random() * 6 + 1);
-		}
-		else {
-			randomNumber = numberCheated;
-		}
-		
-		switch (randomNumber) {
-			case 1:	Game.setCurrentDice(1); oldDice = 1; break;
-			case 2: Game.setCurrentDice(2); oldDice = 2; break;	
-			case 3: Game.setCurrentDice(3); oldDice = 3; break;
-			case 4: Game.setCurrentDice(4); oldDice = 4; break;
-			case 5: Game.setCurrentDice(5);	oldDice = 5; break;
-			case 6: Game.setCurrentDice(6);	oldDice = 6; break;
-		}
-		
-		if (Game.currentTeam.hasMovablePawn()) {
+			
+		//se tiver peao movivel
+		if (Game.currentTeam.countMovablePawns() > 0) {
 			
 			System.out.println("\nCurrent team has movable pawn.");
 		
-			if (randomNumber < 5) {
+			//se tirar menos que 5
+			if (Game.currentDice < 5) {
 				
 				switch(Game.currentTeam.countPawnsInHome()) {
 				case 0:
@@ -219,7 +163,7 @@ class Game {
 				case 2:
 					
 					//se tiver uma barreira formada
-					if (Game.currentTeam.getNumberOfBarriers() > 0) {
+					if (Game.currentTeam.countBarriers() > 0) {
 											
 						//se puder andar
 						if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
@@ -258,7 +202,8 @@ class Game {
 				}
 			}
 			
-			else if (randomNumber == 5) {
+			//se tirar 5
+			else if (Game.currentDice == 5) {
 				
 				/* REGRA: Um jogador terá de mover um peão de sua casa inicial para a
 				respectiva casa de saída quando, após lançar o dado, obtiver o valor 5.
@@ -284,7 +229,9 @@ class Game {
 						
 						for (int i = 0; i < 4; i++) {
 							if (Game.currentTeam.pawn[i].positionInx == -1) {
-								Game.currentTeam.pawn[i].walk(1);
+								if (Game.currentTeam.pawn[i].canWalk(1)) {
+									Game.currentTeam.pawn[i].walk(1);
+								}
 								Game.prepareNextTurn();
 								i = 4;
 							}
@@ -295,45 +242,45 @@ class Game {
 						
 				case 2:
 					
-					//se tiver uma barreira formada
-					if (Game.currentTeam.getNumberOfBarriers() > 0) {
+					//se tiver peao na casa de saida...
+					if (Game.currentTeam.getPawnOnExitHouse() != null) {
 						
-						Game.oldTeam = Game.currentTeam;
-						
-						if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
+						//se tiver uma barreira formada
+						if (Game.currentTeam.countBarriers() > 0) {
 							
-							//anda automaticamente com algum da barreira
-							Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
+							Game.oldTeam = Game.currentTeam;
+							
+							if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
+								
+								//anda automaticamente com algum da barreira
+								Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
+							}
+							
+							Game.prepareNextTurn();
 						}
 						
-						Game.prepareNextTurn();
-					}
-					
-					//se nao tiver barreira formada
-					else {
-						
-						//se tiver peao na casa de saida...
-						if (Game.currentTeam.getPawnOnExitHouse() != null) {
+						//se nao tiver barreira formada
+						else {
 							Game.setLastDice(0);
 							Main.lab_instructions.setText("Choose a pawn!");
 							Main.but_rollDice.setEnabled(false);
 						}
-						
-						//se nao tiver peao na casa de saida...
-						else {
-							
-							Game.oldTeam = Game.currentTeam;
-							
-							for (int i = 0; i < 4; i++) {
-								if (Game.currentTeam.pawn[i].positionInx == -1) {
-									Game.currentTeam.pawn[i].walk(1);
-									i = 4;
-								}
-							}
-							Game.prepareNextTurn();
-						}
 					}
 					
+					//se nao tiver peao na casa de saida...
+					else {
+						
+						Game.oldTeam = Game.currentTeam;
+						
+						for (int i = 0; i < 4; i++) {
+							if (Game.currentTeam.pawn[i].positionInx == -1) {
+								Game.currentTeam.pawn[i].walk(1);
+								i = 4;
+							}
+						}
+						Game.prepareNextTurn();
+					}
+							
 					break;
 					
 				case 3:
@@ -379,7 +326,8 @@ class Game {
 				}
 			}
 				
-			else if (randomNumber == 6) {
+			//se tirar 6
+			else if (Game.currentDice == 6) {
 				
 				/* REGRA: O jogador que tiver dois de seus peões formando uma barreira e
 				obtiver um 6 após lançar o dado estará obrigado a abrir essa barreira. A
@@ -413,24 +361,39 @@ class Game {
 				else {
 					switch(Game.currentTeam.countPawnsInHome()) {
 					case 0:
-					case 1:
-						Main.lab_instructions.setText("Choose a pawn!");
-						Main.but_rollDice.setEnabled(false);
-						break;
-					
-					case 2:
 						
-						//se tiver uma barreira formada
-						if (Game.currentTeam.getNumberOfBarriers() > 0) {
-	
-							if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
-								
-								//anda automaticamente com algum da barreira
-								Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
-							}
+						//se tiver duas barreiras formadas
+						if (Game.currentTeam.countBarriers() == 2) {
 							
 						}
 						
+						//se tiver uma barreira formada
+						else if (Game.currentTeam.countBarriers() == 1) {
+							
+						}
+						
+						//se nao tiver barreira formada
+						else {
+							Game.setLastDice(0);
+							Main.lab_instructions.setText("Choose a pawn!");
+							Main.but_rollDice.setEnabled(false);
+						}
+						
+						break;
+						
+					case 1:
+					case 2:
+						
+						//se tiver uma barreira formada
+						if (Game.currentTeam.countBarriers() == 1) {
+
+							if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
+								Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);	
+							}
+							Game.setCurrentDice(0);
+						}
+						
+						//se nao tiver barreira formada
 						else {
 							Game.setLastDice(0);
 							Main.lab_instructions.setText("Choose a pawn!");
@@ -471,11 +434,73 @@ class Game {
 			Game.setCurrentDice(0);
 			
 		}
+	}
+	
+	public static void prepareNextTurn () {
+	
+		Game.setCurrentDice(0);
+		Game.setTeamOnTurn();
+		Game.currentTeam.dicesSixRolled = 0;
+		
+		Main.lab_instructions.setText("");
+		Main.but_rollDice.setEnabled(true);
+	}
+	
+	public static int rollDice () {
+		
+		/* REGRA: De um modo geral, todas as jogadas que não precisarem de inter-
+		venção do jogador terão de ser feitas automaticamente pelo programa. */
+		
+		int numberCheated = 0;
+		
+		if (Main.debugMode) {
+			
+			String cheatRollDice = JOptionPane.showInputDialog("Choose how much you want to roll:");
+			
+			if (cheatRollDice == null) {
+				numberCheated = 0;
+			}
+			else {
+				
+				numberCheated = Integer.parseInt(cheatRollDice);
+				
+				if (numberCheated < 0 | numberCheated > 6) {
+					numberCheated = 0;
+				}
+			}
+			
+	        System.out.printf("\nNumber rolled by cheating: %d", numberCheated);
+		}
+		
+		Game.setLastDice(Game.currentDice);
+		Game.setOldTeam(Game.currentTeam);
+		
+		Game.flag_firstMove = false;
+		
+		Main.but_rollDice.setEnabled(false);
+		
+		int randomNumber = 0;
+		
+		if (numberCheated == 0) {
+			randomNumber = (int) (Math.random() * 6 + 1);
+		}
+		else {
+			randomNumber = numberCheated;
+		}
+		
+		switch (randomNumber) {
+			case 1:	Game.setCurrentDice(1); oldDice = 1; break;
+			case 2: Game.setCurrentDice(2); oldDice = 2; break;	
+			case 3: Game.setCurrentDice(3); oldDice = 3; break;
+			case 4: Game.setCurrentDice(4); oldDice = 4; break;
+			case 5: Game.setCurrentDice(5);	oldDice = 5; break;
+			case 6: Game.setCurrentDice(6);	oldDice = 6; break;
+		}
 		
 		return randomNumber;
 	}
 
-	public static void setTeamOnTurn() {
+	public static void setTeamOnTurn () {
 		
 		//se ninguem tiver jogado ainda
     	if (Game.currentTeam == null) {
@@ -522,11 +547,11 @@ class Game {
     		System.out.printf("\nTeam on turn: %s Team\n", Game.currentTeam.name);
     }
 
-    public static void setCurrentDice(int dice) {
+    public static void setCurrentDice (int dice) {
     	currentDice = dice;
     }
     
-    public static void setLastDice(int dice) {
+    public static void setLastDice (int dice) {
     	oldDice = dice;
     	Main.frame.repaint();
     }
@@ -535,7 +560,7 @@ class Game {
     	Game.oldTeam = team;
     }
     
-    private static void resetPositions() {
+    private static void resetPositions () {
     	if (Game.redTeam != null & Game.greenTeam != null & Game.yellowTeam != null & Game.blueTeam != null) {
 			for (int i = 0; i < 57; i++) {
 				Game.redTeam.walkthrough[i].pawn[0] = null;

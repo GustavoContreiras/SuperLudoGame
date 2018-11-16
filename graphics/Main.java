@@ -11,6 +11,9 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	//to remove warning
 	private static final long serialVersionUID = 4582338413465297014L;
 	
+	//SHOW GRID LETTERS AND NUMBERS, CHEAT ROLL DICE BUTTON
+	public final static boolean debugMode = false;
+	
 	//BUTTONS POSITION, DIMENSION AND FONT
 	public static int but_width = 150;
 	public static int but_height = 35;
@@ -19,7 +22,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static int but_loadGameY = 100;
 	public static int but_saveGameY = 160;
 	public static int but_rollDiceY = 370;
-	public static Font but_font = new Font("Sans Serif",Font.BOLD,14);
+	public static Font fnt_sansserif14 = new Font("Sans Serif",Font.BOLD,14);
 	
 	//LABELS POSITION, DIMENSION AND FONT
 	public static int lab_onTurnWidth = 200;
@@ -31,16 +34,6 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static int lab_lastMoveHeight = 35;
 	public static int lab_lastMoveX = 628;
 	public static int lab_lastMoveY = 340;
-	
-	/*public static int lab_oldTeamWidth = 200;
-	public static int lab_oldTeamHeight = 35;
-	public static int lab_oldTeamX = 646;
-	public static int lab_oldTeamY = 355;
-	
-	public static int lab_rolledDiceWidth = 200;
-	public static int lab_rolledDiceHeight = 35;
-	public static int lab_rolledDiceX = 644;
-	public static int lab_rolledDiceY = 370;*/
 	
 	public static int lab_instructionsWidth = 200;
 	public static int lab_instructionsHeight = 35;
@@ -93,7 +86,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	
 	private static void configureButtonNewGame() {
 		but_newGame.setBounds(but_menuX, but_newGameY, but_width, but_height);
-		but_newGame.setFont(but_font);
+		but_newGame.setFont(fnt_sansserif14);
 		but_newGame.setEnabled(true);
 		but_newGame.setMnemonic(KeyEvent.VK_N); //ALT+N
 		but_newGame.addActionListener(new ActionListener() {
@@ -106,7 +99,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	
 	private static void configureButtonLoadGame() {
 		but_loadGame.setBounds(but_menuX, but_loadGameY, but_width,but_height);
-		but_loadGame.setFont(but_font);
+		but_loadGame.setFont(fnt_sansserif14);
 		but_loadGame.setEnabled(true);
 		but_loadGame.setMnemonic(KeyEvent.VK_L); //ALT+L
 		but_loadGame.addActionListener(new ActionListener() {
@@ -123,7 +116,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	
 	private static void configureButtonSaveGame() {
 		but_saveGame.setBounds(but_menuX, but_saveGameY,but_width,but_height);
-		but_saveGame.setFont(but_font);
+		but_saveGame.setFont(fnt_sansserif14);
 		but_saveGame.setEnabled(false);
 		but_saveGame.setMnemonic(KeyEvent.VK_S); //ALT+S
 		but_saveGame.addActionListener(new ActionListener() {
@@ -140,12 +133,13 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	
 	private static void configureButtonRollDice() {
 		but_rollDice.setBounds(but_menuX, but_rollDiceY,but_width,but_height);
-		but_rollDice.setFont(but_font);
+		but_rollDice.setFont(fnt_sansserif14);
 		but_rollDice.setEnabled(false);
 		but_rollDice.setMnemonic(KeyEvent.VK_R); //ALT+R
 		but_rollDice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CtrlGame.getController().rollDice();
+				CtrlGame.getController().makeMoveAfterRollDice();
 				Main.frame.repaint();
 			}
 		});	
@@ -169,7 +163,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	private static void configureFrameAndMouseListener() {
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(frame_width, frame_heigth));
-		if (Board.debugMode) frame.setPreferredSize(new Dimension(frame_width, frame_heigth+20));
+		if (Main.debugMode) frame.setPreferredSize(new Dimension(frame_width, frame_heigth+20));
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -184,7 +178,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					
 					//se for o botao esquerdo
 					if (e.getButton() == MouseEvent.BUTTON1) {
-						CtrlGame.getController().mouseClicked(e.getX(), e.getY());
+						CtrlGame.getController().doMouseClick(e.getX(), e.getY());
 						Main.frame.repaint();	
 					}
 				}	
@@ -201,7 +195,6 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 				// TODO Auto-generated method stub
 				
 			}
-
 			
 			@Override
 			public void mousePressed(MouseEvent arg0) {

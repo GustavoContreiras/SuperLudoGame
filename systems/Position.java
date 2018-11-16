@@ -1129,7 +1129,7 @@ class Position{
 		}
 	}
 	
-	public static void mouseClicked (int x, int y) {
+	public static void doMouseClick (int x, int y) {
 		
 		Position posClicked = Position.getMousePosition(x, y);
 		
@@ -1147,7 +1147,7 @@ class Position{
 		//se tiver peao [0] na posicao clicada e tiver rolado o dado
 		if (posClicked.pawn[0] != null & Game.currentDice != 0) {	
 			if (posClicked.pawn[0].team == Game.currentTeam) {
-                Game.makeMove(posClicked, Game.currentDice, Game.currentTeam);
+                Game.makeMoveAfterClick(posClicked, Game.currentDice, Game.currentTeam);
 			}
 		}
 		
@@ -1155,7 +1155,7 @@ class Position{
 		if (posClicked.pawn[1] != null & Game.currentDice != 0) {
 			
 			if (posClicked.pawn[1].team == Game.currentTeam) {
-                Game.makeMove(posClicked, Game.currentDice, Game.currentTeam);
+                Game.makeMoveAfterClick(posClicked, Game.currentDice, Game.currentTeam);
 			}
 		}
 		
