@@ -1,7 +1,5 @@
 package systems;
 
-import graphics.Main;
-
 class Position{
 		
 	static Position A1 = new Position(20, 20);
@@ -1146,23 +1144,30 @@ class Position{
 		
 		//se tiver peao [0] na posicao clicada e tiver rolado o dado
 		if (posClicked.pawn[0] != null & Game.currentDice != 0) {	
+			
 			if (posClicked.pawn[0].team == Game.currentTeam) {
                 Game.makeMoveAfterClick(posClicked, Game.currentDice, Game.currentTeam);
-                Main.lab_instructions.setText("");
+			}
+			
+			else {
+				System.out.printf("Pawn clicked is not from current team.\n");
 			}
 		}
 		
 		//se tiver peao [1] na posicao clicada e tiver rolado o dado
-		if (posClicked.pawn[1] != null & Game.currentDice != 0) {
+		else if (posClicked.pawn[1] != null & Game.currentDice != 0) {
 			
 			if (posClicked.pawn[1].team == Game.currentTeam) {
                 Game.makeMoveAfterClick(posClicked, Game.currentDice, Game.currentTeam);
-                Main.lab_instructions.setText("");
+			}
+			
+			else {
+				System.out.printf("Pawn clicked is not from current team.\n");
 			}
 		}
 		
 		else {
-			System.out.printf("Need to roll dice or position do not have pawn or pawn is not from current team.\n");
+			System.out.printf("Need to roll dice or position do not have pawn.\n");
 		}
 	}
 }

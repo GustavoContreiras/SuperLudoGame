@@ -64,7 +64,7 @@ class Game {
 		if (pawnClicked.positionInx == -1) {
 			System.out.println("Pawn is on home.");
 			
-			//se nao tiver peao na casa de saida ou o peao for de outro time
+			//se nao tiver peao na casa de saida
 			if (Game.currentTeam.getPawnOnExitHouse() == null) {
 			
 				//ROLLED DICE EH 5
@@ -122,18 +122,35 @@ class Game {
 		
 		//PAWN CLICKED FORA DA CASA INICIAL
 		else {
-			System.out.println("Pawn is out from home.");
-			Game.setLastDice(Game.currentDice);
-			pawnClicked.walk(rolledDice);
 			
-			if (rolledDice != 6) {
-				Game.prepareNextTurn();
+			System.out.println("Pawn clicked is out from home.");
+			
+			//se puder andar
+			if (pawnClicked.canWalk(rolledDice)) {
+				
+				System.out.println("Pawn clicked can walk.");
+				
+				Game.setLastDice(Game.currentDice);
+				pawnClicked.walk(rolledDice);
+				
+				if (rolledDice != 6) {
+					Game.prepareNextTurn();
+				}
+				
+				else {
+					Game.setCurrentDice(0);
+					Main.but_rollDice.setEnabled(true);
+				}
 			}
 			
+			//se nao puder andar
 			else {
-				Game.setCurrentDice(0);
-				Main.but_rollDice.setEnabled(true);
+				
+				System.out.println("Pawn clicked can not walk.");
+				
+				Main.lab_instructions.setText("Choose another!");
 			}
+				
 		}
 	}
 	
