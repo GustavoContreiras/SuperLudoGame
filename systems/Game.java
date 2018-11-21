@@ -23,6 +23,8 @@ class Game {
 		Main.but_rollDice.setEnabled(true);
 		Main.but_saveGame.setEnabled(true);
 		
+		Main.lab_lastMove.setText("Last move:");
+		
 		Game.currentTeam = null;
 		Game.redTeam = new Team("Red");
 		Game.greenTeam = new Team("Green");
@@ -74,21 +76,14 @@ class Game {
 					Game.prepareNextTurn();
 				}
 				
-				//ROLLED DICE EH 6
-				else if (Game.currentDice == 6) {
-					Game.currentTeam.dicesSixRolled += 1;
-					Main.but_rollDice.setEnabled(true);
-					Game.setLastDice(Game.currentDice);
-					pawnClicked.walk(1);
-				}
-				
-				//ROLLED DICE EH MENOR QUE 5
 				else {
 					System.out.println("Choose another pawn.");
 					Main.lab_instructions.setText("Choose another.");
 					Main.frame.repaint();
 				}
 			}
+			
+			//se tiver peao na casa de saida diferente do time corrente
 			else if (Game.currentTeam.getPawnOnExitHouse().team != Game.currentTeam) {
 				
 				//ROLLED DICE EH 5
@@ -98,15 +93,7 @@ class Game {
 					Game.prepareNextTurn();
 				}
 				
-				//ROLLED DICE EH 6
-				else if (Game.currentDice == 6) {
-					Game.currentTeam.dicesSixRolled += 1;
-					Main.but_rollDice.setEnabled(true);
-					Game.setLastDice(Game.currentDice);
-					pawnClicked.walk(1);
-				}
-				
-				//ROLLED DICE EH MENOR QUE 5
+				//ROLLED DICE EH MENOR QUE 5 OU 6
 				else {
 					System.out.println("Choose another pawn.");
 					Main.lab_instructions.setText("Choose another.");
@@ -365,12 +352,15 @@ class Game {
 				
 				//se tiver tirado 6 no dado 3 vezes seguidas
 				if (Game.currentTeam.dicesSixRolled == 3) {
+					
 					if (savedLastPawnMoved != null) {
 						System.out.printf("\nSending to home pawn %d (%s Team).", savedLastPawnMoved.id, savedLastPawnMoved.team.name);
 						savedLastPawnMoved.position = savedLastPawnMoved.homePosition;
 						savedLastPawnMoved.positionInx = -1;
 						savedLastPawnMoved.homePosition.pawn[0] = savedLastPawnMoved;
+						Game.lastPawnMoved = savedLastPawnMoved;
 					}
+					
 					Game.prepareNextTurn();
 				}	
 				
@@ -450,12 +440,20 @@ class Game {
 			if (Game.currentDice != 6) {
 				Game.prepareNextTurn();
 			}
+			
 			else {
+				
+				Game.currentTeam.dicesSixRolled++;
+				
+				if (Game.currentTeam.dicesSixRolled == 3) {
+					Game.prepareNextTurn();
+				}
+				
 				Main.but_rollDice.setEnabled(true);
 			}
 			
 			Game.setCurrentDice(0);
-			
+
 		}
 	}
 	
@@ -498,7 +496,9 @@ class Game {
 		Game.setLastDice(Game.currentDice);
 		Game.setOldTeam(Game.currentTeam);
 		
-		Game.flag_firstMove = false;
+		if (Game.flag_firstMove == true) {
+			Game.flag_firstMove = false;
+		}
 		
 		Main.but_rollDice.setEnabled(false);
 		

@@ -53,28 +53,31 @@ class Pawn {
 		int newPosInx = this.positionInx + rolledDice;
 		int nextPosInx = this.positionInx + 1;
 		
-		//checa se tem barreira na proxima posicao
-		for (int i = 0; i < rolledDice; i++) {
-			
-			if (this.walkthrough[nextPosInx].pawn[0] != null & this.walkthrough[nextPosInx].pawn[1] != null) {
-				if (this.walkthrough[nextPosInx].pawn[0].team == this.walkthrough[nextPosInx].pawn[1].team) {
-					return false;
-				}
-			}
-			nextPosInx++;
-		}
-		
-		//checa se onde vai parar já tem 2 peões
-		if (this.walkthrough[newPosInx].pawn[0] != null & this.walkthrough[newPosInx].pawn[1] != null) {
-			return false;
-		}
-		
 		//checa se ultrapassa a casa final
 		if (newPosInx > 56) {
 			return false;
 		}
 		
-		return true;
+		else {
+			
+			//checa se tem barreira na proxima posicao
+			for (int i = 0; i < rolledDice; i++) {
+				
+				if (this.walkthrough[nextPosInx].pawn[0] != null & this.walkthrough[nextPosInx].pawn[1] != null) {
+					if (this.walkthrough[nextPosInx].pawn[0].team == this.walkthrough[nextPosInx].pawn[1].team) {
+						return false;
+					}
+				}
+				nextPosInx++;
+			}
+			
+			//checa se onde vai parar já tem 2 peões
+			if (this.walkthrough[newPosInx].pawn[0] != null & this.walkthrough[newPosInx].pawn[1] != null) {
+				return false;
+			}
+			
+			return true;
+		}
 	}
 	
 	private Position addPosition(int inxToAdd) {

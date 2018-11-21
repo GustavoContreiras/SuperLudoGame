@@ -1143,31 +1143,44 @@ class Position{
 		}
 		
 		//se tiver peao [0] na posicao clicada e tiver rolado o dado
-		if (posClicked.pawn[0] != null & Game.currentDice != 0) {	
+		if (posClicked.pawn[0] != null) {	
 			
 			if (posClicked.pawn[0].team == Game.currentTeam) {
-                Game.makeMoveAfterClick(posClicked, Game.currentDice, Game.currentTeam);
+				if (Game.currentDice != 0) {
+	                Game.makeMoveAfterClick(posClicked, Game.currentDice, Game.currentTeam);
+				}
+				
+				else {
+					System.out.printf("Need to roll dice.\n");
+				}
 			}
 			
 			else {
-				System.out.printf("Pawn clicked is not from current team.\n");
+				System.out.printf("Pawn is not from current team.\n");
 			}
 		}
 		
 		//se tiver peao [1] na posicao clicada e tiver rolado o dado
-		else if (posClicked.pawn[1] != null & Game.currentDice != 0) {
+		else if (posClicked.pawn[1] != null) {
 			
 			if (posClicked.pawn[1].team == Game.currentTeam) {
-                Game.makeMoveAfterClick(posClicked, Game.currentDice, Game.currentTeam);
+				if (Game.currentDice != 0) {
+	                Game.makeMoveAfterClick(posClicked, Game.currentDice, Game.currentTeam);
+				}
+				
+				else {
+					System.out.printf("Need to roll dice.\n");
+				}
 			}
 			
 			else {
-				System.out.printf("Pawn clicked is not from current team.\n");
+				System.out.printf("Pawn is not from current team.\n");
 			}
+			
 		}
 		
 		else {
-			System.out.printf("Need to roll dice or position do not have pawn.\n");
+			System.out.printf("Position do not have pawn.\n");
 		}
 	}
 }
