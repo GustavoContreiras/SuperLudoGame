@@ -143,23 +143,23 @@ public class Board extends JPanel {
 						
 						switch (i) {
 						case 0:
-							centerX = 272;
-							centerY = 347;
+							centerX = 252;
+							centerY = 272;
 							break;
 							
 						case 1:
-							centerX = 300;
-							centerY = 347;
+							centerX = 252;
+							centerY = 300;
 							break;
 							
 						case 2:
-							centerX = 328;
-							centerY = 347;
+							centerX = 252;
+							centerY = 328;
 							break;
 							
 						case 3:
-							centerX = 300;
-							centerY = 324;
+							centerX = 275;
+							centerY = 300;
 							break;
 						}
 						
@@ -408,23 +408,23 @@ public class Board extends JPanel {
 						
 						switch (i) {
 						case 0:
-							centerX = 272;
-							centerY = 347;
+							centerX = 348;
+							centerY = 272;
 							break;
 							
 						case 1:
-							centerX = 300;
-							centerY = 347;
+							centerX = 348;
+							centerY = 300;
 							break;
 							
 						case 2:
-							centerX = 328;
-							centerY = 347;
+							centerX = 348;
+							centerY = 328;
 							break;
 							
 						case 3:
-							centerX = 300;
-							centerY = 324;
+							centerX = 325;
+							centerY = 300;
 							break;
 						}
 						
