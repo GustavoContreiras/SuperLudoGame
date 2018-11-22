@@ -83,6 +83,22 @@ public class CtrlGame {
 		return team.name;
 	}
 	
+	public Position getRedTeamEndPosition() {
+		return Game.redTeam.walkthrough[56];
+	}
+	
+	public Position getGreenTeamEndPosition() {
+		return Game.greenTeam.walkthrough[56];
+	}
+	
+	public Position getYellowTeamEndPosition() {
+		return Game.yellowTeam.walkthrough[56];
+	}
+	
+	public Position getBlueTeamEndPosition() {
+		return Game.blueTeam.walkthrough[56];
+	}
+	
 	//DICE	
 	public int getCurrentDice () {
 		return Game.currentDice;
@@ -92,7 +108,23 @@ public class CtrlGame {
 		return Game.oldDice;
 	}
 	
-	//PAWN	
+	//PAWN
+	public Position getRedPawnPosition(int pawnInx) {
+		return Game.redTeam.pawn[pawnInx].position;
+	}
+	
+	public Position getGreenPawnPosition(int pawnInx) {
+		return Game.greenTeam.pawn[pawnInx].position;
+	}
+	
+	public Position getYellowPawnPosition(int pawnInx) {
+		return Game.yellowTeam.pawn[pawnInx].position;
+	}
+	
+	public Position getBluePawnPosition(int pawnInx) {
+		return Game.blueTeam.pawn[pawnInx].position;
+	}
+	
 	public Pawn getLastPawnMoved () {
 		return Game.lastPawnMoved;
 	}

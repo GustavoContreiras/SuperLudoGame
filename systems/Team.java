@@ -199,7 +199,11 @@ class Team {
 					
 					//se os peões do time tiverem a mesma posição...
 					if (Game.currentTeam.pawn[i].position == Game.currentTeam.pawn[j].position)  {
-						k++;
+						
+						//se essa posicao nao for a posicao final
+						if (Game.currentTeam.pawn[i].position != Game.currentTeam.walkthrough[56]) {
+							k++;
+						}
 					}
 				}
 			}
@@ -207,6 +211,7 @@ class Team {
 		
 		return k/2;
 	}
+	
 	
 	public int countMovablePawns() {
 		
@@ -259,6 +264,7 @@ class Team {
 		System.out.printf("Has %d pawns in home.\n", j);
 		return j;
 	}
+	
 	
 	private Position[] createRedWalkthrough() {
 		walkthrough[0] = Position.B7;
@@ -322,6 +328,7 @@ class Team {
 		return walkthrough;
 	}
 
+	
 	private Position[] createGreenWalkthrough() {
 		walkthrough[0] = Position.I2;
 		walkthrough[1] = Position.I3;
@@ -383,6 +390,7 @@ class Team {
 		
 		return walkthrough;
 	}
+	
 	
 	private Position[] createYellowWalkthrough() {
 		walkthrough[0] = Position.N9;
@@ -446,6 +454,7 @@ class Team {
 		return walkthrough;
 	}
 	
+	
 	private Position[] createBlueWalkthrough() {
 		walkthrough[0] = Position.G14;
 		walkthrough[1] = Position.G13;
@@ -508,14 +517,14 @@ class Team {
 		return walkthrough;
 	}	
 
+	
 	public Position[] getWalkthrough () {
 		return walkthrough;
-	}
-	
+	}	
 	public Pawn getPawnByInx(int i) {
 		return pawn[i];
 	}
-	
+
 	public String getName() {
 		return name;
 	}

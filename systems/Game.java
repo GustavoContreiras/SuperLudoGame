@@ -128,6 +128,8 @@ class Game {
 					Game.setCurrentDice(0);
 					Main.but_rollDice.setEnabled(true);
 				}
+				
+				Main.lab_instructions.setText("");
 			}
 			
 			//se nao puder andar
@@ -217,6 +219,13 @@ class Game {
 						
 				switch(Game.currentTeam.countPawnsInHome()) {
 				case 0:
+					
+					Game.setLastDice(0);
+					Main.lab_instructions.setText("Choose a pawn!");
+					Main.but_rollDice.setEnabled(false);
+					
+					break;
+					
 				case 1:
 					
 					//se tiver peao na casa de saida...
@@ -355,6 +364,7 @@ class Game {
 					
 					if (savedLastPawnMoved != null) {
 						System.out.printf("\nSending to home pawn %d (%s Team).", savedLastPawnMoved.id, savedLastPawnMoved.team.name);
+						savedLastPawnMoved.position.pawn[0] = null;
 						savedLastPawnMoved.position = savedLastPawnMoved.homePosition;
 						savedLastPawnMoved.positionInx = -1;
 						savedLastPawnMoved.homePosition.pawn[0] = savedLastPawnMoved;
@@ -486,7 +496,7 @@ class Game {
 				numberCheated = Integer.parseInt(cheatRollDice);
 				
 				if (numberCheated < 0 | numberCheated > 6) {
-					numberCheated = 0;
+					numberCheated = 0;	
 				}
 			}
 			

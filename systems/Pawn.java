@@ -38,6 +38,7 @@ class Pawn {
 		else {
 			System.out.println("Pawn has finished his walkthrough");
 		}
+		
 		Main.frame.repaint();
 		
 		if (this.position.pawn[0] != null) {
@@ -45,6 +46,12 @@ class Pawn {
 		}
 		if (this.position.pawn[1] != null) {
 			System.out.printf("newPos.Pawn[1].id: %d (%s Team)\n", this.position.pawn[1].id, this.position.pawn[1].team.name);
+		}
+		if (this.position.pawn[2] != null) {
+			System.out.printf("newPos.Pawn[2].id: %d (%s Team)\n", this.position.pawn[2].id, this.position.pawn[2].team.name);
+		}
+		if (this.position.pawn[3] != null) {
+			System.out.printf("newPos.Pawn[3].id: %d (%s Team)\n", this.position.pawn[3].id, this.position.pawn[3].team.name);
 		}
 	}
 	
@@ -58,13 +65,21 @@ class Pawn {
 			return false;
 		}
 		
+		else if (newPosInx == 56) {
+			return true;
+		}
+		
 		else {
 			
-			//checa se tem barreira na proxima posicao
+			//checa se tem barreira no caminho que percorrera
 			for (int i = 0; i < rolledDice; i++) {
 				
+				//checa se tem 2 peoes nessa posicao
 				if (this.walkthrough[nextPosInx].pawn[0] != null & this.walkthrough[nextPosInx].pawn[1] != null) {
+					
+					//checa se sao do mesmo time (checa se eh barreira)
 					if (this.walkthrough[nextPosInx].pawn[0].team == this.walkthrough[nextPosInx].pawn[1].team) {
+						
 						return false;
 					}
 				}
@@ -73,6 +88,7 @@ class Pawn {
 			
 			//checa se onde vai parar já tem 2 peões
 			if (this.walkthrough[newPosInx].pawn[0] != null & this.walkthrough[newPosInx].pawn[1] != null) {
+				
 				return false;
 			}
 			
@@ -84,18 +100,32 @@ class Pawn {
 		
 		int inxNewPos = this.positionInx + inxToAdd;
 		
-		//se a posicao de destino tiver uma barreira
-		if (walkthrough[inxNewPos].pawn[0] != null & walkthrough[inxNewPos].pawn[1] != null) {
-			System.out.printf("New position has a barrier.\n", position.letter, position.number);
-			return position;
+		//se nao for a casa final
+		if (inxNewPos != 56) {
+			
+			//se a posicao de destino tiver uma barreira
+			if (walkthrough[inxNewPos].pawn[0] != null & walkthrough[inxNewPos].pawn[1] != null) {
+				System.out.printf("New position has a barrier.\n", position.letter, position.number);
+				return position;
+			}
+			
+			//se a posição de destino não tiver uma barreira
+			else {
+				positionInx += inxToAdd;
+				position = walkthrough[positionInx];
+				
+				System.out.printf("newPos: %s%s\n", position.letter, position.number);
+							
+				return position;
+			}
 		}
 		
-		//se a posição de destino não tiver uma barreira
+		//se for a casa final
 		else {
 			positionInx += inxToAdd;
 			position = walkthrough[positionInx];
 			
-			System.out.printf("newPos: %s%s\n", position.letter, position.number);
+			System.out.printf("newPos: %s%s (finished)\n", position.letter, position.number);
 						
 			return position;
 		}
@@ -132,171 +162,196 @@ class Pawn {
 		
 		Position newPos = pawn.position;
 		
-		if (newPos.pawn[0] == null) {
-			System.out.println("New position do not have pawns.");
-			newPos.pawn[0] = pawn;
-		}
+		if (newPos != Game.currentTeam.walkthrough[56]) {
+			System.out.println("New position is not end position.");
 		
-		else if (newPos.pawn[0] != null) {
-			System.out.println("New position already have a pawn.");
-			
-			if (newPos.pawn[0].team == pawn.team) {
-				System.out.println("Pawn is of the same team.");
-				
-				newPos.pawn[1] = pawn.position.pawn[0];
+			if (newPos.pawn[0] == null) {
+				System.out.println("New position do not have pawns.");
 				newPos.pawn[0] = pawn;
 			}
 			
-			else {
-				System.out.println("Pawn is not from current team.");
+			else if (newPos.pawn[0] != null) {
+				System.out.println("New position already have a pawn.");
 				
-				//se for casa de saída...
-				if (newPos == Position.B7 | newPos == Position.I2 |
-					newPos == Position.N9 | newPos == Position.G14) {
+				if (newPos.pawn[0].team == pawn.team) {
+					System.out.println("Pawn is of the same team.");
 					
-					System.out.println("New position is exit house.");
+					newPos.pawn[1] = pawn.position.pawn[0];
+					newPos.pawn[0] = pawn;
+				}
 				
-					//se a nova posicao for a casa de saida vermelha
-					if (newPos == Position.B7) {
+				else {
+					System.out.println("Pawn is not from current team.");
+					
+					//se for casa de saída...
+					if (newPos == Position.B7 | newPos == Position.I2 |
+						newPos == Position.N9 | newPos == Position.G14) {
 						
-						//se tiver um peao vermelho na casa de saida vermelha
-						if (newPos.pawn[0].team == Game.redTeam) {
-							newPos.pawn[1] = pawn;
-						}
-						
-						//se nao tiver peao vermelho na casa de saida vermelha
-						else {
+						System.out.println("New position is exit house.");
+					
+						//se a nova posicao for a casa de saida vermelha
+						if (newPos == Position.B7) {
 							
-							//se o peao movido for do time vermelho (os dois dividem)
-							if (pawn.team == Game.redTeam) {
+							//se tiver um peao vermelho na casa de saida vermelha
+							if (newPos.pawn[0].team == Game.redTeam) {
 								newPos.pawn[1] = pawn;
 							}
 							
-							//se o peao movido nao for do time vermelho (ocorre captura)
+							//se nao tiver peao vermelho na casa de saida vermelha
 							else {
-								newPos.pawn[0].position = newPos.pawn[0].homePosition;
-								newPos.pawn[0].homePosition.pawn[0] = newPos.pawn[0];
-								newPos.pawn[0].positionInx = -1;
 								
-								newPos.pawn[0] = pawn;
+								//se o peao movido for do time vermelho (os dois dividem)
+								if (pawn.team == Game.redTeam) {
+									newPos.pawn[1] = pawn;
+								}
+								
+								//se o peao movido nao for do time vermelho (ocorre captura)
+								else {
+									newPos.pawn[0].position = newPos.pawn[0].homePosition;
+									newPos.pawn[0].homePosition.pawn[0] = newPos.pawn[0];
+									newPos.pawn[0].positionInx = -1;
+									
+									newPos.pawn[0] = pawn;
+								}
 							}
 						}
-					}
-					
-					//se a nova posicao for a casa de saida verde
-					else if (newPos == Position.I2) {
 						
-						//se tiver um peao verde na casa de saida verde
-						if (newPos.pawn[0].team == Game.greenTeam) {
-							newPos.pawn[1] = pawn;
-						}
-						
-						//se nao tiver peao verde na casa de saida verde
-						else {
+						//se a nova posicao for a casa de saida verde
+						else if (newPos == Position.I2) {
 							
-							//se o peao movido for do time verde (os dois dividem)
-							if (pawn.team == Game.greenTeam) {
+							//se tiver um peao verde na casa de saida verde
+							if (newPos.pawn[0].team == Game.greenTeam) {
 								newPos.pawn[1] = pawn;
 							}
 							
-							//se o peao movido nao for do time verde (ocorre captura)
+							//se nao tiver peao verde na casa de saida verde
 							else {
-								newPos.pawn[0].position = newPos.pawn[0].homePosition;
-								newPos.pawn[0].homePosition.pawn[0] = newPos.pawn[0];
-								newPos.pawn[0].positionInx = -1;
 								
-								newPos.pawn[0] = pawn;
+								//se o peao movido for do time verde (os dois dividem)
+								if (pawn.team == Game.greenTeam) {
+									newPos.pawn[1] = pawn;
+								}
+								
+								//se o peao movido nao for do time verde (ocorre captura)
+								else {
+									newPos.pawn[0].position = newPos.pawn[0].homePosition;
+									newPos.pawn[0].homePosition.pawn[0] = newPos.pawn[0];
+									newPos.pawn[0].positionInx = -1;
+									
+									newPos.pawn[0] = pawn;
+								}
 							}
 						}
-					}
-					
-					else if (newPos == Position.N9) {
-						if (newPos.pawn[0].team == Game.yellowTeam) {
-							newPos.pawn[1] = pawn;
-						}
 						
-						//se nao tiver peao amarelo na casa de saida amarela
-						else {
-							
-							//se o peao movido for do time amarela (os dois dividem)
-							if (pawn.team == Game.yellowTeam) {
+						else if (newPos == Position.N9) {
+							if (newPos.pawn[0].team == Game.yellowTeam) {
 								newPos.pawn[1] = pawn;
 							}
 							
-							//se o peao movido nao for do time amarela (ocorre captura)
+							//se nao tiver peao amarelo na casa de saida amarela
 							else {
-								newPos.pawn[0].position = newPos.pawn[0].homePosition;
-								newPos.pawn[0].homePosition.pawn[0] = newPos.pawn[0];
-								newPos.pawn[0].positionInx = -1;
 								
-								newPos.pawn[0] = pawn;
+								//se o peao movido for do time amarela (os dois dividem)
+								if (pawn.team == Game.yellowTeam) {
+									newPos.pawn[1] = pawn;
+								}
+								
+								//se o peao movido nao for do time amarela (ocorre captura)
+								else {
+									newPos.pawn[0].position = newPos.pawn[0].homePosition;
+									newPos.pawn[0].homePosition.pawn[0] = newPos.pawn[0];
+									newPos.pawn[0].positionInx = -1;
+									
+									newPos.pawn[0] = pawn;
+								}
 							}
 						}
-					}
-					
-					else if (newPos == Position.G14) {
-						if (newPos.pawn[0].team == Game.blueTeam) {
-							newPos.pawn[1] = pawn;
-						}
 						
-						//se nao tiver peao azul na casa de saida azul
-						else {
-							
-							//se o peao movido for do time azul (os dois dividem)
-							if (pawn.team == Game.blueTeam) {
+						else if (newPos == Position.G14) {
+							if (newPos.pawn[0].team == Game.blueTeam) {
 								newPos.pawn[1] = pawn;
 							}
 							
-							//se o peao movido nao for do time azul (ocorre captura)
+							//se nao tiver peao azul na casa de saida azul
 							else {
-								newPos.pawn[0].position = newPos.pawn[0].homePosition;
-								newPos.pawn[0].homePosition.pawn[0] = newPos.pawn[0];
-								newPos.pawn[0].positionInx = -1;
 								
-								newPos.pawn[0] = pawn;
+								//se o peao movido for do time azul (os dois dividem)
+								if (pawn.team == Game.blueTeam) {
+									newPos.pawn[1] = pawn;
+								}
+								
+								//se o peao movido nao for do time azul (ocorre captura)
+								else {
+									newPos.pawn[0].position = newPos.pawn[0].homePosition;
+									newPos.pawn[0].homePosition.pawn[0] = newPos.pawn[0];
+									newPos.pawn[0].positionInx = -1;
+									
+									newPos.pawn[0] = pawn;
+								}
 							}
 						}
+						
+						else if (pawn.positionInx == -1) {
+							newPos.pawn[1] = pawn;
+						}
+						
+						//se o peao na casa de saida nao for da cor da casa de saida (eh capturado)
+						else {
+							newPos.pawn[0].position = newPos.pawn[0].homePosition;
+							newPos.pawn[0].homePosition.pawn[0] = newPos.pawn[0];
+							newPos.pawn[0].positionInx = -1;
+							
+							newPos.pawn[0] = pawn;
+						}
+						
 					}
 					
-					else if (pawn.positionInx == -1) {
+					//se for abrigo
+					else if (newPos == Position.B9 | newPos == Position.G2 |
+							 newPos == Position.N7 | newPos == Position.I14) {
+						
+						System.out.println("New position is safe place.");
+						
 						newPos.pawn[1] = pawn;
 					}
 					
-					//se o peao na casa de saida nao for da cor da casa de saida (eh capturado)
+					//se for nao for casa de saida nem abrigo...
 					else {
+						System.out.println("New position is not exit house or safe place.");
+						
 						newPos.pawn[0].position = newPos.pawn[0].homePosition;
 						newPos.pawn[0].homePosition.pawn[0] = newPos.pawn[0];
 						newPos.pawn[0].positionInx = -1;
 						
 						newPos.pawn[0] = pawn;
 					}
-					
 				}
-				
-				//se for abrigo
-				else if (newPos == Position.B9 | newPos == Position.G2 |
-						 newPos == Position.N7 | newPos == Position.I14) {
-					
-					System.out.println("New position is safe place.");
-					
-					newPos.pawn[1] = pawn;
-				}
-				
-				//se for nao for casa de saida nem abrigo...
-				else {
-					System.out.println("New position is not exit house or safe place.");
-					
-					newPos.pawn[0].position = newPos.pawn[0].homePosition;
-					newPos.pawn[0].homePosition.pawn[0] = newPos.pawn[0];
-					newPos.pawn[0].positionInx = -1;
-					
-					newPos.pawn[0] = pawn;
-				}
+			}
+			
+			else {
+				System.out.println("New position has 2 pawns.");
 			}
 		}
 		
+		//se for a casa final
 		else {
-			System.out.println("New position has 2 pawns.");
+			System.out.println("New position is end position.");
+			
+			if (newPos.pawn[0] == null) {
+				newPos.pawn[0] = pawn;
+			}
+			else if (newPos.pawn[1] == null) {
+				newPos.pawn[1] = pawn;
+			}
+			else if (newPos.pawn[2] == null) {
+				newPos.pawn[2] = pawn;
+			}
+			else if (newPos.pawn[3] == null) {
+				newPos.pawn[3] = pawn;
+			}
+			else {
+				System.out.println("ERROR ATTACHING PAWN TO END POSITION!");
+			}
 		}
 	}
 
