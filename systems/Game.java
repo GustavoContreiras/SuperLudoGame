@@ -151,7 +151,7 @@ class Game {
 		//se tiver peao movivel
 		if (Game.currentTeam.countMovablePawns() > 0) {
 			
-			System.out.println("\nCurrent team has movable pawn.");
+			System.out.printf("\nCurrent team has %d movable pawn(s).\n", Game.currentTeam.countMovablePawns());
 		
 			//se tirar menos que 5
 			if (Game.currentDice < 5) {
@@ -160,16 +160,46 @@ class Game {
 				case 0:
 				case 1:
 					
-					//manda escolher um peao
-					Game.setLastDice(0);
-					Main.lab_instructions.setText("Choose a pawn!");
-					Main.but_rollDice.setEnabled(false);
-					break;
+				/*	//se só tiver 1 peao movivel
+					if (Game.currentTeam.countMovablePawns() == 1) {
+						
+						//se puder andar
+						if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
+							
+							//anda automaticamente
+							Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);	
+						}
+						
+						Game.prepareNextTurn();
+					}
+					
+					else {
+						
+						//manda escolher um peao
+						Game.setLastDice(0);
+						Main.lab_instructions.setText("Choose a pawn!");
+						Main.but_rollDice.setEnabled(false);
+					}
+
+					break;*/
 					
 				case 2:
 					
+					//se só tiver 1 peao movivel
+					if (Game.currentTeam.countMovablePawns() == 1) {
+						
+						//se puder andar
+						if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
+							
+							//anda automaticamente
+							Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);	
+						}
+						
+						Game.prepareNextTurn();
+					}
+					
 					//se tiver uma barreira formada
-					if (Game.currentTeam.countBarriers() > 0) {
+					else if (Game.currentTeam.countBarriers() > 0) {
 											
 						//se puder andar
 						if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
@@ -182,7 +212,7 @@ class Game {
 						
 					}
 					
-					//se nao tiver barreira
+					//se nao tiver barreira (e 2 puderem ser movidos)
 					else {
 						
 						//manda escolher um peao
@@ -263,10 +293,10 @@ class Game {
 							
 							Game.oldTeam = Game.currentTeam;
 							
-							if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
+							if (Game.currentTeam.getPawnOnBarrier().canWalk(Game.currentDice)) {
 								
 								//anda automaticamente com algum da barreira
-								Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
+								Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
 							}
 							
 							Game.prepareNextTurn();
@@ -375,11 +405,16 @@ class Game {
 				}	
 				
 				else {
+					
+					System.out.printf("Has %d pawn(s) in home.\n", Game.currentTeam.countPawnsInHome());
+					
 					switch(Game.currentTeam.countPawnsInHome()) {
 					case 0:
 						
 						//se tiver duas barreiras formadas
 						if (Game.currentTeam.countBarriers() == 2) {
+							
+							System.out.printf("Current team has %d barrier(s).\n", Game.currentTeam.countBarriers());
 							
 							if (Game.currentTeam.getPawnClosestToFinish().canWalk(Game.currentDice)) {
 								Game.currentTeam.getPawnClosestToFinish().walk(Game.currentDice);
@@ -389,6 +424,9 @@ class Game {
 						
 						//se tiver uma barreira formada
 						else if (Game.currentTeam.countBarriers() == 1) {
+							
+							System.out.printf("Current team has %d barrier(s).\n", Game.currentTeam.countBarriers());
+							
 							if (Game.currentTeam.getPawnOnBarrier().canWalk(Game.currentDice)) {
 								Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
 							}
@@ -409,9 +447,11 @@ class Game {
 						
 						//se tiver uma barreira formada
 						if (Game.currentTeam.countBarriers() == 1) {
+							
+							System.out.printf("Current team has %d barrier(s).\n", Game.currentTeam.countBarriers());
 
-							if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
-								Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);	
+							if (Game.currentTeam.getPawnOnBarrier().canWalk(Game.currentDice)) {
+								Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);	
 							}
 							Game.setCurrentDice(0);
 						}

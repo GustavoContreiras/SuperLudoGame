@@ -56,7 +56,7 @@ class Team {
 	public Pawn getPawnOutOfHome() {
 		
 		if (this == Game.redTeam) {
-			for (int i = 0; i < 57; i++) {
+			for (int i = 0; i < 56; i++) {
 				
 				if (this.walkthrough[i].pawn[0] != null) {
 					if (this.walkthrough[i].pawn[0].team == Game.redTeam) {
@@ -261,10 +261,24 @@ class Team {
 			}
 		}
 		
-		System.out.printf("Has %d pawns in home.\n", j);
 		return j;
 	}
 	
+	
+	public int countFinishedPawns() {
+		
+		int count = 0;
+		
+		for (int i = 0; i < 4; i++) {
+			
+			//se tiver na posicao final
+			if (this.pawn[i].positionInx == 56) {
+				count++;
+			}
+		}
+		
+		return count;
+	}
 	
 	private Position[] createRedWalkthrough() {
 		walkthrough[0] = Position.B7;
