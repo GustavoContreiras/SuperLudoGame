@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import systems.*;
 
-public class Board extends JPanel {
+public class Board extends JPanel /*implements ObservadorIF*/ {
 
 	//to remove warning
 	private static final long serialVersionUID = -8919768790110412092L;
@@ -1192,4 +1192,10 @@ public class Board extends JPanel {
 			g2d.drawString("15", 604, 585);
 		}
     }
+
+    /*public void notify() {
+	    mm = o.get(1);
+	    ss = o.get(2);
+	    repaint();
+	}*/
 }

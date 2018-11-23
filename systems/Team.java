@@ -207,7 +207,7 @@ class Team {
 		}
 		
 		if (count > 1 | inx < 0) {
-			System.out.println("ERROR: getUniqueMovablePawn: count > 1 or inx < 0");
+			System.out.printf("ERROR: getUniqueMovablePawn: count = %d inx = %d\n", count, inx);
 			return null;
 		}
 		else {
@@ -278,9 +278,26 @@ class Team {
 					count++;
 				}
 				
-				//se tiver na casa inicial checa se pode andar 1
-				else if (this.pawn[i].positionInx == -1 & this.pawn[i].canWalk(Game.currentDice)) {
-					count++;
+				//se tiver na casa inicial
+				else if (this.pawn[i].positionInx == -1) {
+					
+					//se tiver peao na casa de saida anexado em [0]
+					if (this.pawn[i].team.walkthrough[0].pawn[0] != null) {
+						
+						//se esse peao nao for do mesmo time
+						if (this.pawn[i].team != this.pawn[i].team.walkthrough[0].pawn[0].team) {
+							
+							//se nao tiver peao na casa de saida anexado em [i]
+							if (this.pawn[i].team.walkthrough[0].pawn[1] == null) {
+								count++;
+							}
+						}
+					}
+					
+					//se nao tiver peao na casa de saida anexado em [0]
+					else {
+						count++;
+					}
 				}
 			}
 		}

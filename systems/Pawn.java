@@ -39,7 +39,7 @@ class Pawn {
 			System.out.println("Pawn has finished his walkthrough");
 		}
 		
-		Main.frame.repaint();
+		//Main.frame.repaint();
 		
 		if (this.position.pawn[0] != null) {
 			System.out.printf("newPos.Pawn[0].id: %d (%s Team)\n", this.position.pawn[0].id, this.position.pawn[0].team.name);
@@ -60,17 +60,46 @@ class Pawn {
 		int newPosInx = this.positionInx + rolledDice;
 		int nextPosInx = this.positionInx + 1;
 		
-		//checa se ultrapassa a casa final
+		//se ultrapassar a casa final
 		if (newPosInx > 56) {
 			return false;
 		}
 		
+		//se nova posicao for a casa final
 		else if (newPosInx == 56) {
 			return true;
 		}
 		
+		//se tiver na casa inicial e nao tiver tirado 5
 		else if (this.positionInx == -1 & rolledDice != 5) {
 			return false;
+		}
+		
+		//se tiver na casa inicial e tiver tirado 5
+		else if (this.positionInx == -1 & rolledDice == 5) {
+			
+			//se tiver peao na casa de saida anexado em [0]
+			if (this.team.walkthrough[0].pawn[0] != null) {
+				
+				//se esse peao for do time corrente
+				if (this.team.walkthrough[0].pawn[0].team == this.team) {
+					return false;
+				}
+				
+				//se esse peao nao for do time corrente
+				else {
+					
+					//se tiver peao na casa de saida anexado em [1]
+					if (this.team.walkthrough[0].pawn[1] != null) {
+						return false;
+					}
+				}
+			}
+			
+			//se nao tiver peao na casa de saida
+			else {
+				return true;
+			}
 		}
 		
 		else {
@@ -93,9 +122,9 @@ class Pawn {
 			if (this.walkthrough[newPosInx].pawn[0] != null & this.walkthrough[newPosInx].pawn[1] != null) {
 				return false;
 			}
-			
-			return true;
 		}
+		
+		return true;
 	}
 	
 	private Position addPosition(int inxToAdd) {
@@ -137,6 +166,11 @@ class Pawn {
 		
 		if (pawn.id == pawn.position.pawn[0].id) {
 			pawn.position.pawn[0] = null;
+			
+			if (pawn.position.pawn[1] != null) {
+				pawn.position.pawn[0] = pawn.position.pawn[1];
+				pawn.position.pawn[1] = null;
+			}
 		}
 		
 		else if (pawn.id == pawn.position.pawn[1].id) {

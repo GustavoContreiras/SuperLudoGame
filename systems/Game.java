@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 import graphics.*;
 
-class Game {
+class Game /*implements ObservadoIF*/ {
 	
 	public static Team redTeam = null;
 	public static Team greenTeam = null;
@@ -79,7 +79,7 @@ class Game {
 				else {
 					System.out.println("Choose another pawn.");
 					Main.lab_instructions.setText("Choose another.");
-					Main.frame.repaint();
+					//Main.frame.repaint();
 				}
 			}
 			
@@ -97,13 +97,13 @@ class Game {
 				else {
 					System.out.println("Choose another pawn.");
 					Main.lab_instructions.setText("Choose another.");
-					Main.frame.repaint();
+					//Main.frame.repaint();
 				}
 			}
 			else {
 				System.out.println("Exit house already have a pawn of current team (choose another).");
 				Main.lab_instructions.setText("Choose another.");
-				Main.frame.repaint();
+				//Main.frame.repaint();
 			}
 		}
 		
@@ -199,10 +199,10 @@ class Game {
 				//se tiver mais de um peao movivel
 				else {
 					
-					//se a casa de saida estiver disponivel
-					if (Game.currentTeam.canLeaveHome() == true) {
+					//se a casa de saida estiver disponivel e tiver peao pra sair
+					if (Game.currentTeam.canLeaveHome() == true & Game.currentTeam.getFirstPawnInHome() != null) {
 						Game.currentTeam.getFirstPawnInHome().walk(1);
-						Game.prepareNextTurn();
+						Game.prepareNextTurn();	
 					}
 					
 					//se tiver apenas 2 moviveis e pertencerem a uma barreira
@@ -273,6 +273,14 @@ class Game {
 							
 							//anda automaticamente
 							Game.currentTeam.getPawnClosestToFinish().walk(Game.currentDice);
+							Game.setCurrentDice(0);
+						}
+						
+						//se tiver 3 peoes moviveis e 1 barreira
+						else if (Game.currentTeam.countMovablePawns() == 3 & Game.currentTeam.countBarriers() == 1) {
+							
+							//anda automaticamente
+							Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
 							Game.setCurrentDice(0);
 						}
 						
@@ -510,7 +518,7 @@ class Game {
     
     public static void setLastDice (int dice) {
     	oldDice = dice;
-    	Main.frame.repaint();
+    	//Main.frame.repaint();
     }
 
     public static void setOldTeam (Team team) {

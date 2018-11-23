@@ -261,4 +261,6 @@ public class CtrlGame {
 		else
 			return "NULL";
 	}
+
+	//public void registra() {}
 }
