@@ -1,7 +1,5 @@
 package systems;
 
-import graphics.*;
-
 class Pawn {
 	
 	public Position homePosition;

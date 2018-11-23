@@ -262,5 +262,5 @@ public class CtrlGame {
 			return "NULL";
 	}
 
-	//public void registra() {}
+	//public ObservadoIF registra (ObservadorIF o) {}
 }

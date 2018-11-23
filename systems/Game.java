@@ -37,7 +37,23 @@ class Game /*implements ObservadoIF*/ {
 		Game.setTeamOnTurn();
 	}
 	
+	//public void add(ObservadorIF o) {}
+	
+	//public void remove(ObservadorIF o) {}
+	
+	/*public void get(int i) {
+		switch (i) {
+		case 1:
+			return algumaCoisa;
+		case 2:
+			return outraCoisa;
+		}
+	}*/
+	
 	public static void makeMoveAfterClick (Position posClicked, int rolledDice, Team currentTeam) {
+		
+		/* O jogador que chegar com um peão à sua casa final poderá
+		avançar 6 casas com qualquer um de seus outros peões. */
 		
 		Pawn pawn1 = null;
 		Pawn pawn2 = null;
@@ -144,6 +160,9 @@ class Game /*implements ObservadoIF*/ {
 	}
 	
 	public static void makeMoveAfterRollDice () {
+		
+		/* O jogador que chegar com um peão à sua casa final poderá
+		avançar 6 casas com qualquer um de seus outros peões. */
 		
 		Pawn savedLastPawnMoved = Game.lastPawnMoved;
 		Game.lastPawnMoved = null;
@@ -298,77 +317,6 @@ class Game /*implements ObservadoIF*/ {
 							Main.but_rollDice.setEnabled(false);
 						}
 					}
-					
-					/*switch(Game.currentTeam.countPawnsInHome()) {
-					case 0:
-						
-						//se tiver duas barreiras formadas
-						if (Game.currentTeam.countBarriers() == 2) {
-							
-							System.out.printf("Current team has %d barrier(s).\n", Game.currentTeam.countBarriers());
-							
-							if (Game.currentTeam.getPawnClosestToFinish().canWalk(Game.currentDice)) {
-								Game.currentTeam.getPawnClosestToFinish().walk(Game.currentDice);
-							}
-							Game.setCurrentDice(0);
-						}
-						
-						//se tiver uma barreira formada
-						else if (Game.currentTeam.countBarriers() == 1) {
-							
-							System.out.printf("Current team has %d barrier(s).\n", Game.currentTeam.countBarriers());
-							
-							if (Game.currentTeam.getPawnOnBarrier().canWalk(Game.currentDice)) {
-								Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
-							}
-							Game.setCurrentDice(0);
-						}
-						
-						//se nao tiver barreira formada
-						else {
-							Game.setLastDice(0);
-							Main.lab_instructions.setText("Choose a pawn!");
-							Main.but_rollDice.setEnabled(false);
-						}
-						
-						break;
-						
-					case 1:
-					case 2:
-						
-						//se tiver uma barreira formada
-						if (Game.currentTeam.countBarriers() == 1) {
-							
-							System.out.printf("Current team has %d barrier(s).\n", Game.currentTeam.countBarriers());
-
-							if (Game.currentTeam.getPawnOnBarrier().canWalk(Game.currentDice)) {
-								Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);	
-							}
-							Game.setCurrentDice(0);
-						}
-						
-						//se nao tiver barreira formada
-						else {
-							Game.setLastDice(0);
-							Main.lab_instructions.setText("Choose a pawn!");
-							Main.but_rollDice.setEnabled(false);
-						}
-						
-						break;
-						
-					case 3:
-						
-						if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
-							Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
-						}
-						Game.setCurrentDice(0);
-						break;
-						
-					case 4:	
-						Game.setCurrentDice(0);
-						break;
-						
-					}*/
 				}
 			}
 		}

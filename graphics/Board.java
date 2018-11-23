@@ -93,6 +93,7 @@ public class Board extends JPanel /*implements ObservadorIF*/ {
     public Board() {
     	setLayout(null);
         setBorder(BorderFactory.createLineBorder(Color.black));
+        //CtrlGame.getController().registra(this);
     }
     
     public void paintComponent(Graphics g) {
@@ -1193,7 +1194,7 @@ public class Board extends JPanel /*implements ObservadorIF*/ {
 		}
     }
 
-    /*public void notify() {
+    /*public void notify(ObservadoIF o) {
 	    mm = o.get(1);
 	    ss = o.get(2);
 	    repaint();
