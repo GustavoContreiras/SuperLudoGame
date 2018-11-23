@@ -27,7 +27,7 @@ class Pawn {
 	public void walk (int rolledDice) {
 		
 		if (this.positionInx < 56) {
-			this.detachFromPos(this.position);
+			this.detachFromPos(this);
 			this.addPosition(rolledDice);
 			this.attachToPos(this);
 			Game.lastPawnMoved = this;
@@ -69,15 +69,18 @@ class Pawn {
 			return true;
 		}
 		
+		else if (this.positionInx == -1 & rolledDice != 5) {
+			return false;
+		}
+		
 		else {
 			
-			//checa se tem barreira no caminho que percorrera
 			for (int i = 0; i < rolledDice; i++) {
 				
-				//checa se tem 2 peoes nessa posicao
+				//se tiver 2 peoes nessa posicao
 				if (this.walkthrough[nextPosInx].pawn[0] != null & this.walkthrough[nextPosInx].pawn[1] != null) {
 					
-					//checa se sao do mesmo time (checa se eh barreira)
+					//se forem do mesmo time (se for barreira)
 					if (this.walkthrough[nextPosInx].pawn[0].team == this.walkthrough[nextPosInx].pawn[1].team) {
 						
 						return false;
@@ -86,9 +89,8 @@ class Pawn {
 				nextPosInx++;
 			}
 			
-			//checa se onde vai parar já tem 2 peões
+			//se onde vai parar já tiver 2 peões
 			if (this.walkthrough[newPosInx].pawn[0] != null & this.walkthrough[newPosInx].pawn[1] != null) {
-				
 				return false;
 			}
 			
@@ -131,30 +133,18 @@ class Pawn {
 		}
 	}
 	
-	private void detachFromPos(Position pawnCurrentPosition) {
+	private void detachFromPos(Pawn pawn) {
 		
-		//se tiver na posiçao [0] e for do time da vez
-		if (pawnCurrentPosition.pawn[0] != null & pawnCurrentPosition.pawn[0].team == Game.currentTeam) {
-			
-			//desanexa
-			pawnCurrentPosition.pawn[0] = null;
-			
-			//se tiver algum na posicao [1]
-			if (pawnCurrentPosition.pawn[1] != null) {
-				
-				//passa pra posicao [0]
-				pawnCurrentPosition.pawn[0] = pawnCurrentPosition.pawn[1];
-				
-				//desanexa da [1]
-				pawnCurrentPosition.pawn[1] = null;
-			}
+		if (pawn.id == pawn.position.pawn[0].id) {
+			pawn.position.pawn[0] = null;
 		}
 		
-		//se tiver na posicao [1] e for do time da vez
-		else if (pawnCurrentPosition.pawn[1] != null & pawnCurrentPosition.pawn[1].team == Game.currentTeam) {
-			
-			//desanexa
-			pawnCurrentPosition.pawn[1] = null;
+		else if (pawn.id == pawn.position.pawn[1].id) {
+			pawn.position.pawn[1] = null;
+		}
+		
+		else {
+			System.out.println("ERROR: detachFromPos");
 		}
 	}
 	

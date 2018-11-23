@@ -222,11 +222,17 @@ public class CtrlGame {
 	}
 	
 	public boolean checkPawnPositionBarrier (String team, int pawnInx) { //Checa se há outro peão nessa posição (barreira)
-		if (this.getTeam(team).pawn[pawnInx].position.pawn[1].team == this.getTeam(team) &
-			this.getTeam(team).pawn[pawnInx].position.pawn[0].team == this.getTeam(team))
-			return true;
-		else
-			return false;
+		
+		if (this.getTeam(team).pawn[pawnInx].position.pawn[0] != null & 
+			this.getTeam(team).pawn[pawnInx].position.pawn[1] != null) {
+			
+			if (this.getTeam(team).pawn[pawnInx].position.pawn[0].team == this.getTeam(team) &
+				this.getTeam(team).pawn[pawnInx].position.pawn[1].team == this.getTeam(team)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 	
 	public boolean checkPawnPositionEnemy (String team, int pawnInx) { //Checa se há outro peão nessa posição (e for um inimigo)

@@ -189,6 +189,45 @@ class Team {
 		return null;
 	}
 	
+	public Pawn getUniqueMovablePawn(int rolledDice) {
+		
+		int count = 0;
+		int inx = -1;
+		
+		for (int i = 0; i < 4; i++) {
+			
+			if (this.pawn[i].canWalk(rolledDice)) {
+				
+				count++;
+				
+				if (inx == -1) {
+					inx = i;
+				}
+			}
+		}
+		
+		if (count > 1 | inx < 0) {
+			System.out.println("ERROR: getUniqueMovablePawn: count > 1 or inx < 0");
+			return null;
+		}
+		else {
+			return this.pawn[inx];
+		}
+		
+	}
+	
+	public Pawn getFirstPawnInHome() {
+		
+		for (int i = 0; i < 4; i++) {
+			
+			if (this.pawn[i].positionInx == -1) {
+				return this.pawn[i];
+			}
+		}	
+		
+		return null;
+	}
+	
 	public int countBarriers() {
 		
 		int k = 0;
@@ -211,7 +250,6 @@ class Team {
 		
 		return k/2;
 	}
-	
 	
 	public int countMovablePawns() {
 		
@@ -241,7 +279,7 @@ class Team {
 				}
 				
 				//se tiver na casa inicial checa se pode andar 1
-				else if (this.pawn[i].positionInx == -1 & this.pawn[i].canWalk(1)) {
+				else if (this.pawn[i].positionInx == -1 & this.pawn[i].canWalk(Game.currentDice)) {
 					count++;
 				}
 			}
@@ -264,7 +302,6 @@ class Team {
 		return j;
 	}
 	
-	
 	public int countFinishedPawns() {
 		
 		int count = 0;
@@ -278,6 +315,22 @@ class Team {
 		}
 		
 		return count;
+	}
+	
+	public boolean canLeaveHome() {
+		
+		if (this.walkthrough[0].pawn[0] != null & this.walkthrough[0].pawn[1] != null) {
+			return false;
+		}
+		
+		if (this.walkthrough[0].pawn[0] != null) {
+			
+			if ( this.walkthrough[0].pawn[0].team == this) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	private Position[] createRedWalkthrough() {
@@ -342,7 +395,6 @@ class Team {
 		return walkthrough;
 	}
 
-	
 	private Position[] createGreenWalkthrough() {
 		walkthrough[0] = Position.I2;
 		walkthrough[1] = Position.I3;
@@ -404,7 +456,6 @@ class Team {
 		
 		return walkthrough;
 	}
-	
 	
 	private Position[] createYellowWalkthrough() {
 		walkthrough[0] = Position.N9;
@@ -468,7 +519,6 @@ class Team {
 		return walkthrough;
 	}
 	
-	
 	private Position[] createBlueWalkthrough() {
 		walkthrough[0] = Position.G14;
 		walkthrough[1] = Position.G13;
@@ -531,10 +581,10 @@ class Team {
 		return walkthrough;
 	}	
 
-	
 	public Position[] getWalkthrough () {
 		return walkthrough;
 	}	
+	
 	public Pawn getPawnByInx(int i) {
 		return pawn[i];
 	}

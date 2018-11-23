@@ -1161,7 +1161,7 @@ class Position{
 		}
 		
 		//se tiver peao [1] na posicao clicada e tiver rolado o dado
-		else if (posClicked.pawn[1] != null) {
+		if (posClicked.pawn[1] != null) {
 			
 			if (posClicked.pawn[1].team == Game.currentTeam) {
 				if (Game.currentDice != 0) {
@@ -1179,7 +1179,7 @@ class Position{
 			
 		}
 		
-		else {
+		if (posClicked.pawn[0] == null & posClicked.pawn[1] == null) {
 			System.out.printf("Position do not have pawn.\n");
 		}
 	}

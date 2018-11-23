@@ -22,14 +22,14 @@ class Game {
 				
 		Main.but_rollDice.setEnabled(true);
 		Main.but_saveGame.setEnabled(true);
-		
-		Main.lab_lastMove.setText("Last move:");
+		Main.lab_lastMove.setText("");
 		
 		Game.currentTeam = null;
 		Game.redTeam = new Team("Red");
 		Game.greenTeam = new Team("Green");
 		Game.yellowTeam = new Team("Yellow");
 		Game.blueTeam = new Team("Blue");
+		Game.flag_firstMove = true;
 		
 		Game.resetPositions();
 		Game.setCurrentDice(0);
@@ -156,85 +156,28 @@ class Game {
 			//se tirar menos que 5
 			if (Game.currentDice < 5) {
 				
-				switch(Game.currentTeam.countPawnsInHome()) {
-				case 0:
-				case 1:
+				//se tiver um peao movivel
+				if (Game.currentTeam.countMovablePawns() == 1) {
+					Game.currentTeam.getUniqueMovablePawn(Game.currentDice).walk(Game.currentDice);
+					Game.prepareNextTurn();
+				}
+				
+				//se tiver mais de um peao movivel
+				else {
 					
-				/*	//se só tiver 1 peao movivel
-					if (Game.currentTeam.countMovablePawns() == 1) {
+					//se tiver apenas 2 moviveis e pertencerem a uma barreira
+					if (Game.currentTeam.countMovablePawns() == 2 & Game.currentTeam.countBarriers() == 1) {
 						
-						//se puder andar
-						if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
-							
-							//anda automaticamente
-							Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);	
-						}
-						
+						//anda automaticamente
+						Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
 						Game.prepareNextTurn();
 					}
 					
 					else {
-						
-						//manda escolher um peao
 						Game.setLastDice(0);
 						Main.lab_instructions.setText("Choose a pawn!");
 						Main.but_rollDice.setEnabled(false);
 					}
-
-					break;*/
-					
-				case 2:
-					
-					//se só tiver 1 peao movivel
-					if (Game.currentTeam.countMovablePawns() == 1) {
-						
-						//se puder andar
-						if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
-							
-							//anda automaticamente
-							Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);	
-						}
-						
-						Game.prepareNextTurn();
-					}
-					
-					//se tiver uma barreira formada
-					else if (Game.currentTeam.countBarriers() > 0) {
-											
-						//se puder andar
-						if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
-							
-							//anda automaticamente com algum da barreira
-							Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);	
-						}
-						
-						Game.prepareNextTurn();
-						
-					}
-					
-					//se nao tiver barreira (e 2 puderem ser movidos)
-					else {
-						
-						//manda escolher um peao
-						Game.setLastDice(0);
-						Main.lab_instructions.setText("Choose a pawn!");
-						Main.but_rollDice.setEnabled(false);
-					}
-					
-					break;
-					
-				case 3:
-					
-					//se puder andar
-					if (Game.currentTeam.getPawnOutOfHome().canWalk(Game.currentDice)) {
-						Game.currentTeam.getPawnOutOfHome().walk(Game.currentDice);
-					}
-					Game.prepareNextTurn();
-					break;
-					
-				case 4:
-					Game.prepareNextTurn();
-					break;
 				}
 			}
 			
@@ -246,125 +189,35 @@ class Game {
 				Caso isso não seja possível, quer seja porque já existe um de seus peões
 				na casa de saída, ou porque já não há mais peões para serem retirados da
 				casa inicial, ele deverá, então, movimentar 5 casas com outro peão qualquer. */
+					
+				//se tiver um peao movivel
+				if (Game.currentTeam.countMovablePawns() == 1) {
+					Game.currentTeam.getUniqueMovablePawn(Game.currentDice).walk(Game.currentDice);
+					Game.prepareNextTurn();
+				}
+				
+				//se tiver mais de um peao movivel
+				else {
+					
+					//se a casa de saida estiver disponivel
+					if (Game.currentTeam.canLeaveHome() == true) {
+						Game.currentTeam.getFirstPawnInHome().walk(1);
+						Game.prepareNextTurn();
+					}
+					
+					//se tiver apenas 2 moviveis e pertencerem a uma barreira
+					else if (Game.currentTeam.countMovablePawns() == 2 & Game.currentTeam.countBarriers() == 1) {
 						
-				switch(Game.currentTeam.countPawnsInHome()) {
-				case 0:
+						//anda automaticamente
+						Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
+						Game.prepareNextTurn();
+					}
 					
-					Game.setLastDice(0);
-					Main.lab_instructions.setText("Choose a pawn!");
-					Main.but_rollDice.setEnabled(false);
-					
-					break;
-					
-				case 1:
-					
-					//se tiver peao na casa de saida...
-					if (Game.currentTeam.getPawnOnExitHouse() != null) {
+					else {
 						Game.setLastDice(0);
 						Main.lab_instructions.setText("Choose a pawn!");
 						Main.but_rollDice.setEnabled(false);
 					}
-					
-					//se nao tiver peao na casa de saida...
-					else {
-						
-						Game.oldTeam = Game.currentTeam;
-						
-						for (int i = 0; i < 4; i++) {
-							if (Game.currentTeam.pawn[i].positionInx == -1) {
-								if (Game.currentTeam.pawn[i].canWalk(1)) {
-									Game.currentTeam.pawn[i].walk(1);
-								}
-								Game.prepareNextTurn();
-								i = 4;
-							}
-						}
-					}
-					
-					break;
-						
-				case 2:
-					
-					//se tiver peao na casa de saida...
-					if (Game.currentTeam.getPawnOnExitHouse() != null) {
-						
-						//se tiver uma barreira formada
-						if (Game.currentTeam.countBarriers() > 0) {
-							
-							Game.oldTeam = Game.currentTeam;
-							
-							if (Game.currentTeam.getPawnOnBarrier().canWalk(Game.currentDice)) {
-								
-								//anda automaticamente com algum da barreira
-								Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
-							}
-							
-							Game.prepareNextTurn();
-						}
-						
-						//se nao tiver barreira formada
-						else {
-							Game.setLastDice(0);
-							Main.lab_instructions.setText("Choose a pawn!");
-							Main.but_rollDice.setEnabled(false);
-						}
-					}
-					
-					//se nao tiver peao na casa de saida...
-					else {
-						for (int i = 0; i < 4; i++) {
-							if (Game.currentTeam.pawn[i].positionInx == -1) {
-								
-								//se puder andar
-								if (Game.currentTeam.pawn[i].canWalk(Game.currentDice)) {
-									Game.currentTeam.pawn[i].walk(1);
-									i = 4;
-								}
-								Game.prepareNextTurn();
-							}
-						}
-					}
-							
-					break;
-					
-				case 3:
-					
-					Game.oldTeam = Game.currentTeam;
-					
-					//se o peao fora da casa inicial estiver na casa de saida
-					if (Game.currentTeam.getPawnOnExitHouse() != null) {
-						
-						//se puder andar
-						if (Game.currentTeam.getPawnOnExitHouse().canWalk(Game.currentDice)) {
-							Game.currentTeam.getPawnOnExitHouse().walk(Game.currentDice);
-						}
-						Game.prepareNextTurn();
-					}
-					
-					//se o peao fora da casa inicial nao estiver na casa de saida (tira um da casa inicial)
-					else {
-						for (int i = 0; i < 4; i++) {
-							if (Game.currentTeam.pawn[i].positionInx == -1) {
-								
-								//se puder andar
-								if (Game.currentTeam.pawn[i].canWalk(Game.currentDice)) {
-									Game.currentTeam.pawn[i].walk(1);		
-									i = 4;
-								}
-								Game.prepareNextTurn();
-							}
-						}
-					}
-					
-					break;
-					
-				case 4:
-					
-					if (Game.currentTeam.pawn[0].canWalk(1)) {
-						Game.currentTeam.pawn[0].walk(1);
-					}
-					Game.prepareNextTurn();
-					break;
 				}
 			}
 				
@@ -406,9 +259,39 @@ class Game {
 				
 				else {
 					
-					System.out.printf("Has %d pawn(s) in home.\n", Game.currentTeam.countPawnsInHome());
+					//se tiver um peao movivel
+					if (Game.currentTeam.countMovablePawns() == 1) {
+						Game.currentTeam.getUniqueMovablePawn(Game.currentDice).walk(Game.currentDice);
+						Game.setCurrentDice(0);
+					}
 					
-					switch(Game.currentTeam.countPawnsInHome()) {
+					//se tiver mais de um peao movivel
+					else {
+						
+						//se tiver 4 moviveis e pertencerem a 2 barreiras
+						if (Game.currentTeam.countMovablePawns() == 4 & Game.currentTeam.countBarriers() == 2) {
+							
+							//anda automaticamente
+							Game.currentTeam.getPawnClosestToFinish().walk(Game.currentDice);
+							Game.setCurrentDice(0);
+						}
+						
+						//se tiver apenas 2 moviveis e pertencerem a uma barreira
+						else if (Game.currentTeam.countMovablePawns() == 2 & Game.currentTeam.countBarriers() == 1) {
+							
+							//anda automaticamente
+							Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
+							Game.setCurrentDice(0);
+						}
+						
+						else {
+							Game.setLastDice(0);
+							Main.lab_instructions.setText("Choose a pawn!");
+							Main.but_rollDice.setEnabled(false);
+						}
+					}
+					
+					/*switch(Game.currentTeam.countPawnsInHome()) {
 					case 0:
 						
 						//se tiver duas barreiras formadas
@@ -477,7 +360,7 @@ class Game {
 						Game.setCurrentDice(0);
 						break;
 						
-					}
+					}*/
 				}
 			}
 		}
@@ -547,6 +430,7 @@ class Game {
 		Game.setOldTeam(Game.currentTeam);
 		
 		if (Game.flag_firstMove == true) {
+			Main.lab_lastMove.setText("Last move:");
 			Game.flag_firstMove = false;
 		}
 		
