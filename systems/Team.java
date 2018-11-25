@@ -53,7 +53,7 @@ class Team {
 		}
 	}
 	
-	public Pawn getPawnOutOfHome() {
+	public Pawn getFirstPawnOutOfHome() {
 		
 		if (this == Game.redTeam) {
 			for (int i = 0; i < 56; i++) {
@@ -261,7 +261,9 @@ class Team {
 			for (int i = 0; i < 4; i++) {
 				
 				//se nao tiver na casa inicial checa se pode andar o dado rolado
-				if (this.pawn[i].positionInx != -1 & this.pawn[i].canWalk(Game.currentDice)) {
+				if (this.pawn[i].positionInx != -1 & 
+					this.pawn[i].positionInx != (57 - Game.currentDice)  & 
+					this.pawn[i].canWalk(Game.currentDice)) {
 					count++;
 				}
 			}

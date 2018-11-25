@@ -132,6 +132,8 @@ class Pawn {
 		//se nao for a casa final
 		if (inxNewPos != 56) {
 			
+			Game.flag_pawnFinished = false;
+			
 			//se a posicao de destino tiver uma barreira
 			if (walkthrough[inxNewPos].pawn[0] != null & walkthrough[inxNewPos].pawn[1] != null) {
 				System.out.printf("New position has a barrier.\n", position.letter, position.number);
@@ -153,6 +155,8 @@ class Pawn {
 		else {
 			positionInx += inxToAdd;
 			position = walkthrough[positionInx];
+			
+			Game.flag_pawnFinished = true;
 			
 			System.out.printf("newPos: %s%s (finished)\n", position.letter, position.number);
 						
