@@ -17,7 +17,6 @@ class Game /*implements ObservadoIF*/ {
 	public static int oldDice = 0;
 	public static int currentDice = -1;
 	public static boolean flag_firstMove = true;
-	public static boolean flag_pawnFinished = false;
 	public static boolean flag_skipTurn = false;
 	
 	public Game () {
@@ -52,32 +51,10 @@ class Game /*implements ObservadoIF*/ {
 		}
 	}*/
 	
-	public static void makeUniqueMoveAfterFinish () {
-		
-		Game.setCurrentDice(6);
-		Game.setLastDice(6);
-
-		Game.currentTeam.getUniqueMovablePawn(6).walk(6);
-	
-		//se o peao nao tiver chego ao fim
-		if (Game.flag_pawnFinished == false) {
-			Game.flag_skipTurn = true;
-		}
-		
-		else {
-			Game.flag_skipTurn = false;
-		}
-		
-	}
-	
-	public static void makeMoveAfterClick (Position posClicked, int rolledDice, Team currentTeam) {
-		
-		/* O jogador que chegar com um peão à sua casa final poderá
-		avançar 6 casas com qualquer um de seus outros peões. */
+	public static Pawn getPawnClicked(Position posClicked) {
 		
 		Pawn pawn1 = null;
 		Pawn pawn2 = null;
-		Pawn pawnClicked = null;
 		
 		if (posClicked.pawn[0] != null) {
 			pawn1 = posClicked.pawn[0];					
@@ -88,15 +65,83 @@ class Game /*implements ObservadoIF*/ {
 		}
 		
 		if (pawn1 != null & pawn1.team == currentTeam) {
-			pawnClicked = pawn1;
+			return pawn1;
 		}
 		else if (pawn2 != null & pawn2.team == currentTeam) {
-			pawnClicked = pawn2;
+			return pawn2;
 		}
 		else {
-			pawnClicked = null;
 			System.out.println("Position do not have pawn of the current team.");
+			return null;
 		}
+	}
+	
+	public static void makeMoveAfterFinish () {
+		
+		Game.setCurrentDice(6);
+		
+		//se tiver peao movivel
+		if (Game.currentTeam.countMovablePawns() > 0) {	
+			
+			//se for 1 peao movivel
+			if (Game.currentTeam.countMovablePawns() == 1) {
+				
+				//anda e passa o turno
+				Game.currentTeam.getFirstPawnOutOfHome().walk(Game.currentDice);
+				Game.prepareNextTurn();
+			}
+			
+			//se forem 2 em uma barreira
+			else if (Game.currentTeam.countMovablePawns() == 2 & Game.currentTeam.countBarriers() == 1) {
+				
+				//se forem chegar ao fim
+				if (Game.currentTeam.getPawnOnFirstBarrier().positionInx + Game.currentDice == 56) {
+					
+					//anda com os dois e passa o turno
+					Game.currentTeam.getPawnOnFirstBarrier().walk(Game.currentDice);
+					Game.currentTeam.getFirstPawnOutOfHome().walk(Game.currentDice);
+					Game.prepareNextTurn();
+				}
+				
+				//se nao forem chegar ao fim
+				else {
+					
+					//anda com um e passa o turno
+					Game.currentTeam.getPawnOnFirstBarrier().walk(Game.currentDice);
+					Game.prepareNextTurn();
+					
+				}
+			}
+			
+			else {
+				Main.lab_instructions.setText("Choose a pawn!");
+				Main.but_rollDice.setEnabled(false);
+				Game.flag_skipTurn = true;
+			}
+			
+		}
+	
+		//se nao tiver peao movivel
+		else if (Game.currentTeam.countMovablePawns() == 0) {
+			Game.prepareNextTurn();
+		}
+		
+		else {
+			System.out.println("ERROR: makeMoveAfterFinish: movable pawns < 0");
+		}
+		
+	}
+	
+	public static void makeMoveAfterClick (Position posClicked, int rolledDice, Team currentTeam) {
+		
+		/* O jogador que chegar com um peão à sua casa final poderá
+		avançar 6 casas com qualquer um de seus outros peões. */
+		
+		Pawn pawnClicked = Game.getPawnClicked(posClicked);
+		
+		System.out.printf("\nCurrent team has %d movable pawn(s).\n", Game.currentTeam.countMovablePawns());
+		
+		System.out.printf("\nCurrent team has %d barrier(s).\n", Game.currentTeam.countBarriers());
 		
 		//PAWN CLICKED NA CASA INICIAL
 		if (pawnClicked.positionInx == -1) {
@@ -146,59 +191,40 @@ class Game /*implements ObservadoIF*/ {
 			System.out.println("Pawn clicked is out from home.");
 			
 			//se puder andar
-			if (pawnClicked.canWalk(rolledDice)) {
+			if (pawnClicked.canWalk(Game.currentDice)) {
 				
 				System.out.println("Pawn clicked can walk.");
 				
 				Game.setLastDice(Game.currentDice);
-				pawnClicked.walk(rolledDice);
-				
-				if (Game.flag_pawnFinished == true) {
+				pawnClicked.walk(Game.currentDice);
+								
+				//se o peao nao tiver chego ao fim
+				if (Game.lastPawnMoved.positionInx < 56) {
 					
-					Game.setCurrentDice(6);
-					
-					if (Game.currentTeam.countMovablePawns() == 1) {
-						Game.makeUniqueMoveAfterFinish();
+					if (Game.currentDice != 6) {
 						Game.prepareNextTurn();
 					}
-				
-					else if (Game.currentTeam.countMovablePawns() > 1) {
+					else {
 						
-						if (Game.currentTeam.countMovablePawns() == 2 & Game.currentTeam.countBarriers() == 1) {
-							Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
-							Game.currentTeam.getFirstPawnOutOfHome().walk(Game.currentDice);
-							Game.setLastDice(Game.currentDice);
+						if (Game.flag_skipTurn == true) {
 							Game.prepareNextTurn();
 						}
-						
 						else {
-							Main.lab_instructions.setText("Choose a pawn!");
-							Main.but_rollDice.setEnabled(false);
+							Game.setCurrentDice(0);
+							Main.lab_instructions.setText("");
+							Main.but_rollDice.setEnabled(true);	
 						}
 					}
 					
-					else {
-						Game.prepareNextTurn();
-					}
-					
 				}
 				
-				else if (rolledDice != 6 | Game.flag_skipTurn == true) {
-					Game.prepareNextTurn();
+				//se o peao tiver chego ao fim
+				else if (Game.lastPawnMoved.positionInx == 56) {
+					Game.makeMoveAfterFinish();
 				}
 				
-				else {		
-					
-					if (Game.flag_skipTurn == false) {
-						Game.setCurrentDice(0);
-						Main.but_rollDice.setEnabled(true);
-						Main.lab_instructions.setText("");	
-					}
-					
-					else {
-						Game.prepareNextTurn();
-						Game.flag_skipTurn = false;
-					}		
+				else {
+					System.out.println("ERROR: makeMoveAfterClick: positionInx > 56");
 				}				
 			}
 			
@@ -234,27 +260,18 @@ class Game /*implements ObservadoIF*/ {
 					Game.currentTeam.getUniqueMovablePawn(Game.currentDice).walk(Game.currentDice);
 					
 					//se o peao nao tiver chego ao fim
-					if (Game.flag_pawnFinished == false) {
+					if (Game.lastPawnMoved.positionInx < 56) {
 						Game.prepareNextTurn();
 					}
 					
 					//se o peao tiver chego ao fim
-					else {
-
-						if (Game.currentTeam.countMovablePawns() == 1) {
-							Game.makeUniqueMoveAfterFinish();
-							Game.prepareNextTurn();
-						}
-					
-						else if (Game.currentTeam.countMovablePawns() > 1) {
-							Game.setCurrentDice(6);
-							Main.lab_instructions.setText("Choose a pawn!");
-							Main.but_rollDice.setEnabled(false);
-						}
+					else if (Game.lastPawnMoved.positionInx == 56) {
 						
-						else {
-							Game.prepareNextTurn();
-						}
+						Game.makeMoveAfterFinish();
+					}
+					
+					else {
+						System.out.println("ERROR: makeMoveAfterRollDice: positionInx > 56");
 					}
 				}
 				
@@ -263,33 +280,29 @@ class Game /*implements ObservadoIF*/ {
 					
 					//se tiver apenas 2 moviveis e pertencerem a uma barreira
 					if (Game.currentTeam.countMovablePawns() == 2 & Game.currentTeam.countBarriers() == 1) {
+
+						//se puder andar
+						if (Game.currentTeam.getPawnOnFirstBarrier().canWalk(Game.currentDice)) {
+							
+							//anda automaticamente
+							Game.currentTeam.getPawnOnFirstBarrier().walk(Game.currentDice);
+							
+							//se o peao nao tiver chego ao fim
+							if (Game.lastPawnMoved.positionInx < 56) {
+								Game.prepareNextTurn();
+							}
+							
+							//se o peao tiver chego ao fim
+							else if (Game.lastPawnMoved.positionInx == 56) {
+								Game.makeMoveAfterFinish();
+							}
+						}
 						
-						//anda automaticamente
-						Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
-						
-						//se o peao nao tiver chego ao fim
-						if (Game.flag_pawnFinished == false) {
+						//se nao puder andar
+						else {
 							Game.prepareNextTurn();
 						}
 						
-						//se o peao tiver chego ao fim
-						else {
-
-							if (Game.currentTeam.countMovablePawns() == 1) {
-								Game.makeUniqueMoveAfterFinish();
-								Game.prepareNextTurn();
-							}
-						
-							else if (Game.currentTeam.countMovablePawns() > 1) {
-								Game.setCurrentDice(6);
-								Main.lab_instructions.setText("Choose a pawn!");
-								Main.but_rollDice.setEnabled(false);
-							}
-							
-							else {
-								Game.prepareNextTurn();
-							}
-						}
 					}
 					
 					else {
@@ -299,8 +312,13 @@ class Game /*implements ObservadoIF*/ {
 					}
 				}
 				
-				else {
+				//se nao tiver peao movivel
+				else if (Game.currentTeam.countMovablePawns() == 0) {
 					Game.prepareNextTurn();
+				}
+				
+				else {
+					System.out.println("ERROR: makeMoveAfterRollDice: movable pawns < 0");
 				}
 			}
 			
@@ -316,33 +334,26 @@ class Game /*implements ObservadoIF*/ {
 				//se tiver um peao movivel
 				if (Game.currentTeam.countMovablePawns() == 1) {
 					
-					Game.currentTeam.getUniqueMovablePawn(Game.currentDice).walk(Game.currentDice);
+					if (Game.currentTeam.getUniqueMovablePawn(Game.currentDice).positionInx == -1) {
+						Game.currentTeam.getUniqueMovablePawn(Game.currentDice).walk(1);
+					}
+					else {
+						Game.currentTeam.getUniqueMovablePawn(Game.currentDice).walk(Game.currentDice);
+					}
 					
 					//se o peao nao tiver chego ao fim
-					if (Game.flag_pawnFinished == false) {
+					if (Game.lastPawnMoved.positionInx < 56) {
 						Game.prepareNextTurn();
 					}
 					
 					//se o peao tiver chego ao fim
-					else {
-
-						if (Game.currentTeam.countMovablePawns() == 1) {
-							Game.makeUniqueMoveAfterFinish();
-							Game.prepareNextTurn();
-						}
-					
-						else if (Game.currentTeam.countMovablePawns() > 1) {
-							Game.setCurrentDice(6);
-							Main.lab_instructions.setText("Choose a pawn!");
-							Main.but_rollDice.setEnabled(false);
-						}
-						
-						else {
-							Game.prepareNextTurn();
-						}
+					else if (Game.lastPawnMoved.positionInx == 56) {
+						Game.makeMoveAfterFinish();
 					}
 					
-					Game.prepareNextTurn();
+					else {
+						System.out.println("ERROR: makeMoveAfterRollDice: positionInx > 56");
+					}
 				}
 				
 				//se tiver mais de um peao movivel
@@ -358,30 +369,20 @@ class Game /*implements ObservadoIF*/ {
 					else if (Game.currentTeam.countMovablePawns() == 2 & Game.currentTeam.countBarriers() == 1) {
 						
 						//anda automaticamente
-						Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
+						Game.currentTeam.getPawnOnFirstBarrier().walk(Game.currentDice);
 						
 						//se o peao nao tiver chego ao fim
-						if (Game.flag_pawnFinished == false) {
+						if (Game.lastPawnMoved.positionInx < 56) {
 							Game.prepareNextTurn();
 						}
 						
 						//se o peao tiver chego ao fim
-						else {
-
-							if (Game.currentTeam.countMovablePawns() == 1) {
-								Game.makeUniqueMoveAfterFinish();
-								Game.prepareNextTurn();
-							}
+						else if (Game.lastPawnMoved.positionInx == 56) {
+							Game.makeMoveAfterFinish();
+						}
 						
-							else if (Game.currentTeam.countMovablePawns() > 1) {
-								Game.setCurrentDice(6);
-								Main.lab_instructions.setText("Choose a pawn!");
-								Main.but_rollDice.setEnabled(false);
-							}
-							
-							else {
-								Game.prepareNextTurn();
-							}
+						else {
+							System.out.println("ERROR: makeMoveAfterRollDice: positionInx > 56");
 						}
 					}
 					
@@ -413,6 +414,10 @@ class Game /*implements ObservadoIF*/ {
 				vez consecutiva, o último de seus peões que foi movimentado voltará para a
 				casa inicial. */
 				
+				if (Game.currentTeam.hasFinished) {
+					Game.prepareNextTurn();
+				}
+				
 				Main.but_rollDice.setEnabled(true);
 				
 				Game.setOldTeam(Game.currentTeam);
@@ -439,22 +444,6 @@ class Game /*implements ObservadoIF*/ {
 					//se tiver um peao movivel
 					if (Game.currentTeam.countMovablePawns() == 1) {
 						Game.currentTeam.getUniqueMovablePawn(Game.currentDice).walk(Game.currentDice);
-												
-						/*//se o peao tiver chego ao fim
-						if (Game.flag_pawnFinished == true) {
-
-							if (Game.currentTeam.countMovablePawns() == 1) {
-								Game.makeUniqueMoveAfterFinish();
-								Game.prepareNextTurn();
-							}
-						
-							else if (Game.currentTeam.countMovablePawns() > 1) {
-								Game.setCurrentDice(6);
-								Main.lab_instructions.setText("Choose a pawn!");
-								Main.but_rollDice.setEnabled(false);
-							}
-						}*/
-						
 						Game.setCurrentDice(0);
 					}
 					
@@ -467,74 +456,73 @@ class Game /*implements ObservadoIF*/ {
 							//anda automaticamente
 							Game.currentTeam.getPawnClosestToFinish().walk(Game.currentDice);
 							
-							/*//se o peao tiver chego ao fim
-							if (Game.flag_pawnFinished == true) {
-
-								if (Game.currentTeam.countMovablePawns() == 1) {
-									Game.makeUniqueMoveAfterFinish();
-									Game.prepareNextTurn();
-								}
+							//se o peao nao tiver chego ao fim
+							if (Game.lastPawnMoved.positionInx < 56) {
+								Game.setCurrentDice(0);
+							}
 							
-								else if (Game.currentTeam.countMovablePawns() > 1) {
-									Game.setCurrentDice(6);
-									Main.lab_instructions.setText("Choose a pawn!");
-									Main.but_rollDice.setEnabled(false);
-								}
-							}*/
+							//se o peao tiver chego ao fim
+							else if (Game.lastPawnMoved.positionInx == 56) {
+								Game.makeMoveAfterFinish();
+							}
 							
-							Game.setCurrentDice(0);
+							else {
+								System.out.println("ERROR: makeMoveAfterRollDice: positionInx > 56");
+							}
 						}
 						
 						//se tiver 3 peoes moviveis e 1 barreira
 						else if (Game.currentTeam.countMovablePawns() == 3 & Game.currentTeam.countBarriers() == 1) {
 							
 							//anda automaticamente
-							Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
+							Game.currentTeam.getPawnOnFirstBarrier().walk(Game.currentDice);
+							
+							//se o peao nao tiver chego ao fim
+							if (Game.lastPawnMoved.positionInx < 56) {
+								Game.setCurrentDice(0);
+							}
 							
 							//se o peao tiver chego ao fim
-							if (Game.flag_pawnFinished == true) {
-
-								if (Game.currentTeam.countMovablePawns() == 1) {
-									Game.makeUniqueMoveAfterFinish();
-									Game.prepareNextTurn();
-								}
+							else if (Game.lastPawnMoved.positionInx == 56) {
+								Game.makeMoveAfterFinish();
+							}
 							
-								else if (Game.currentTeam.countMovablePawns() > 1) {
-									Game.setCurrentDice(6);
-									Main.lab_instructions.setText("Choose a pawn!");
-									Main.but_rollDice.setEnabled(false);
+							else {
+								System.out.println("ERROR: makeMoveAfterRollDice: positionInx > 56");
+							}
+						}
+						
+						//se tiver apenas 2 moviveis e tiver uma barreira
+						else if (Game.currentTeam.countMovablePawns() == 2 & Game.currentTeam.countBarriers() == 1) {
+							
+							//se o peao da barreira puder andar
+							if (Game.currentTeam.getPawnOnFirstBarrier().canWalk(Game.currentDice)) {
+								
+								//anda automaticamente
+								Game.currentTeam.getPawnOnFirstBarrier().walk(Game.currentDice);
+								
+								//se o peao nao tiver chego ao fim
+								if (Game.lastPawnMoved.positionInx < 56) {
+									Game.setCurrentDice(0);
+								}
+								
+								//se o peao tiver chego ao fim
+								else if (Game.lastPawnMoved.positionInx == 56) {
+									Game.makeMoveAfterFinish();
 								}
 								
 								else {
-									Game.prepareNextTurn();
+									System.out.println("ERROR: makeMoveAfterRollDice: positionInx > 56");
 								}
 							}
 							
-							Game.setCurrentDice(0);
-						}
-						
-						//se tiver apenas 2 moviveis e pertencerem a uma barreira
-						else if (Game.currentTeam.countMovablePawns() == 2 & Game.currentTeam.countBarriers() == 1) {
 							
-							//anda automaticamente
-							Game.currentTeam.getPawnOnBarrier().walk(Game.currentDice);
-							
-							/*//se o peao tiver chego ao fim
-							if (Game.flag_pawnFinished == true) {
-
-								if (Game.currentTeam.countMovablePawns() == 1) {
-									Game.makeUniqueMoveAfterFinish();
-									Game.prepareNextTurn();
-								}
-							
-								else if (Game.currentTeam.countMovablePawns() > 1) {
-									Game.setCurrentDice(6);
-									Main.lab_instructions.setText("Choose a pawn!");
-									Main.but_rollDice.setEnabled(false);
-								}
-							}*/
-							
-							Game.setCurrentDice(0);
+							//se o peao da barreira nao puder andar
+							else {
+								Game.setLastDice(0);
+								Main.lab_instructions.setText("Choose a pawn!");
+								Main.but_rollDice.setEnabled(false);
+							}							
 						}
 						
 						else {
@@ -577,18 +565,49 @@ class Game /*implements ObservadoIF*/ {
 		}
 	}
 	
+	
 	public static void prepareNextTurn () {
-	
-		Game.setCurrentDice(0);
-		Game.setTeamOnTurn();
-		Game.currentTeam.dicesSixRolled = 0;
-		Game.flag_pawnFinished = false;
-		Game.flag_skipTurn = false;
 		
-		Main.lab_instructions.setText("");
-		Main.but_rollDice.setEnabled(true);
+		if (Game.currentTeam.hasFinished) {
+			
+			/* Nesse momento o programa irá sinalizar o corrido e exibirá a
+			colocação dos jogadores por meio de um JOptionPane.showMessageDialog.*/
+
+			Team secondTeam = Game.getSecondPlacedTeam();
+			float secondScorePercent = (float) ((secondTeam.getScore() / 224.0) * 100.0);
+			
+			String thirdTeam = "Blue Team";
+			int thirdScore = 0;
+			
+			String fourthTeam = "Green Team";
+			int fourthScore = 0;
+			
+			String message = Game.currentTeam.name + " Team has won the match!\n" +
+							 "2nd: " + secondTeam.name + " Team (" + secondScorePercent + "%)\n" +
+							 "3rd: " + thirdTeam + " (" + thirdScore + ")\n" +
+							 "4th: " + fourthTeam + " (" + fourthScore + ")";
+			
+			JOptionPane.showMessageDialog(Main.frame, message);
+			
+			/* Após o botão de OK do diálogo acima tiver sido pressionado, o
+			programa deverá exibir um segundo diálogo, que irá perguntar se os 
+			jogadores querem continuar a jogar ou se querem encerrar o programa
+			(JOptionPane.showConfirmDialog). Caso a resposta seja pela continuação,
+			o programa deverá exibir a configuração inicial do tabuleiro. */
+			
+			//...
+		}
+		
+		else {
+			Game.setCurrentDice(0);
+			Game.setTeamOnTurn();
+			Game.currentTeam.dicesSixRolled = 0;
+			
+			Main.lab_instructions.setText("");
+			Main.but_rollDice.setEnabled(true);
+		}
 	}
-	
+		
 	public static int rollDice () {
 		
 		/* REGRA: De um modo geral, todas as jogadas que não precisarem de inter-
@@ -692,11 +711,11 @@ class Game /*implements ObservadoIF*/ {
     	if (Game.currentTeam != null)
     		System.out.printf("\nTeam on turn: %s Team\n", Game.currentTeam.name);
     }
-
-    public static void setCurrentDice (int dice) {
+    
+	public static void setCurrentDice (int dice) {
     	currentDice = dice;
     }
-    
+  
     public static void setLastDice (int dice) {
     	oldDice = dice;
     	//Main.frame.repaint();
@@ -726,4 +745,54 @@ class Game /*implements ObservadoIF*/ {
 			}
 		}
     }
+
+    private static Team getSecondPlacedTeam () {
+    	
+    	int higher = -10;
+    	int redTeamCount = 0;
+    	int greenTeamCount = 0;
+    	int yellowTeamCount = 0;
+    	int blueTeamCount = 0;
+    	
+    	Team secondPlacedTeam = null;
+    	
+    	redTeamCount = Game.redTeam.pawn[0].positionInx + Game.redTeam.pawn[1].positionInx + 
+    				   Game.redTeam.pawn[2].positionInx + Game.redTeam.pawn[3].positionInx;
+    	
+    	//se nao for o primeiro colocado
+    	if (redTeamCount < 56*4 & redTeamCount > higher) {
+    		higher = redTeamCount;
+    		secondPlacedTeam = Game.redTeam;
+    	}
+    	
+    	greenTeamCount = Game.greenTeam.pawn[0].positionInx + Game.greenTeam.pawn[1].positionInx + 
+		   		 		 Game.greenTeam.pawn[2].positionInx + Game.greenTeam.pawn[3].positionInx;
+    	
+    	//se nao for o primeiro colocado
+    	if (greenTeamCount < 56*4 & greenTeamCount > higher) {
+    		higher = greenTeamCount;
+    		secondPlacedTeam = Game.greenTeam;
+    	}
+    	
+    	yellowTeamCount = Game.yellowTeam.pawn[0].positionInx + Game.yellowTeam.pawn[1].positionInx + 
+		   		 		  Game.yellowTeam.pawn[2].positionInx + Game.yellowTeam.pawn[3].positionInx;
+    	
+    	//se nao for o primeiro colocado
+    	if (yellowTeamCount < 56*4 & yellowTeamCount > higher) {
+    		higher = yellowTeamCount;
+    		secondPlacedTeam = Game.yellowTeam;
+    	}
+    	
+    	blueTeamCount = Game.blueTeam.pawn[0].positionInx + Game.blueTeam.pawn[1].positionInx + 
+		   		 		Game.blueTeam.pawn[2].positionInx + Game.blueTeam.pawn[3].positionInx;
+    	
+    	//se nao for o primeiro colocado
+    	if (blueTeamCount < 56*4 & blueTeamCount > higher) {
+    		higher = blueTeamCount;
+    		secondPlacedTeam = Game.blueTeam;
+    	}
+    	
+    	return secondPlacedTeam;
+    }
+
 }

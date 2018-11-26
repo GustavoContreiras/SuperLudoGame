@@ -8,6 +8,7 @@ class Team {
 	
 	int dicesSixRolled = 0;
 	int pawnsFinished = 0;
+	boolean hasFinished = false;
 	
 	public Team (String team) {
 		
@@ -172,7 +173,7 @@ class Team {
 		return pawnClosestToFinish;
 	}
 	
-	public Pawn getPawnOnBarrier() {
+	public Pawn getPawnOnFirstBarrier() {
 		
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
@@ -610,5 +611,28 @@ class Team {
 
 	public String getName() {
 		return name;
+	}
+
+	public int getScore() {
+		
+		int total = 0;
+
+		if (this.pawn[0].positionInx > 0) {
+			total += this.pawn[0].positionInx + 1;
+		}
+		
+		if (this.pawn[1].positionInx > 0) {
+			total += this.pawn[1].positionInx + 1;
+		}
+		
+		if (this.pawn[2].positionInx > 0) {
+			total += this.pawn[2].positionInx + 1;
+		}
+		
+		if (this.pawn[3].positionInx > 0) {
+			total += this.pawn[3].positionInx + 1;
+		}
+		
+		return total;
 	}
 }

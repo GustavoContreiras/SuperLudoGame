@@ -24,30 +24,24 @@ class Pawn {
 	
 	public void walk (int rolledDice) {
 		
-		if (this.positionInx < 56) {
-			this.detachFromPos(this);
-			this.addPosition(rolledDice);
-			this.attachToPos(this);
-			Game.lastPawnMoved = this;
-			if (Game.lastPawnMoved != null) {
-				System.out.printf("lastPawnMoved.id: %d\n", Game.lastPawnMoved.id);
-			}
-		}
-		else {
-			System.out.println("Pawn has finished his walkthrough");
-		}
-		
-		//Main.frame.repaint();
+		this.detachFromPos(this);
+		this.addPosition(rolledDice);
+		this.attachToPos(this);
+		Game.lastPawnMoved = this;
+		System.out.printf("lastPawnMoved: %d (%s Team)\n", Game.lastPawnMoved.id, Game.lastPawnMoved.team.name);
 		
 		if (this.position.pawn[0] != null) {
 			System.out.printf("newPos.Pawn[0].id: %d (%s Team)\n", this.position.pawn[0].id, this.position.pawn[0].team.name);
 		}
+		
 		if (this.position.pawn[1] != null) {
 			System.out.printf("newPos.Pawn[1].id: %d (%s Team)\n", this.position.pawn[1].id, this.position.pawn[1].team.name);
 		}
+		
 		if (this.position.pawn[2] != null) {
 			System.out.printf("newPos.Pawn[2].id: %d (%s Team)\n", this.position.pawn[2].id, this.position.pawn[2].team.name);
 		}
+		
 		if (this.position.pawn[3] != null) {
 			System.out.printf("newPos.Pawn[3].id: %d (%s Team)\n", this.position.pawn[3].id, this.position.pawn[3].team.name);
 		}
@@ -99,7 +93,7 @@ class Pawn {
 				return true;
 			}
 		}
-		
+	
 		else {
 			
 			for (int i = 0; i < rolledDice; i++) {
@@ -132,8 +126,6 @@ class Pawn {
 		//se nao for a casa final
 		if (inxNewPos != 56) {
 			
-			Game.flag_pawnFinished = false;
-			
 			//se a posicao de destino tiver uma barreira
 			if (walkthrough[inxNewPos].pawn[0] != null & walkthrough[inxNewPos].pawn[1] != null) {
 				System.out.printf("New position has a barrier.\n", position.letter, position.number);
@@ -156,9 +148,14 @@ class Pawn {
 			positionInx += inxToAdd;
 			position = walkthrough[positionInx];
 			
-			Game.flag_pawnFinished = true;
-			
 			System.out.printf("newPos: %s%s (finished)\n", position.letter, position.number);
+			
+			if (Game.currentTeam.pawn[0].positionInx == 56 &
+				Game.currentTeam.pawn[1].positionInx == 56 &
+				Game.currentTeam.pawn[2].positionInx == 56 &
+				Game.currentTeam.pawn[3].positionInx == 56) {
+				Game.currentTeam.hasFinished = true;
+			}
 						
 			return position;
 		}

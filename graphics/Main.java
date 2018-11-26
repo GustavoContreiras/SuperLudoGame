@@ -63,24 +63,31 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	
 	private static void showGUI() {
 		   
-		configureFrameAndMouseListener();	
+		configureFrameAndMouseListener();
+		
 		configureButtonNewGame();
-		configureButtonLoadGame();
-		configureButtonSaveGame();
-		configureLabelOnTurn();
-		configureLabelLastMove();
-		configureButtonRollDice();
-		configureLabelInstructions();
-					
 		frame.add(but_newGame);
+		
+		configureButtonLoadGame();
 		frame.add(but_loadGame);
+		
+		configureButtonSaveGame();
 		frame.add(but_saveGame);
+		
+		configureLabelOnTurn();
 		frame.add(lab_onTurn);
+		
+		configureLabelLastMove();
 		frame.add(lab_lastMove);
+		
+		configureButtonRollDice();
 		frame.add(but_rollDice);
-		frame.add(lab_instructions);	
+		
+		configureLabelInstructions();
+		frame.add(lab_instructions);
 		
 		frame.add(new Board());
+		
 		frame.repaint();
     }
 	
