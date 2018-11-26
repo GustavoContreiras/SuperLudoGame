@@ -278,10 +278,10 @@ class Game /*implements ObservadoIF*/ {
 				//se tiver mais de um peao movivel
 				else if (Game.currentTeam.countMovablePawns() > 1) {
 					
-					//se tiver apenas 2 moviveis e pertencerem a uma barreira
+					//se tiver apenas 2 moviveis e 1 barreira
 					if (Game.currentTeam.countMovablePawns() == 2 & Game.currentTeam.countBarriers() == 1) {
 
-						//se puder andar
+						//se a barreira puder andar
 						if (Game.currentTeam.getPawnOnFirstBarrier().canWalk(Game.currentDice)) {
 							
 							//anda automaticamente
@@ -298,11 +298,20 @@ class Game /*implements ObservadoIF*/ {
 							}
 						}
 						
-						//se nao puder andar
+						//se a barreira nao puder andar
 						else {
-							Game.prepareNextTurn();
+							
+							//se tiver mais de 2 peoes fora da casa inicial
+							if (Game.currentTeam.countPawnsInHome() < 2) {
+								Game.setLastDice(0);
+								Main.lab_instructions.setText("Choose a pawn!");
+								Main.but_rollDice.setEnabled(false);
+							}
+							
+							else {
+								Game.prepareNextTurn();
+							}
 						}
-						
 					}
 					
 					else {
@@ -365,25 +374,36 @@ class Game /*implements ObservadoIF*/ {
 						Game.prepareNextTurn();	
 					}
 					
-					//se tiver apenas 2 moviveis e pertencerem a uma barreira
+					//se tiver apenas 2 moviveis e 1 barreira
 					else if (Game.currentTeam.countMovablePawns() == 2 & Game.currentTeam.countBarriers() == 1) {
 						
-						//anda automaticamente
-						Game.currentTeam.getPawnOnFirstBarrier().walk(Game.currentDice);
-						
-						//se o peao nao tiver chego ao fim
-						if (Game.lastPawnMoved.positionInx < 56) {
-							Game.prepareNextTurn();
+						//se os peoes da barreira puderem andar
+						if (Game.currentTeam.getPawnOnFirstBarrier().canWalk(Game.currentDice)) {
+							
+							//anda automaticamente
+							Game.currentTeam.getPawnOnFirstBarrier().walk(Game.currentDice);
+							
+							//se o peao nao tiver chego ao fim
+							if (Game.lastPawnMoved.positionInx < 56) {
+								Game.prepareNextTurn();
+							}
+							
+							//se o peao tiver chego ao fim
+							else if (Game.lastPawnMoved.positionInx == 56) {
+								Game.makeMoveAfterFinish();
+							}
+							
+							else {
+								System.out.println("ERROR: makeMoveAfterRollDice: positionInx > 56");
+							}
 						}
 						
-						//se o peao tiver chego ao fim
-						else if (Game.lastPawnMoved.positionInx == 56) {
-							Game.makeMoveAfterFinish();
-						}
-						
+						//se os peoes da barreira nao puderem andar
 						else {
-							System.out.println("ERROR: makeMoveAfterRollDice: positionInx > 56");
-						}
+							Game.setLastDice(0);
+							Main.lab_instructions.setText("Choose a pawn!");
+							Main.but_rollDice.setEnabled(false);
+						}					
 					}
 					
 					else {
@@ -565,7 +585,6 @@ class Game /*implements ObservadoIF*/ {
 		}
 	}
 	
-	
 	public static void prepareNextTurn () {
 		
 		if (Game.currentTeam.hasFinished) {
@@ -574,20 +593,20 @@ class Game /*implements ObservadoIF*/ {
 			colocação dos jogadores por meio de um JOptionPane.showMessageDialog.*/
 
 			Team secondTeam = Game.getSecondPlacedTeam();
-			float secondScorePercent = (float) ((secondTeam.getScore() / 224.0) * 100.0);
+			double secondScorePercent = Math.round((double) ((secondTeam.getScore() / 224.0) * 100.0));
 			
-			String thirdTeam = "Blue Team";
-			int thirdScore = 0;
+			Team thirdTeam = Game.getThirdPlacedTeam();
+			double thirdScorePercent = Math.round((double) ((thirdTeam.getScore() / 224.0) * 100.0));
 			
-			String fourthTeam = "Green Team";
-			int fourthScore = 0;
+			Team fourthTeam = Game.getFourthPlacedTeam();
+			double fourthScorePercent = Math.round((double) ((fourthTeam.getScore() / 224.0) * 100.0));
 			
-			String message = Game.currentTeam.name + " Team has won the match!\n" +
+			String messageWinner = Game.currentTeam.name + " Team has won the match!\n" +
 							 "2nd: " + secondTeam.name + " Team (" + secondScorePercent + "%)\n" +
-							 "3rd: " + thirdTeam + " (" + thirdScore + ")\n" +
-							 "4th: " + fourthTeam + " (" + fourthScore + ")";
+							 "3rd: " + thirdTeam.name + " Team (" + thirdScorePercent + "%)\n" +
+							 "4th: " + fourthTeam.name + " (" + fourthScorePercent + "%)";
 			
-			JOptionPane.showMessageDialog(Main.frame, message);
+			JOptionPane.showMessageDialog(Main.frame, messageWinner);
 			
 			/* Após o botão de OK do diálogo acima tiver sido pressionado, o
 			programa deverá exibir um segundo diálogo, que irá perguntar se os 
@@ -595,7 +614,17 @@ class Game /*implements ObservadoIF*/ {
 			(JOptionPane.showConfirmDialog). Caso a resposta seja pela continuação,
 			o programa deverá exibir a configuração inicial do tabuleiro. */
 			
-			//...
+			int option = JOptionPane.showConfirmDialog(Main.frame, "Do you want to start a new game?", 
+													   "Confirm", 
+													   JOptionPane.YES_NO_OPTION,
+										               JOptionPane.QUESTION_MESSAGE);
+			if (option == JOptionPane.YES_NO_OPTION) {
+				new Game();
+			}
+			else {
+				CtrlGame.destroy();
+				System.exit(0);
+			}
 		}
 		
 		else {
@@ -795,4 +824,116 @@ class Game /*implements ObservadoIF*/ {
     	return secondPlacedTeam;
     }
 
+    private static Team getThirdPlacedTeam () {
+    	
+    	int higher = - 10;
+    	int redTeamCount = 0;
+    	int greenTeamCount = 0;
+    	int yellowTeamCount = 0;
+    	int blueTeamCount = 0;
+    	
+    	Team thirdPlacedTeam = null;
+    	
+    	redTeamCount = Game.redTeam.pawn[0].positionInx + Game.redTeam.pawn[1].positionInx + 
+				   	   Game.redTeam.pawn[2].positionInx + Game.redTeam.pawn[3].positionInx;
+	
+		//se o time vermelho nao for o primeiro nem o segundo colocado
+		if (redTeamCount < 56*4 & Game.redTeam != Game.getSecondPlacedTeam() & redTeamCount > higher) {
+			higher = redTeamCount;
+			thirdPlacedTeam = Game.redTeam;
+		}
+		
+		greenTeamCount = Game.greenTeam.pawn[0].positionInx + Game.greenTeam.pawn[1].positionInx + 
+		   		 		 Game.greenTeam.pawn[2].positionInx + Game.greenTeam.pawn[3].positionInx;
+		
+		//se o time verde nao for o primeiro nem o segundo colocado
+		if (greenTeamCount < 56*4 & Game.greenTeam != Game.getSecondPlacedTeam() & greenTeamCount > higher) {
+			higher = greenTeamCount;
+			thirdPlacedTeam = Game.greenTeam;
+		}
+		
+		yellowTeamCount = Game.yellowTeam.pawn[0].positionInx + Game.yellowTeam.pawn[1].positionInx + 
+		   		 		  Game.yellowTeam.pawn[2].positionInx + Game.yellowTeam.pawn[3].positionInx;
+		
+		//se o time amarelo nao for o primeiro nem o segundo colocado
+		if (yellowTeamCount < 56*4 & Game.yellowTeam != Game.getSecondPlacedTeam() & yellowTeamCount > higher) {
+			higher = yellowTeamCount;
+			thirdPlacedTeam = Game.yellowTeam;
+		}
+		
+		blueTeamCount = Game.blueTeam.pawn[0].positionInx + Game.blueTeam.pawn[1].positionInx + 
+		   		 		Game.blueTeam.pawn[2].positionInx + Game.blueTeam.pawn[3].positionInx;
+		
+		//se o time azul nao for o primeiro nem o segundo colocado
+		if (blueTeamCount < 56*4 & Game.blueTeam != Game.getSecondPlacedTeam() & blueTeamCount > higher) {
+			higher = blueTeamCount;
+			thirdPlacedTeam = Game.blueTeam;
+		}
+		
+		return thirdPlacedTeam;
+    }
+
+    private static Team getFourthPlacedTeam () {
+    	int higher = - 10;
+    	int redTeamCount = 0;
+    	int greenTeamCount = 0;
+    	int yellowTeamCount = 0;
+    	int blueTeamCount = 0;
+    	
+    	Team fourthPlacedTeam = null;
+    	
+    	redTeamCount = Game.redTeam.pawn[0].positionInx + Game.redTeam.pawn[1].positionInx + 
+				   	   Game.redTeam.pawn[2].positionInx + Game.redTeam.pawn[3].positionInx;
+	
+		//se o time vermelho nao for o primeiro nem o segundo colocado
+		if (redTeamCount < 56*4 & 
+			Game.redTeam != Game.getSecondPlacedTeam() & 
+			Game.redTeam != Game.getThirdPlacedTeam() & 
+			redTeamCount > higher) {
+			
+			higher = redTeamCount;
+			fourthPlacedTeam = Game.redTeam;
+		}
+		
+		greenTeamCount = Game.greenTeam.pawn[0].positionInx + Game.greenTeam.pawn[1].positionInx + 
+		   		 		 Game.greenTeam.pawn[2].positionInx + Game.greenTeam.pawn[3].positionInx;
+		
+		//se o time verde nao for o primeiro nem o segundo colocado
+		if (greenTeamCount < 56*4 & 
+			Game.greenTeam != Game.getSecondPlacedTeam() & 
+			Game.greenTeam != Game.getThirdPlacedTeam() & 
+			greenTeamCount > higher) {
+			
+			higher = greenTeamCount;
+			fourthPlacedTeam = Game.greenTeam;
+		}
+		
+		yellowTeamCount = Game.yellowTeam.pawn[0].positionInx + Game.yellowTeam.pawn[1].positionInx + 
+		   		 		  Game.yellowTeam.pawn[2].positionInx + Game.yellowTeam.pawn[3].positionInx;
+		
+		//se o time amarelo nao for o primeiro nem o segundo colocado
+		if (yellowTeamCount < 56*4 & 
+			Game.yellowTeam != Game.getSecondPlacedTeam() & 
+			Game.yellowTeam != Game.getThirdPlacedTeam() & 
+			yellowTeamCount > higher) {
+			
+			higher = yellowTeamCount;
+			fourthPlacedTeam = Game.yellowTeam;
+		}
+		
+		blueTeamCount = Game.blueTeam.pawn[0].positionInx + Game.blueTeam.pawn[1].positionInx + 
+		   		 		Game.blueTeam.pawn[2].positionInx + Game.blueTeam.pawn[3].positionInx;
+		
+		//se o time azul nao for o primeiro nem o segundo colocado
+		if (blueTeamCount < 56*4 & 
+			Game.blueTeam != Game.getSecondPlacedTeam() & 
+			Game.blueTeam != Game.getThirdPlacedTeam() & 
+			blueTeamCount > higher) {
+			
+			higher = blueTeamCount;
+			fourthPlacedTeam = Game.blueTeam;
+		}
+		
+		return fourthPlacedTeam;
+    }
 }

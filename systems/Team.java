@@ -222,6 +222,7 @@ class Team {
 		for (int i = 0; i < 4; i++) {
 			
 			if (this.pawn[i].positionInx == -1) {
+				System.out.printf("Pawn in home: %d %s Team\n", this.pawn[i].id, this.pawn[i].team.name);
 				return this.pawn[i];
 			}
 		}	
@@ -345,7 +346,7 @@ class Team {
 		
 		if (this.walkthrough[0].pawn[0] != null) {
 			
-			if ( this.walkthrough[0].pawn[0].team == this) {
+			if (this.walkthrough[0].pawn[0].team == this) {
 				return false;
 			}
 		}
