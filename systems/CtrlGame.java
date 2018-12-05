@@ -3,7 +3,6 @@ package systems;
 public class CtrlGame {
 	
 	private static CtrlGame ctrl = null;
-	private Game game = null;
 	
 	private CtrlGame() {
 		
@@ -22,7 +21,7 @@ public class CtrlGame {
 	}
 	
 	public void reset() {
-		game = new Game();
+		new Game();
 	}
 		
 	public void doMouseClick (int x, int y) {
@@ -263,10 +262,5 @@ public class CtrlGame {
 			return "NULL";
 	}
 
-	public Observado registra (Observador o) {
-		System.out.println("Teste0");
-		game.add(o);
-		System.out.println("Teste");
-		return game;
-	}
+	//public ObservadoIF registra (ObservadorIF o) {}
 }

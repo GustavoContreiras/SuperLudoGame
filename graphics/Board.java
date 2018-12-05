@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import systems.*;
 
-class Board extends JPanel implements Observador {
+public class Board extends JPanel /*implements ObservadorIF*/ {
 
 	//to remove warning
 	private static final long serialVersionUID = -8919768790110412092L;
@@ -94,64 +94,6 @@ class Board extends JPanel implements Observador {
     	setLayout(null);
         setBorder(BorderFactory.createLineBorder(Color.black));
         //CtrlGame.getController().registra(this);
-    }
-    
-    @SuppressWarnings("null")
-	public void notify (String s) {
-    	for (int i = 0; i < s.length(); i++) {
-    		
-    		if (s.charAt(i) == 'R') { //Se ele quer setar rolldice
-    			i++;
-    			
-    			if (s.charAt(i) == 'f') {
-    				Main.but_rollDice.setEnabled(false);
-    			}
-    			
-    			else {
-    				Main.but_rollDice.setEnabled(true);
-    			}
-    		}
-    		
-    		else if (s.charAt(i) == 'S') { //Se ele quer setar savegame
-    			i++;
-    			
-    			if (s.charAt(i) == 'f') {
-    				Main.but_rollDice.setEnabled(false);
-    			}
-    			
-    			else {
-    				Main.but_rollDice.setEnabled(true);
-    			}
-    		}
-    		
-    		else if (s.charAt(i) == 'L') { //Se ele quer setar o texto do lastmove
-    			i++;
-    			
-    			char c[] = null;
-    			for (int j = 0; s.charAt(i) != ';'; j++) {
-    				c[j] = s.charAt(i);
-    				i++;
-    			}
-    			
-    			String aux = new String(c);
-    			
-    			Main.lab_lastMove.setText(aux);
-    		}
-    		
-    		else if (s.charAt(i) == 'I') { //Se ele quer setar o texto do instructions
-    			i++;
-    			
-    			char c[] = null;
-    			for (int j = 0; s.charAt(i) != ';'; j++) {
-    				c[j] = s.charAt(i);
-    				i++;
-    			}
-    			
-    			String aux = new String(c);
-    			
-    			Main.lab_instructions.setText(aux);
-    		}
-    	}
     }
     
     public void paintComponent(Graphics g) {

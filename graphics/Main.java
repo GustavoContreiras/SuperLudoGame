@@ -56,7 +56,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static JLabel lab_lastMove = new JLabel("");
 	public static JButton but_rollDice = new JButton("Roll Dice");
 	public static JLabel lab_instructions = new JLabel("");
-	
+			
 	public static void main(String[] args) {
 		showGUI();
 	}
