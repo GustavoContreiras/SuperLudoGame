@@ -81,7 +81,35 @@ class Game implements Observado {
 		int option = fileChooser.showSaveDialog(null);
 		if (option == JFileChooser.APPROVE_OPTION) {
 			try (FileWriter fw = new FileWriter (fileChooser.getSelectedFile() + ".txt")){
-            	fw.write("Test");
+				
+				//Posição dos peões de redTeam
+            	fw.write(String.valueOf(redTeam.pawn[0].positionInx) + ' ');
+            	fw.write(String.valueOf(redTeam.pawn[1].positionInx) + ' ');
+            	fw.write(String.valueOf(redTeam.pawn[2].positionInx) + ' ');
+            	fw.write(String.valueOf(redTeam.pawn[3].positionInx) + ' ');
+            	
+            	//Posição dos peões de greenTeam
+            	fw.write(String.valueOf(greenTeam.pawn[0].positionInx) + ' ');
+            	fw.write(String.valueOf(greenTeam.pawn[1].positionInx) + ' ');
+            	fw.write(String.valueOf(greenTeam.pawn[2].positionInx) + ' ');
+            	fw.write(String.valueOf(greenTeam.pawn[3].positionInx) + ' ');
+            	
+            	//Posição dos peões de yellowTeam
+            	fw.write(String.valueOf(yellowTeam.pawn[0].positionInx) + ' ');
+            	fw.write(String.valueOf(yellowTeam.pawn[1].positionInx) + ' ');
+            	fw.write(String.valueOf(yellowTeam.pawn[2].positionInx) + ' ');
+            	fw.write(String.valueOf(yellowTeam.pawn[3].positionInx) + ' ');
+            	
+            	//Posição dos peões de blueTeam
+            	fw.write(String.valueOf(blueTeam.pawn[0].positionInx) + ' ');
+            	fw.write(String.valueOf(blueTeam.pawn[1].positionInx) + ' ');
+            	fw.write(String.valueOf(blueTeam.pawn[2].positionInx) + ' ');
+            	fw.write(String.valueOf(blueTeam.pawn[3].positionInx) + ' ');
+            	
+            	//Time da vez
+            	fw.write(currentTeam.getName());
+            	
+            	
             } catch (Exception e0) {
             	e0.printStackTrace();
             }
