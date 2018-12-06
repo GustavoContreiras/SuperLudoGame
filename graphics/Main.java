@@ -57,6 +57,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	public static JLabel lab_lastMove = new JLabel("");
 	public static JButton but_rollDice = new JButton("Roll Dice");
 	public static JLabel lab_instructions = new JLabel("");
+	public static Board board = new Board();
 			
 	public static void main(String[] args) {
 		showGUI();
@@ -65,30 +66,22 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 	private static void showGUI() {
 		   
 		configureFrameAndMouseListener();
-		
 		configureButtonNewGame();
-		frame.add(but_newGame);
-		
 		configureButtonLoadGame();
-		frame.add(but_loadGame);
-		
 		configureButtonSaveGame();
-		frame.add(but_saveGame);
-		
 		configureLabelOnTurn();
-		frame.add(lab_onTurn);
-		
 		configureLabelLastMove();
-		frame.add(lab_lastMove);
-		
 		configureButtonRollDice();
-		frame.add(but_rollDice);
-		
 		configureLabelInstructions();
+		
+		frame.add(but_newGame);
+		frame.add(but_loadGame);		
+		frame.add(but_saveGame);
+		frame.add(lab_onTurn);
+		frame.add(lab_lastMove);
+		frame.add(but_rollDice);
 		frame.add(lab_instructions);
-		
-		frame.add(new Board());
-		
+		frame.add(board);	
 		frame.repaint();
     }
 	
@@ -99,7 +92,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		but_newGame.setMnemonic(KeyEvent.VK_N); //ALT+N
 		but_newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CtrlGame.getController().reset();
+				CtrlGame.getController().createNewGame();
 				Main.frame.repaint();
 				
 				try {
@@ -118,18 +111,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		but_loadGame.setMnemonic(KeyEvent.VK_L); //ALT+L
 		but_loadGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setApproveButtonText("Load");
-				int option = fileChooser.showOpenDialog((Component)e.getSource());
-				if (option == JFileChooser.APPROVE_OPTION) {
-		            //File file = fileChooser.getSelectedFile();
-		        }
-				
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e1) { // TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				CtrlGame.getController().loadGame();
 			}
 		});
 	}

@@ -21,10 +21,18 @@ public class CtrlGame {
 			ctrl = null;
 	}
 	
-	public void reset() {
+	public void createNewGame() {
 		game = new Game();
 	}
 		
+	public void saveGame() {
+		Game.save();
+	}
+	
+	public void loadGame() {
+		Game.load();
+	}
+	
 	public void doMouseClick (int x, int y) {
 		Position.doMouseClick(x, y);
 	}
@@ -263,10 +271,6 @@ public class CtrlGame {
 			return "NULL";
 	}
 	
-	public void saveGame () {
-		Game.saveGame();
-	}
-
 	public Observado registra (Observador o) {
 		System.out.println("Teste0");
 		game.add(o);

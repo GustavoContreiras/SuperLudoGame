@@ -1251,10 +1251,4 @@ class Board extends JPanel implements Observador {
 			g2d.drawString("15", 604, 585);
 		}
     }
-
-    /*public void notify(ObservadoIF o) {
-	    mm = o.get(1);
-	    ss = o.get(2);
-	    repaint();
-	}*/
 }

@@ -23,8 +23,7 @@ class Game implements Observado {
 	public static boolean flag_firstMove = true;
 	public static boolean flag_skipTurn = false;
 	
-	//ArrayList de observadores
-	private List<Observador> lst = new ArrayList<Observador>();
+	private List<Observador> lst = new ArrayList<Observador>(); //ArrayList de observadores
 	
 	public Game () {
 		
@@ -66,19 +65,12 @@ class Game implements Observado {
 		}
 	}
 	
-	/*public void get(int i) {
-		switch (i) {
-		case 1:
-			return algumaCoisa;
-		case 2:
-			return outraCoisa;
-		}
-	}*/
-	
-	public static void saveGame() {
+	public static void save() {
+		
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setApproveButtonText("Save");
 		int option = fileChooser.showSaveDialog(null);
+		
 		if (option == JFileChooser.APPROVE_OPTION) {
 			try (FileWriter fw = new FileWriter (fileChooser.getSelectedFile() + ".txt")){
 				
@@ -107,19 +99,41 @@ class Game implements Observado {
             	fw.write(String.valueOf(blueTeam.pawn[3].positionInx) + ' ');
             	
             	//Time da vez
-            	fw.write(currentTeam.getName());
-            	
-            	
-            } catch (Exception e0) {
+            	fw.write(currentTeam.getName());            	
+            }
+			
+			catch (Exception e0) {
             	e0.printStackTrace();
             }
         }
+	}
+	
+	public static void load() {
 		
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e1) { // TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setApproveButtonText("Load");
+		
+		int option = fileChooser.showSaveDialog(null);		
+		
+		if (option == JFileChooser.APPROVE_OPTION) {
+			
+			File file;
+		    Scanner sc;
+		    
+			try {
+				
+				file = fileChooser.getSelectedFile();
+				sc = new Scanner(file);
+				
+				while (sc.hasNextByte()) {
+					System.out.println(sc.nextLine()); 
+				}            	
+			} 
+			
+			catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} 
+		}			
 	}
 	
 	public static Pawn getPawnClicked(Position posClicked) {
