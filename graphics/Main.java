@@ -2,6 +2,7 @@ package graphics;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 import systems.*;
@@ -140,18 +141,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		but_saveGame.setMnemonic(KeyEvent.VK_S); //ALT+S
 		but_saveGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setApproveButtonText("Save");
-				int option = fileChooser.showOpenDialog((Component)e.getSource());
-				if (option == JFileChooser.APPROVE_OPTION) {
-		            //File file = fileChooser.getSelectedFile();
-		        }
-				
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e1) { // TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				CtrlGame.getController().saveGame();
 			}
 		});
 	}

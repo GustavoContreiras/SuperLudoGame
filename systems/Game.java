@@ -1,6 +1,9 @@
 package systems;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import java.io.*;
 import java.util.*;
 
 import graphics.*;
@@ -71,6 +74,25 @@ class Game implements Observado {
 			return outraCoisa;
 		}
 	}*/
+	
+	public static void saveGame() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setApproveButtonText("Save");
+		int option = fileChooser.showSaveDialog(null);
+		if (option == JFileChooser.APPROVE_OPTION) {
+			try (FileWriter fw = new FileWriter (fileChooser.getSelectedFile() + ".txt")){
+            	fw.write("Test");
+            } catch (Exception e0) {
+            	e0.printStackTrace();
+            }
+        }
+		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e1) { // TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 	
 	public static Pawn getPawnClicked(Position posClicked) {
 		

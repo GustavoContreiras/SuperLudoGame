@@ -262,6 +262,10 @@ public class CtrlGame {
 		else
 			return "NULL";
 	}
+	
+	public void saveGame () {
+		Game.saveGame();
+	}
 
 	public Observado registra (Observador o) {
 		System.out.println("Teste0");
