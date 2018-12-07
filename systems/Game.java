@@ -258,7 +258,6 @@ class Game implements Observado {
 				
 				//red 1
 				redTeam.pawn[0].positionInx = redPawn0posInx;
-				redTeam.pawn[0].position = redTeam.pawn[0].homePosition;
 				if (redPawn0posInx > -1) {
 					redTeam.pawn[0].position = redTeam.walkthrough[redPawn0posInx];
 				}
@@ -266,7 +265,6 @@ class Game implements Observado {
 				
 				//red 2
 				redTeam.pawn[1].positionInx = redPawn1posInx;
-				redTeam.pawn[1].position = redTeam.pawn[1].homePosition;
 				if (redPawn1posInx > -1) {
 					redTeam.pawn[1].position = redTeam.walkthrough[redPawn1posInx];
 				}
@@ -274,7 +272,6 @@ class Game implements Observado {
 				
 				//red 3
 				redTeam.pawn[2].positionInx = redPawn2posInx;
-				redTeam.pawn[2].position = redTeam.pawn[2].homePosition;
 				if (redPawn2posInx > -1) {
 					redTeam.pawn[2].position = redTeam.walkthrough[redPawn2posInx];
 				}
@@ -282,7 +279,6 @@ class Game implements Observado {
 				
 				//red 4
 				redTeam.pawn[3].positionInx = redPawn3posInx;
-				redTeam.pawn[3].position = redTeam.pawn[3].homePosition;
 				if (redPawn3posInx > -1) {
 					redTeam.pawn[3].position = redTeam.walkthrough[redPawn3posInx];
 				}
@@ -290,7 +286,6 @@ class Game implements Observado {
 				
 				//green 1
 				greenTeam.pawn[0].positionInx = greenPawn0posInx;
-				greenTeam.pawn[0].position = greenTeam.pawn[0].homePosition;
 				if (greenPawn0posInx > -1) {
 					greenTeam.pawn[0].position = greenTeam.walkthrough[greenPawn0posInx];
 				}
@@ -298,7 +293,6 @@ class Game implements Observado {
 				
 				//green 2
 				greenTeam.pawn[1].positionInx = greenPawn1posInx;
-				greenTeam.pawn[1].position = greenTeam.pawn[1].homePosition;
 				if (greenPawn1posInx > -1) {
 					greenTeam.pawn[1].position = greenTeam.walkthrough[greenPawn1posInx];
 				}
@@ -306,7 +300,6 @@ class Game implements Observado {
 				
 				//green 3
 				greenTeam.pawn[2].positionInx = greenPawn2posInx;
-				greenTeam.pawn[2].position = greenTeam.pawn[2].homePosition;
 				if (greenPawn2posInx > -1) {
 					greenTeam.pawn[2].position = greenTeam.walkthrough[greenPawn2posInx];
 				}
@@ -314,7 +307,6 @@ class Game implements Observado {
 				
 				//green 4
 				greenTeam.pawn[3].positionInx = greenPawn3posInx;
-				greenTeam.pawn[3].position = greenTeam.pawn[3].homePosition;
 				if (greenPawn3posInx > -1) {
 					greenTeam.pawn[3].position = greenTeam.walkthrough[greenPawn3posInx];
 				}
@@ -322,7 +314,6 @@ class Game implements Observado {
 				
 				//yellow 1
 				yellowTeam.pawn[0].positionInx = yellowPawn0posInx;
-				yellowTeam.pawn[0].position = yellowTeam.pawn[0].homePosition;
 				if (yellowPawn0posInx > -1) {
 					yellowTeam.pawn[0].position = yellowTeam.walkthrough[yellowPawn0posInx];
 				}
@@ -330,7 +321,6 @@ class Game implements Observado {
 				
 				//yellow 2
 				yellowTeam.pawn[1].positionInx = yellowPawn1posInx;
-				yellowTeam.pawn[1].position = yellowTeam.pawn[1].homePosition;
 				if (yellowPawn1posInx > -1) {
 					yellowTeam.pawn[1].position = yellowTeam.walkthrough[yellowPawn1posInx];
 				}
@@ -338,7 +328,6 @@ class Game implements Observado {
 				
 				//yellow 3
 				yellowTeam.pawn[2].positionInx = yellowPawn2posInx;
-				yellowTeam.pawn[2].position = yellowTeam.pawn[2].homePosition;
 				if (yellowPawn2posInx > -1) {
 					yellowTeam.pawn[2].position = yellowTeam.walkthrough[yellowPawn2posInx];
 				}
@@ -346,7 +335,6 @@ class Game implements Observado {
 				
 				//yellow 4
 				yellowTeam.pawn[3].positionInx = yellowPawn3posInx;
-				yellowTeam.pawn[3].position = yellowTeam.pawn[3].homePosition;
 				if (yellowPawn3posInx > -1) {
 					yellowTeam.pawn[3].position = yellowTeam.walkthrough[yellowPawn3posInx];
 				}
@@ -354,7 +342,6 @@ class Game implements Observado {
 				
 				//blue 1
 				blueTeam.pawn[0].positionInx = bluePawn0posInx;
-				blueTeam.pawn[0].position = blueTeam.pawn[0].homePosition;
 				if (bluePawn0posInx > -1) {
 					blueTeam.pawn[0].position = blueTeam.walkthrough[bluePawn0posInx];
 				}
@@ -362,7 +349,6 @@ class Game implements Observado {
 				
 				//blue 2
 				blueTeam.pawn[1].positionInx = bluePawn1posInx;
-				blueTeam.pawn[1].position = blueTeam.pawn[1].homePosition;
 				if (bluePawn1posInx > -1) {
 					blueTeam.pawn[1].position = blueTeam.walkthrough[bluePawn1posInx];
 				}
@@ -370,7 +356,6 @@ class Game implements Observado {
 				
 				//blue 3
 				blueTeam.pawn[2].positionInx = bluePawn2posInx;
-				blueTeam.pawn[2].position = blueTeam.pawn[2].homePosition;
 				if (bluePawn2posInx > -1) {
 					blueTeam.pawn[2].position = blueTeam.walkthrough[bluePawn2posInx];
 				}
@@ -378,7 +363,6 @@ class Game implements Observado {
 				
 				//blue 4
 				blueTeam.pawn[3].positionInx = bluePawn3posInx;
-				blueTeam.pawn[3].position = blueTeam.pawn[3].homePosition;
 				if (bluePawn3posInx > -1) {
 					blueTeam.pawn[3].position = blueTeam.walkthrough[bluePawn3posInx];
 				}
