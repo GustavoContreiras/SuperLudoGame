@@ -112,6 +112,7 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		but_loadGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CtrlGame.getController().loadGame();
+				Main.frame.repaint();
 			}
 		});
 	}

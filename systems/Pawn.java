@@ -378,6 +378,18 @@ class Pawn {
 		}
 	}
 
+	public String getStackPos() {
+		if (this.position.pawn[0] == this) {
+			return "0";
+		}
+		else if (this.position.pawn[1] == this) {
+			return "1";
+		}
+		else {
+			return "X";
+		}
+	}
+	
 	public Position nextPos() {
 		return walkthrough[positionInx + 1];
 	}

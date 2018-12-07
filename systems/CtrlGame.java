@@ -133,7 +133,7 @@ public class CtrlGame {
 	public Position getBluePawnPosition(int pawnInx) {
 		return Game.blueTeam.pawn[pawnInx].position;
 	}
-	
+		
 	public Pawn getLastPawnMoved () {
 		return Game.lastPawnMoved;
 	}
