@@ -273,6 +273,8 @@ public class CtrlGame {
 	
 	public Observado registra (Observador o) {
 		System.out.println("Teste0");
+		System.out.println(o);
+		System.out.println(game);
 		game.add(o);
 		System.out.println("Teste");
 		return game;

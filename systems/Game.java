@@ -24,17 +24,17 @@ class Game implements Observado {
 	public static boolean flag_firstMove = true;
 	public static boolean flag_skipTurn = false;
 	
-	private List<Observador> lst = new ArrayList<Observador>(); //ArrayList de observadores
+	//private static Observador obs = null;
+	
+	private static List<Observador> lst = new ArrayList<Observador>(); //ArrayList de observadores
 	
 	public Game () {
 		
-		
+		/*
 		Main.but_rollDice.setEnabled(true);
 		Main.but_saveGame.setEnabled(true);
 		Main.lab_lastMove.setText("");
-		
-		
-		//this.update("RtStL ;");
+		*/
 		
 		Game.currentTeam = null;
 		Game.redTeam = new Team("Red");
@@ -49,22 +49,43 @@ class Game implements Observado {
 		Game.setTeamOnTurn();
 	}
 	
+	
 	public void add(Observador o) {
 		System.out.println("Teste1");
 		lst.add(o);
 	}
 	
+	/*
+	public void add (Observador o) {
+		obs = o;
+	}
+	*/
+	
+	
 	public void remove(Observador o) {
 		lst.remove(o);
 	}
 	
-	public void update(String s) {
+	/*
+	public void remove (Observador o) {
+		obs = null;
+	}
+	*/
+	
+	
+	public static void update(String s) {
 		ListIterator<Observador> li = lst.listIterator();
 		
 		while (li.hasNext()) {
 			li.next().notify(s);
 		}
 	}
+	
+	/*
+	public static void update(String s) {
+		obs.notify(s);
+	}
+	*/
 	
 	public static void save() {
 				
@@ -438,8 +459,9 @@ class Game implements Observado {
 			}
 			
 			else {
-				Main.lab_instructions.setText("Choose a pawn!");
-				Main.but_rollDice.setEnabled(false);
+				//Main.lab_instructions.setText("Choose a pawn!");
+				//Main.but_rollDice.setEnabled(false);
+				Game.update("IChoose a pawn!;Rf");
 				Game.flag_skipTurn = true;
 			}
 			

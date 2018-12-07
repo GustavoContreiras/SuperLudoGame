@@ -93,7 +93,8 @@ class Board extends JPanel implements Observador {
     public Board() {
     	setLayout(null);
         setBorder(BorderFactory.createLineBorder(Color.black));
-        //CtrlGame.getController().registra(this);
+        CtrlGame ctrl = CtrlGame.getController();
+        ctrl.registra(this);
     }
     
     @SuppressWarnings("null")
