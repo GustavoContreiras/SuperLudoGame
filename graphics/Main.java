@@ -145,7 +145,28 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 		but_rollDice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				CtrlGame.getController().rollDice();
+				int numberCheated = 0;
+				
+				if (Main.debugMode) {
+					
+					String cheatRollDice = JOptionPane.showInputDialog("Choose how much you want to roll:");
+					
+					if (cheatRollDice == null) {
+						numberCheated = 0;
+					}
+					else {
+						
+						numberCheated = Integer.parseInt(cheatRollDice);
+						
+						if (numberCheated < 0 | numberCheated > 6) {
+							numberCheated = 0;	
+						}
+					}
+					
+			        System.out.printf("\nNumber rolled by cheating: %d", numberCheated);
+				}
+				
+				CtrlGame.getController().rollDice(numberCheated);
 				CtrlGame.getController().makeMoveAfterRollDice();
 				
 				Main.frame.repaint();

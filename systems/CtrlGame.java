@@ -19,6 +19,7 @@ public class CtrlGame {
 	public static void destroy() {
 		if (ctrl != null)
 			ctrl = null;
+		System.exit(0);
 	}
 	
 	public void createNewGame() {
@@ -41,8 +42,8 @@ public class CtrlGame {
 		Game.makeMoveAfterClick(posClicked, rolledDice, currentTeam);
 	}
 	
-	public int rollDice() {
-		return Game.rollDice();
+	public int rollDice(int n) {
+		return Game.rollDice(n);
 	}
 	
 	public void makeMoveAfterRollDice() {

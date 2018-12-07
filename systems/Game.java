@@ -1,13 +1,11 @@
 package systems;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.*;
 import java.util.*;
 
-import graphics.*;
 
 class Game implements Observado {
 	
@@ -24,17 +22,9 @@ class Game implements Observado {
 	public static boolean flag_firstMove = true;
 	public static boolean flag_skipTurn = false;
 	
-	//private static Observador obs = null;
-	
 	private static List<Observador> lst = new ArrayList<Observador>(); //ArrayList de observadores
 	
 	public Game () {
-		
-		/*
-		Main.but_rollDice.setEnabled(true);
-		Main.but_saveGame.setEnabled(true);
-		Main.lab_lastMove.setText("");
-		*/
 		
 		Game.currentTeam = null;
 		Game.redTeam = new Team("Red");
@@ -55,23 +45,9 @@ class Game implements Observado {
 		lst.add(o);
 	}
 	
-	/*
-	public void add (Observador o) {
-		obs = o;
-	}
-	*/
-	
-	
 	public void remove(Observador o) {
 		lst.remove(o);
 	}
-	
-	/*
-	public void remove (Observador o) {
-		obs = null;
-	}
-	*/
-	
 	
 	public static void update(String s) {
 		ListIterator<Observador> li = lst.listIterator();
@@ -80,12 +56,6 @@ class Game implements Observado {
 			li.next().notify(s);
 		}
 	}
-	
-	/*
-	public static void update(String s) {
-		obs.notify(s);
-	}
-	*/
 	
 	public static void save() {
 				
@@ -274,7 +244,7 @@ class Game implements Observado {
 				Game.lastPawnMoved = Game.oldTeam.pawn[lastPawnMovedId-1];
 				
 				if (Game.oldDice > -1 & Game.lastPawnMoved != null) {
-					Main.lab_lastMove.setText("Last move:");
+					Game.update("L"); //Update mensagem de last move
 				}
 				
 				//red 1
@@ -459,9 +429,7 @@ class Game implements Observado {
 			}
 			
 			else {
-				//Main.lab_instructions.setText("Choose a pawn!");
-				//Main.but_rollDice.setEnabled(false);
-				Game.update("IChoose a pawn!;Rf");
+				Game.update("IpRf"); //Update mensagem de instruções e roll indisponível
 				Game.flag_skipTurn = true;
 			}
 			
@@ -505,7 +473,8 @@ class Game implements Observado {
 				
 				else {
 					System.out.println("Choose another pawn.");
-					Main.lab_instructions.setText("Choose another.");
+					//Main.lab_instructions.setText("Choose another.");
+					Game.update("Ia");
 				}
 			}
 			
@@ -522,12 +491,14 @@ class Game implements Observado {
 				//ROLLED DICE EH MENOR QUE 5 OU 6
 				else {
 					System.out.println("Choose another pawn.");
-					Main.lab_instructions.setText("Choose another.");
+					//Main.lab_instructions.setText("Choose another.");
+					Game.update("Ia");
 				}
 			}
 			else {
 				System.out.println("Exit house already have a pawn of current team (choose another).");
-				Main.lab_instructions.setText("Choose another.");
+				//Main.lab_instructions.setText("Choose another.");
+				Game.update("Ia");
 			}
 		}
 		
@@ -557,8 +528,9 @@ class Game implements Observado {
 						}
 						else {
 							Game.setCurrentDice(0);
-							Main.lab_instructions.setText("");
-							Main.but_rollDice.setEnabled(true);	
+							//Main.lab_instructions.setText("");
+							//Main.but_rollDice.setEnabled(true);
+							Game.update("I_Rt");
 						}
 					}
 					
@@ -578,7 +550,8 @@ class Game implements Observado {
 			else {
 				
 				System.out.println("Pawn clicked can not walk.");
-				Main.lab_instructions.setText("Choose another!");
+				//Main.lab_instructions.setText("Choose another!");
+				Game.update("Ia");
 			}
 				
 		}
@@ -650,8 +623,9 @@ class Game implements Observado {
 							//se tiver mais de 2 peoes fora da casa inicial
 							if (Game.currentTeam.countPawnsInHome() < 2) {
 								Game.setLastDice(0);
-								Main.lab_instructions.setText("Choose a pawn!");
-								Main.but_rollDice.setEnabled(false);
+								//Main.lab_instructions.setText("Choose a pawn!");
+								//Main.but_rollDice.setEnabled(false);
+								Game.update("IpRf");
 							}
 							
 							else {
@@ -662,8 +636,9 @@ class Game implements Observado {
 					
 					else {
 						Game.setLastDice(0);
-						Main.lab_instructions.setText("Choose a pawn!");
-						Main.but_rollDice.setEnabled(false);
+						//Main.lab_instructions.setText("Choose a pawn!");
+						//Main.but_rollDice.setEnabled(false);
+						Game.update("IpRf");
 					}
 				}
 				
@@ -747,15 +722,17 @@ class Game implements Observado {
 						//se os peoes da barreira nao puderem andar
 						else {
 							Game.setLastDice(0);
-							Main.lab_instructions.setText("Choose a pawn!");
-							Main.but_rollDice.setEnabled(false);
+							//Main.lab_instructions.setText("Choose a pawn!");
+							//Main.but_rollDice.setEnabled(false);
+							Game.update("IpRf");
 						}					
 					}
 					
 					else {
 						Game.setLastDice(0);
-						Main.lab_instructions.setText("Choose a pawn!");
-						Main.but_rollDice.setEnabled(false);
+						//Main.lab_instructions.setText("Choose a pawn!");
+						//Main.but_rollDice.setEnabled(false);
+						Game.update("IpRf");
 					}
 				}
 				
@@ -784,7 +761,8 @@ class Game implements Observado {
 					Game.prepareNextTurn();
 				}
 				
-				Main.but_rollDice.setEnabled(true);
+				//Main.but_rollDice.setEnabled(true);
+				Game.update("Rt");
 				
 				Game.setOldTeam(Game.currentTeam);
 				
@@ -886,15 +864,17 @@ class Game implements Observado {
 							//se o peao da barreira nao puder andar
 							else {
 								Game.setLastDice(0);
-								Main.lab_instructions.setText("Choose a pawn!");
-								Main.but_rollDice.setEnabled(false);
+								//Main.lab_instructions.setText("Choose a pawn!");
+								//Main.but_rollDice.setEnabled(false);
+								Game.update("IpRf");
 							}							
 						}
 						
 						else {
 							Game.setLastDice(0);
-							Main.lab_instructions.setText("Choose a pawn!");
-							Main.but_rollDice.setEnabled(false);
+							//Main.lab_instructions.setText("Choose a pawn!");
+							//Main.but_rollDice.setEnabled(false);
+							Game.update("IpRf");
 						}
 					}
 					
@@ -923,7 +903,8 @@ class Game implements Observado {
 					Game.prepareNextTurn();
 				}
 				
-				Main.but_rollDice.setEnabled(true);
+				//Main.but_rollDice.setEnabled(true);
+				Game.update("Rt");
 			}
 			
 			Game.setCurrentDice(0);
@@ -953,7 +934,9 @@ class Game implements Observado {
 							 "3rd: " + thirdTeam.name + " Team (" + thirdScorePercent + "%)\n" +
 							 "4th: " + fourthTeam.name + " (" + fourthScorePercent + "%)";
 			
-			JOptionPane.showMessageDialog(Main.frame, messageWinner);
+			//JOptionPane.showMessageDialog(Main.frame, messageWinner);
+			
+			Game.update(messageWinner);
 			
 			/* Após o botão de OK do diálogo acima tiver sido pressionado, o
 			programa deverá exibir um segundo diálogo, que irá perguntar se os 
@@ -961,10 +944,12 @@ class Game implements Observado {
 			(JOptionPane.showConfirmDialog). Caso a resposta seja pela continuação,
 			o programa deverá exibir a configuração inicial do tabuleiro. */
 			
+			/*
 			int option = JOptionPane.showConfirmDialog(Main.frame, "Do you want to start a new game?", 
 													   "Confirm", 
 													   JOptionPane.YES_NO_OPTION,
 										               JOptionPane.QUESTION_MESSAGE);
+										               
 			if (option == JOptionPane.YES_NO_OPTION) {
 				new Game();
 			}
@@ -972,6 +957,7 @@ class Game implements Observado {
 				CtrlGame.destroy();
 				System.exit(0);
 			}
+			*/
 		}
 		
 		else {
@@ -979,47 +965,29 @@ class Game implements Observado {
 			Game.setTeamOnTurn();
 			Game.currentTeam.dicesSixRolled = 0;
 			
-			Main.lab_instructions.setText("");
-			Main.but_rollDice.setEnabled(true);
+			//Main.lab_instructions.setText("");
+			//Main.but_rollDice.setEnabled(true);
+			Game.update("I_Rt");
 		}
 	}
 		
 	
-	public static int rollDice () {
+	public static int rollDice (int n) {
 		
 		/* REGRA: De um modo geral, todas as jogadas que não precisarem de inter-
 		venção do jogador terão de ser feitas automaticamente pelo programa. */
 		
-		int numberCheated = 0;
-		
-		if (Main.debugMode) {
-			
-			String cheatRollDice = JOptionPane.showInputDialog("Choose how much you want to roll:");
-			
-			if (cheatRollDice == null) {
-				numberCheated = 0;
-			}
-			else {
-				
-				numberCheated = Integer.parseInt(cheatRollDice);
-				
-				if (numberCheated < 0 | numberCheated > 6) {
-					numberCheated = 0;	
-				}
-			}
-			
-	        System.out.printf("\nNumber rolled by cheating: %d", numberCheated);
-		}
+		int numberCheated = n;
 		
 		Game.setLastDice(Game.currentDice);
 		Game.setOldTeam(Game.currentTeam);
 		
 		if (Game.flag_firstMove == true) {
-			Main.lab_lastMove.setText("Last move:");
+			Game.update("L"); //Update mensagem de last move
 			Game.flag_firstMove = false;
 		}
 		
-		Main.but_rollDice.setEnabled(false);
+		Game.update("Rf"); //Update setar roll indisponível
 		
 		int randomNumber = 0;
 		

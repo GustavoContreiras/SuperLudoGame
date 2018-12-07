@@ -104,8 +104,8 @@ class Board extends JPanel implements Observador {
         //ctrl.registra(this);
     }
     
-    @SuppressWarnings("null")
-	public void notify (String s) {
+    public void notify (String s) {
+    	System.out.println(s);
     	for (int i = 0; i < s.length(); i++) {
     		
     		if (s.charAt(i) == 'R') { //Se ele quer setar rolldice
@@ -133,31 +133,39 @@ class Board extends JPanel implements Observador {
     		}
     		
     		else if (s.charAt(i) == 'L') { //Se ele quer setar o texto do lastmove
-    			i++;
     			
-    			char c[] = null;
-    			for (int j = 0; s.charAt(i) != ';'; j++) {
-    				c[j] = s.charAt(i);
-    				i++;
-    			}
-    			
-    			String aux = new String(c);
-    			
-    			Main.lab_lastMove.setText(aux);
+    			Main.lab_lastMove.setText("Last move:");
     		}
     		
     		else if (s.charAt(i) == 'I') { //Se ele quer setar o texto do instructions
     			i++;
     			
-    			char c[] = null;
-    			for (int j = 0; s.charAt(i) != ';'; j++) {
-    				c[j] = s.charAt(i);
-    				i++;
+    			if (s.charAt(i) == 'p') {
+    				Main.lab_instructions.setText("Choose a pawn!");
     			}
     			
-    			String aux = new String(c);
+    			else if (s.charAt(i) == 'a'){
+    				Main.lab_instructions.setText("Choose another");
+    			}
+    			else {
+    				Main.lab_instructions.setText("");
+    			}
+    		}
+    		
+    		else {
+    			JOptionPane.showMessageDialog(Main.frame, s);
     			
-    			Main.lab_instructions.setText(aux);
+    			int option = JOptionPane.showConfirmDialog(Main.frame, "Do you want to start a new game?", 
+						   "Confirm", 
+						   JOptionPane.YES_NO_OPTION,
+			               JOptionPane.QUESTION_MESSAGE);
+			               
+    			if (option == JOptionPane.YES_NO_OPTION) {
+    				CtrlGame.getController().createNewGame();
+    			}
+    			else {
+    				CtrlGame.destroy();
+    			}
     		}
     	}
     }
