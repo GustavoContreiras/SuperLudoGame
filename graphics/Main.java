@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import systems.*;
 
-public abstract class Main extends JFrame implements ActionListener, MouseListener {
+abstract class Main extends JFrame implements ActionListener, MouseListener {
 	
 	//to remove warning
 	private static final long serialVersionUID = 4582338413465297014L;
@@ -165,6 +165,12 @@ public abstract class Main extends JFrame implements ActionListener, MouseListen
 					
 			        System.out.printf("\nNumber rolled by cheating: %d", numberCheated);
 				}
+				
+				/* Após o botão de OK do diálogo acima tiver sido pressionado, o
+				programa deverá exibir um segundo diálogo, que irá perguntar se os 
+				jogadores querem continuar a jogar ou se querem encerrar o programa
+				(JOptionPane.showConfirmDialog). Caso a resposta seja pela continuação,
+				o programa deverá exibir a configuração inicial do tabuleiro. */
 				
 				CtrlGame.getController().rollDice(numberCheated);
 				CtrlGame.getController().makeMoveAfterRollDice();

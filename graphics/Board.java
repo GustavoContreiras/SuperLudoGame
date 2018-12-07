@@ -105,7 +105,6 @@ class Board extends JPanel implements Observador {
     }
     
     public void notify (String s) {
-    	System.out.println(s);
     	for (int i = 0; i < s.length(); i++) {
     		
     		if (s.charAt(i) == 'R') { //Se ele quer setar rolldice

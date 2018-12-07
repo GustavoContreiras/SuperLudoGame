@@ -41,7 +41,6 @@ class Game implements Observado {
 	
 	
 	public void add(Observador o) {
-		System.out.println("Teste1");
 		lst.add(o);
 	}
 	
@@ -429,7 +428,7 @@ class Game implements Observado {
 			}
 			
 			else {
-				Game.update("IpRf"); //Update mensagem de instruções e roll indisponível
+				Game.update("IpRf"); //Update mensagem de instruções (Choose a pawn!) e roll indisponível
 				Game.flag_skipTurn = true;
 			}
 			
@@ -473,8 +472,7 @@ class Game implements Observado {
 				
 				else {
 					System.out.println("Choose another pawn.");
-					//Main.lab_instructions.setText("Choose another.");
-					Game.update("Ia");
+					Game.update("Ia"); //Update mensagem de instruções (Choose another)
 				}
 			}
 			
@@ -491,14 +489,12 @@ class Game implements Observado {
 				//ROLLED DICE EH MENOR QUE 5 OU 6
 				else {
 					System.out.println("Choose another pawn.");
-					//Main.lab_instructions.setText("Choose another.");
-					Game.update("Ia");
+					Game.update("Ia"); //Update mensagem de instrução (Choose another)
 				}
 			}
 			else {
 				System.out.println("Exit house already have a pawn of current team (choose another).");
-				//Main.lab_instructions.setText("Choose another.");
-				Game.update("Ia");
+				Game.update("Ia"); //Update mensagem de instrução (Choose another)
 			}
 		}
 		
@@ -528,9 +524,7 @@ class Game implements Observado {
 						}
 						else {
 							Game.setCurrentDice(0);
-							//Main.lab_instructions.setText("");
-							//Main.but_rollDice.setEnabled(true);
-							Game.update("I_Rt");
+							Game.update("I_Rt"); //Update mensagem de instrução (vazio) e roll disponível
 						}
 					}
 					
@@ -550,8 +544,7 @@ class Game implements Observado {
 			else {
 				
 				System.out.println("Pawn clicked can not walk.");
-				//Main.lab_instructions.setText("Choose another!");
-				Game.update("Ia");
+				Game.update("Ia"); //Update mensagem de instrução (Choose another)
 			}
 				
 		}
@@ -623,9 +616,7 @@ class Game implements Observado {
 							//se tiver mais de 2 peoes fora da casa inicial
 							if (Game.currentTeam.countPawnsInHome() < 2) {
 								Game.setLastDice(0);
-								//Main.lab_instructions.setText("Choose a pawn!");
-								//Main.but_rollDice.setEnabled(false);
-								Game.update("IpRf");
+								Game.update("IpRf"); //Update mensagem de instrução (Choose a pawn!) e roll indisponível
 							}
 							
 							else {
@@ -636,9 +627,7 @@ class Game implements Observado {
 					
 					else {
 						Game.setLastDice(0);
-						//Main.lab_instructions.setText("Choose a pawn!");
-						//Main.but_rollDice.setEnabled(false);
-						Game.update("IpRf");
+						Game.update("IpRf"); //Update mensagem de instrução (Choose a pawn!) e roll indisponível
 					}
 				}
 				
@@ -722,17 +711,13 @@ class Game implements Observado {
 						//se os peoes da barreira nao puderem andar
 						else {
 							Game.setLastDice(0);
-							//Main.lab_instructions.setText("Choose a pawn!");
-							//Main.but_rollDice.setEnabled(false);
-							Game.update("IpRf");
+							Game.update("IpRf"); //Update mensagem de instrução (Choose a pawn!) e roll indisponível
 						}					
 					}
 					
 					else {
 						Game.setLastDice(0);
-						//Main.lab_instructions.setText("Choose a pawn!");
-						//Main.but_rollDice.setEnabled(false);
-						Game.update("IpRf");
+						Game.update("IpRf"); //Update mensagem de instrução (Choose a pawn!) e roll indisponível
 					}
 				}
 				
@@ -761,8 +746,7 @@ class Game implements Observado {
 					Game.prepareNextTurn();
 				}
 				
-				//Main.but_rollDice.setEnabled(true);
-				Game.update("Rt");
+				Game.update("Rt"); //Update roll disponível
 				
 				Game.setOldTeam(Game.currentTeam);
 				
@@ -864,17 +848,13 @@ class Game implements Observado {
 							//se o peao da barreira nao puder andar
 							else {
 								Game.setLastDice(0);
-								//Main.lab_instructions.setText("Choose a pawn!");
-								//Main.but_rollDice.setEnabled(false);
-								Game.update("IpRf");
+								Game.update("IpRf"); //Update mensagem de instrução (Choose a pawn!) e roll indisponível
 							}							
 						}
 						
 						else {
 							Game.setLastDice(0);
-							//Main.lab_instructions.setText("Choose a pawn!");
-							//Main.but_rollDice.setEnabled(false);
-							Game.update("IpRf");
+							Game.update("IpRf"); //Update mensagem de instrução (Choose a pawn!) e roll indisponível
 						}
 					}
 					
@@ -903,8 +883,7 @@ class Game implements Observado {
 					Game.prepareNextTurn();
 				}
 				
-				//Main.but_rollDice.setEnabled(true);
-				Game.update("Rt");
+				Game.update("Rt"); //Update roll disponível
 			}
 			
 			Game.setCurrentDice(0);
@@ -934,30 +913,8 @@ class Game implements Observado {
 							 "3rd: " + thirdTeam.name + " Team (" + thirdScorePercent + "%)\n" +
 							 "4th: " + fourthTeam.name + " (" + fourthScorePercent + "%)";
 			
-			//JOptionPane.showMessageDialog(Main.frame, messageWinner);
+			Game.update(messageWinner); //Update mostrar as colocações
 			
-			Game.update(messageWinner);
-			
-			/* Após o botão de OK do diálogo acima tiver sido pressionado, o
-			programa deverá exibir um segundo diálogo, que irá perguntar se os 
-			jogadores querem continuar a jogar ou se querem encerrar o programa
-			(JOptionPane.showConfirmDialog). Caso a resposta seja pela continuação,
-			o programa deverá exibir a configuração inicial do tabuleiro. */
-			
-			/*
-			int option = JOptionPane.showConfirmDialog(Main.frame, "Do you want to start a new game?", 
-													   "Confirm", 
-													   JOptionPane.YES_NO_OPTION,
-										               JOptionPane.QUESTION_MESSAGE);
-										               
-			if (option == JOptionPane.YES_NO_OPTION) {
-				new Game();
-			}
-			else {
-				CtrlGame.destroy();
-				System.exit(0);
-			}
-			*/
 		}
 		
 		else {
@@ -965,9 +922,7 @@ class Game implements Observado {
 			Game.setTeamOnTurn();
 			Game.currentTeam.dicesSixRolled = 0;
 			
-			//Main.lab_instructions.setText("");
-			//Main.but_rollDice.setEnabled(true);
-			Game.update("I_Rt");
+			Game.update("I_Rt"); //Update mensagem de instrução (vazio) e roll disponível
 		}
 	}
 		
@@ -1066,7 +1021,6 @@ class Game implements Observado {
 
     public static void setLastDice (int dice) {
     	oldDice = dice;
-    	//Main.frame.repaint();
     }
 
 
