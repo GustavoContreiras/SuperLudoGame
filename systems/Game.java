@@ -2,6 +2,7 @@ package systems;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.*;
 import java.util.*;
@@ -66,13 +67,17 @@ class Game implements Observado {
 	}
 	
 	public static void save() {
-		
+				
+		FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("LUDOGame", "ludogame"); 
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setApproveButtonText("Save");
-		int option = fileChooser.showSaveDialog(null);
+		
+		fileChooser.setFileFilter(fileFilter);
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		
+		int option = fileChooser.showDialog(fileChooser, "Salvar");
 		
 		if (option == JFileChooser.APPROVE_OPTION) {
-			try (FileWriter fw = new FileWriter (fileChooser.getSelectedFile() + ".txt")){
+			try (FileWriter fw = new FileWriter (fileChooser.getSelectedFile() + ".ludogame")){
 				
 				//Posição dos peões de redTeam
             	fw.write(String.valueOf(redTeam.pawn[0].positionInx) + ' ');
@@ -99,7 +104,7 @@ class Game implements Observado {
             	fw.write(String.valueOf(blueTeam.pawn[3].positionInx) + ' ');
             	
             	//Time da vez
-            	fw.write(currentTeam.getName());            	
+            	fw.write(currentTeam.getName());   
             }
 			
 			catch (Exception e0) {
@@ -110,10 +115,13 @@ class Game implements Observado {
 	
 	public static void load() {
 		
+		FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("LUDOGame", "ludogame"); 
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setApproveButtonText("Load");
 		
-		int option = fileChooser.showSaveDialog(null);		
+		fileChooser.setFileFilter(fileFilter);
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		
+		int option = fileChooser.showDialog(fileChooser, "Carregar");	
 		
 		if (option == JFileChooser.APPROVE_OPTION) {
 			
