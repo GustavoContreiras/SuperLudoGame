@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import systems.*;
 
@@ -119,8 +120,16 @@ abstract class Main extends JFrame implements ActionListener, MouseListener {
 		but_loadGame.setMnemonic(KeyEvent.VK_L); //ALT+L
 		but_loadGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("LUDOGame", "ludogame"); 
+				JFileChooser fileChooser = new JFileChooser();
 				
-				CtrlGame.getController().loadGame();
+				fileChooser.setFileFilter(fileFilter);
+				fileChooser.setAcceptAllFileFilterUsed(false);
+				
+				int option = fileChooser.showDialog(fileChooser, "Carregar");
+				
+				if (option == JFileChooser.APPROVE_OPTION)
+					CtrlGame.getController().loadGame(fileChooser.getSelectedFile());
 				
 				Main.but_saveGame.setEnabled(true);
 					
@@ -145,7 +154,16 @@ abstract class Main extends JFrame implements ActionListener, MouseListener {
 		but_saveGame.setMnemonic(KeyEvent.VK_S); //ALT+S
 		but_saveGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CtrlGame.getController().saveGame();
+				FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("LUDOGame", "ludogame"); 
+				JFileChooser fileChooser = new JFileChooser();
+				
+				fileChooser.setFileFilter(fileFilter);
+				fileChooser.setAcceptAllFileFilterUsed(false);
+				
+				int option = fileChooser.showDialog(fileChooser, "Salvar");
+				
+				if (option == JFileChooser.APPROVE_OPTION) 
+					CtrlGame.getController().saveGame(fileChooser.getSelectedFile());
 			}
 		});
 	}

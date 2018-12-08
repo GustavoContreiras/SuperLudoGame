@@ -1,8 +1,5 @@
 package systems;
 
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import java.io.*;
 import java.util.*;
 
@@ -57,355 +54,333 @@ class Game implements Observado {
 		}
 	}
 	
-	public static void save() {
-				
-		FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("LUDOGame", "ludogame"); 
-		JFileChooser fileChooser = new JFileChooser();
-		
-		fileChooser.setFileFilter(fileFilter);
-		fileChooser.setAcceptAllFileFilterUsed(false);
-		
-		int option = fileChooser.showDialog(fileChooser, "Salvar");
-		
-		if (option == JFileChooser.APPROVE_OPTION) {
-			try (FileWriter fw = new FileWriter (fileChooser.getSelectedFile() + ".ludogame")){
-				
-				String redPawn0posInx 	= String.valueOf(redTeam.pawn[0].positionInx);
-				String redPawn0posStack = String.valueOf(redTeam.pawn[0].getStackPos());
-				String redPawn1posInx 	= String.valueOf(redTeam.pawn[1].positionInx);
-				String redPawn1posStack = String.valueOf(redTeam.pawn[1].getStackPos());
-				String redPawn2posInx 	= String.valueOf(redTeam.pawn[2].positionInx);
-				String redPawn2posStack = String.valueOf(redTeam.pawn[2].getStackPos());
-				String redPawn3posInx 	= String.valueOf(redTeam.pawn[3].positionInx);
-				String redPawn3posStack = String.valueOf(redTeam.pawn[3].getStackPos());
-				
-				String greenPawn0posInx 	= String.valueOf(greenTeam.pawn[0].positionInx);
-				String greenPawn0posStack 	= String.valueOf(greenTeam.pawn[0].getStackPos());
-				String greenPawn1posInx 	= String.valueOf(greenTeam.pawn[1].positionInx);
-				String greenPawn1posStack 	= String.valueOf(greenTeam.pawn[1].getStackPos());
-				String greenPawn2posInx 	= String.valueOf(greenTeam.pawn[2].positionInx);
-				String greenPawn2posStack 	= String.valueOf(greenTeam.pawn[2].getStackPos());
-				String greenPawn3posInx 	= String.valueOf(greenTeam.pawn[3].positionInx);
-				String greenPawn3posStack 	= String.valueOf(greenTeam.pawn[3].getStackPos());
-				
-				String yellowPawn0posInx 	= String.valueOf(yellowTeam.pawn[0].positionInx);
-				String yellowPawn0posStack 	= String.valueOf(yellowTeam.pawn[0].getStackPos());
-				String yellowPawn1posInx 	= String.valueOf(yellowTeam.pawn[1].positionInx);
-				String yellowPawn1posStack 	= String.valueOf(yellowTeam.pawn[1].getStackPos());
-				String yellowPawn2posInx 	= String.valueOf(yellowTeam.pawn[2].positionInx);
-				String yellowPawn2posStack 	= String.valueOf(yellowTeam.pawn[2].getStackPos());
-				String yellowPawn3posInx 	= String.valueOf(yellowTeam.pawn[3].positionInx);
-				String yellowPawn3posStack 	= String.valueOf(yellowTeam.pawn[3].getStackPos());
-				
-				String bluePawn0posInx 		= String.valueOf(blueTeam.pawn[0].positionInx);
-				String bluePawn0posStack 	= String.valueOf(blueTeam.pawn[0].getStackPos());
-				String bluePawn1posInx 		= String.valueOf(blueTeam.pawn[1].positionInx);
-				String bluePawn1posStack 	= String.valueOf(blueTeam.pawn[1].getStackPos());
-				String bluePawn2posInx 		= String.valueOf(blueTeam.pawn[2].positionInx);
-				String bluePawn2posStack 	= String.valueOf(blueTeam.pawn[2].getStackPos());
-				String bluePawn3posInx 		= String.valueOf(blueTeam.pawn[3].positionInx);
-				String bluePawn3posStack 	= String.valueOf(blueTeam.pawn[3].getStackPos());
-				
-				char currentTeam = Game.currentTeam.getName().charAt(0);
-				String currentDice = String.valueOf(Game.currentDice);
-				char oldTeam = 'X';
-				String oldDice = String.valueOf(Game.oldDice);
-				String lastPawnMovedId = "0";				
-				String flag_firstMove = "0";
-				String flag_skipTurn = "0";
-				
-				if (Game.oldTeam != null) oldTeam = Game.oldTeam.getName().charAt(0);
-				if (Game.lastPawnMoved != null) lastPawnMovedId = String.valueOf(Game.lastPawnMoved.id);
-				if (Game.flag_firstMove == true) flag_firstMove = "1";
-				if (Game.flag_skipTurn == true) flag_skipTurn = "1";
-            	
-            	fw.write(redPawn0posInx + " " + redPawn0posStack + " ");
-            	fw.write(redPawn1posInx + " " + redPawn1posStack + " ");
-            	fw.write(redPawn2posInx + " " + redPawn2posStack + " ");
-            	fw.write(redPawn3posInx + " " + redPawn3posStack + " ");
-            	fw.write(greenPawn0posInx + " " + greenPawn0posStack + " ");
-            	fw.write(greenPawn1posInx + " " + greenPawn1posStack + " ");
-            	fw.write(greenPawn2posInx + " " + greenPawn2posStack + " ");
-            	fw.write(greenPawn3posInx + " " + greenPawn3posStack + " ");
-            	fw.write(yellowPawn0posInx + " " + yellowPawn0posStack + " ");
-            	fw.write(yellowPawn1posInx + " " + yellowPawn1posStack + " ");
-            	fw.write(yellowPawn2posInx + " " + yellowPawn2posStack + " ");
-            	fw.write(yellowPawn3posInx + " " + yellowPawn3posStack + " ");
-            	fw.write(bluePawn0posInx + " " + bluePawn0posStack + " ");
-            	fw.write(bluePawn1posInx + " " + bluePawn1posStack + " ");
-            	fw.write(bluePawn2posInx + " " + bluePawn2posStack + " ");
-            	fw.write(bluePawn3posInx + " " + bluePawn3posStack + " ");
-            	fw.write(currentTeam + " ");
-            	fw.write(currentDice + " ");
-            	fw.write(oldTeam + " ");
-            	fw.write(oldDice + " ");
-            	fw.write(lastPawnMovedId + " ");            	
-            	fw.write(flag_firstMove + " ");
-            	fw.write(flag_skipTurn);
-            }
+	public static void save(File f) {
+		try (FileWriter fw = new FileWriter (f + ".ludogame")){
 			
-			catch (Exception e0) {
-            	e0.printStackTrace();
-            }
+			String redPawn0posInx 	= String.valueOf(redTeam.pawn[0].positionInx);
+			String redPawn0posStack = String.valueOf(redTeam.pawn[0].getStackPos());
+			String redPawn1posInx 	= String.valueOf(redTeam.pawn[1].positionInx);
+			String redPawn1posStack = String.valueOf(redTeam.pawn[1].getStackPos());
+			String redPawn2posInx 	= String.valueOf(redTeam.pawn[2].positionInx);
+			String redPawn2posStack = String.valueOf(redTeam.pawn[2].getStackPos());
+			String redPawn3posInx 	= String.valueOf(redTeam.pawn[3].positionInx);
+			String redPawn3posStack = String.valueOf(redTeam.pawn[3].getStackPos());
+			
+			String greenPawn0posInx 	= String.valueOf(greenTeam.pawn[0].positionInx);
+			String greenPawn0posStack 	= String.valueOf(greenTeam.pawn[0].getStackPos());
+			String greenPawn1posInx 	= String.valueOf(greenTeam.pawn[1].positionInx);
+			String greenPawn1posStack 	= String.valueOf(greenTeam.pawn[1].getStackPos());
+			String greenPawn2posInx 	= String.valueOf(greenTeam.pawn[2].positionInx);
+			String greenPawn2posStack 	= String.valueOf(greenTeam.pawn[2].getStackPos());
+			String greenPawn3posInx 	= String.valueOf(greenTeam.pawn[3].positionInx);
+			String greenPawn3posStack 	= String.valueOf(greenTeam.pawn[3].getStackPos());
+			
+			String yellowPawn0posInx 	= String.valueOf(yellowTeam.pawn[0].positionInx);
+			String yellowPawn0posStack 	= String.valueOf(yellowTeam.pawn[0].getStackPos());
+			String yellowPawn1posInx 	= String.valueOf(yellowTeam.pawn[1].positionInx);
+			String yellowPawn1posStack 	= String.valueOf(yellowTeam.pawn[1].getStackPos());
+			String yellowPawn2posInx 	= String.valueOf(yellowTeam.pawn[2].positionInx);
+			String yellowPawn2posStack 	= String.valueOf(yellowTeam.pawn[2].getStackPos());
+			String yellowPawn3posInx 	= String.valueOf(yellowTeam.pawn[3].positionInx);
+			String yellowPawn3posStack 	= String.valueOf(yellowTeam.pawn[3].getStackPos());
+			
+			String bluePawn0posInx 		= String.valueOf(blueTeam.pawn[0].positionInx);
+			String bluePawn0posStack 	= String.valueOf(blueTeam.pawn[0].getStackPos());
+			String bluePawn1posInx 		= String.valueOf(blueTeam.pawn[1].positionInx);
+			String bluePawn1posStack 	= String.valueOf(blueTeam.pawn[1].getStackPos());
+			String bluePawn2posInx 		= String.valueOf(blueTeam.pawn[2].positionInx);
+			String bluePawn2posStack 	= String.valueOf(blueTeam.pawn[2].getStackPos());
+			String bluePawn3posInx 		= String.valueOf(blueTeam.pawn[3].positionInx);
+			String bluePawn3posStack 	= String.valueOf(blueTeam.pawn[3].getStackPos());
+			
+			char currentTeam = Game.currentTeam.getName().charAt(0);
+			String currentDice = String.valueOf(Game.currentDice);
+			char oldTeam = 'X';
+			String oldDice = String.valueOf(Game.oldDice);
+			String lastPawnMovedId = "0";				
+			String flag_firstMove = "0";
+			String flag_skipTurn = "0";
+			
+			if (Game.oldTeam != null) oldTeam = Game.oldTeam.getName().charAt(0);
+			if (Game.lastPawnMoved != null) lastPawnMovedId = String.valueOf(Game.lastPawnMoved.id);
+			if (Game.flag_firstMove == true) flag_firstMove = "1";
+			if (Game.flag_skipTurn == true) flag_skipTurn = "1";
+        	
+        	fw.write(redPawn0posInx + " " + redPawn0posStack + " ");
+        	fw.write(redPawn1posInx + " " + redPawn1posStack + " ");
+        	fw.write(redPawn2posInx + " " + redPawn2posStack + " ");
+        	fw.write(redPawn3posInx + " " + redPawn3posStack + " ");
+        	fw.write(greenPawn0posInx + " " + greenPawn0posStack + " ");
+        	fw.write(greenPawn1posInx + " " + greenPawn1posStack + " ");
+        	fw.write(greenPawn2posInx + " " + greenPawn2posStack + " ");
+        	fw.write(greenPawn3posInx + " " + greenPawn3posStack + " ");
+        	fw.write(yellowPawn0posInx + " " + yellowPawn0posStack + " ");
+        	fw.write(yellowPawn1posInx + " " + yellowPawn1posStack + " ");
+        	fw.write(yellowPawn2posInx + " " + yellowPawn2posStack + " ");
+        	fw.write(yellowPawn3posInx + " " + yellowPawn3posStack + " ");
+        	fw.write(bluePawn0posInx + " " + bluePawn0posStack + " ");
+        	fw.write(bluePawn1posInx + " " + bluePawn1posStack + " ");
+        	fw.write(bluePawn2posInx + " " + bluePawn2posStack + " ");
+        	fw.write(bluePawn3posInx + " " + bluePawn3posStack + " ");
+        	fw.write(currentTeam + " ");
+        	fw.write(currentDice + " ");
+        	fw.write(oldTeam + " ");
+        	fw.write(oldDice + " ");
+        	fw.write(lastPawnMovedId + " ");            	
+        	fw.write(flag_firstMove + " ");
+        	fw.write(flag_skipTurn);
+        }
+		
+		catch (Exception e0) {
+        	e0.printStackTrace();
         }
 	}
 	
-	public static void load() {
-		
-		FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("LUDOGame", "ludogame"); 
-		JFileChooser fileChooser = new JFileChooser();
-		
-		fileChooser.setFileFilter(fileFilter);
-		fileChooser.setAcceptAllFileFilterUsed(false);
-		
-		int option = fileChooser.showDialog(fileChooser, "Carregar");	
-		
-		if (option == JFileChooser.APPROVE_OPTION) {
+	public static void load(File f) {
 			
-			File file;
-		    Scanner sc;
-		    
-			try {
-				
-				file = fileChooser.getSelectedFile();
-				sc = new Scanner(file);
-				
-				int redPawn0posInx = sc.nextInt();
-				int redPawn0posStack = sc.nextInt();
-				int redPawn1posInx = sc.nextInt();
-				int redPawn1posStack = sc.nextInt();
-				int redPawn2posInx = sc.nextInt();
-				int redPawn2posStack = sc.nextInt();
-				int redPawn3posInx = sc.nextInt();
-				int redPawn3posStack = sc.nextInt();
-				
-				int greenPawn0posInx = sc.nextInt();
-				int greenPawn0posStack = sc.nextInt();
-				int greenPawn1posInx = sc.nextInt();
-				int greenPawn1posStack = sc.nextInt();
-				int greenPawn2posInx = sc.nextInt();
-				int greenPawn2posStack = sc.nextInt();
-				int greenPawn3posInx = sc.nextInt();
-				int greenPawn3posStack = sc.nextInt();
-				
-				int yellowPawn0posInx = sc.nextInt();
-				int yellowPawn0posStack = sc.nextInt();
-				int yellowPawn1posInx = sc.nextInt();
-				int yellowPawn1posStack = sc.nextInt();
-				int yellowPawn2posInx = sc.nextInt();
-				int yellowPawn2posStack = sc.nextInt();
-				int yellowPawn3posInx = sc.nextInt();
-				int yellowPawn3posStack = sc.nextInt();
-				
-				int bluePawn0posInx = sc.nextInt();
-				int bluePawn0posStack = sc.nextInt();
-				int bluePawn1posInx = sc.nextInt();
-				int bluePawn1posStack = sc.nextInt();
-				int bluePawn2posInx = sc.nextInt();
-				int bluePawn2posStack = sc.nextInt();
-				int bluePawn3posInx = sc.nextInt();
-				int bluePawn3posStack = sc.nextInt();
-				
-				String currentTeam = sc.next();
-				int currentDice = sc.nextInt();
-				String oldTeam = sc.next();
-				int oldDice = sc.nextInt();
-				int lastPawnMovedId = sc.nextInt();
-            	int flag_firstMove = sc.nextInt();
-            	int  flag_skipTurn = sc.nextInt();
-				
-				//currentTeam
-				switch (currentTeam) {
-				case "R":
-					Game.currentTeam = redTeam;
-					break;
-				case "G":
-					Game.currentTeam = greenTeam;
-					break;
-				case "Y":
-					Game.currentTeam = yellowTeam;
-					break;
-				case "B":
-					Game.currentTeam = blueTeam;
-					break;
-				}
-				
-				//oldTeam
-				switch(oldTeam) {
-				case "R":
-					Game.oldTeam = redTeam;
-					break;
-				case "G":
-					Game.oldTeam = greenTeam;
-					break;
-				case "Y":
-					Game.oldTeam = yellowTeam;
-					break;
-				case "B":
-					Game.oldTeam = blueTeam;
-					break;
-				}
-				
-				//currentDice
-				Game.currentDice = currentDice;
-				
-				//oldDice
-				Game.oldDice = oldDice;	
-				
-				//lastPawnMoved
-				if (lastPawnMovedId != 0) {
-					Game.lastPawnMoved = Game.oldTeam.pawn[lastPawnMovedId-1];
-				}
-				else {
-					Game.lastPawnMoved = null;
-				}
-				
-				//has a last move?
-				if (Game.oldDice > -1 & Game.lastPawnMoved != null) {
-					Game.update("L"); //habilita lab_lastMove
-				}
-				
-				//is waiting for choose?
-				if (Game.currentDice > 0) {
-					Game.update("Ip"); //habilita lab_instructions com "choose a pawn!"
-					Game.update("Rf"); //desabilita but_rollDice
-				}
-				
-				else {
-					Game.update("Rt"); //habilita but_rollDice
-				}
-				
-				//skip turn?
-				if (flag_skipTurn == 1) {
-					Game.flag_skipTurn = true;
-				} else Game.flag_skipTurn = false;
-				
-				//is the first move?
-				if (flag_firstMove == 1) {
-					Game.flag_firstMove = true;
-					Game.update("Rt"); //habilita but_rollDice
-				} 
-				else { 
-					Game.flag_firstMove = false;
-				}
-				
-				//red 1
-				redTeam.pawn[0].positionInx = redPawn0posInx;
-				if (redPawn0posInx > -1) {
-					redTeam.pawn[0].position = redTeam.walkthrough[redPawn0posInx];
-				}
-				redTeam.pawn[0].position.pawn[redPawn0posStack] = redTeam.pawn[0];
-				
-				//red 2
-				redTeam.pawn[1].positionInx = redPawn1posInx;
-				if (redPawn1posInx > -1) {
-					redTeam.pawn[1].position = redTeam.walkthrough[redPawn1posInx];
-				}
-				redTeam.pawn[1].position.pawn[redPawn1posStack] = redTeam.pawn[1];
-				
-				//red 3
-				redTeam.pawn[2].positionInx = redPawn2posInx;
-				if (redPawn2posInx > -1) {
-					redTeam.pawn[2].position = redTeam.walkthrough[redPawn2posInx];
-				}
-				redTeam.pawn[2].position.pawn[redPawn2posStack] = redTeam.pawn[2];
-				
-				//red 4
-				redTeam.pawn[3].positionInx = redPawn3posInx;
-				if (redPawn3posInx > -1) {
-					redTeam.pawn[3].position = redTeam.walkthrough[redPawn3posInx];
-				}
-				redTeam.pawn[3].position.pawn[redPawn3posStack] = redTeam.pawn[3];
-				
-				//green 1
-				greenTeam.pawn[0].positionInx = greenPawn0posInx;
-				if (greenPawn0posInx > -1) {
-					greenTeam.pawn[0].position = greenTeam.walkthrough[greenPawn0posInx];
-				}
-				greenTeam.pawn[0].position.pawn[greenPawn0posStack] = greenTeam.pawn[0];
-				
-				//green 2
-				greenTeam.pawn[1].positionInx = greenPawn1posInx;
-				if (greenPawn1posInx > -1) {
-					greenTeam.pawn[1].position = greenTeam.walkthrough[greenPawn1posInx];
-				}
-				greenTeam.pawn[1].position.pawn[greenPawn1posStack] = greenTeam.pawn[1];
-				
-				//green 3
-				greenTeam.pawn[2].positionInx = greenPawn2posInx;
-				if (greenPawn2posInx > -1) {
-					greenTeam.pawn[2].position = greenTeam.walkthrough[greenPawn2posInx];
-				}
-				greenTeam.pawn[2].position.pawn[greenPawn2posStack] = greenTeam.pawn[2];
-				
-				//green 4
-				greenTeam.pawn[3].positionInx = greenPawn3posInx;
-				if (greenPawn3posInx > -1) {
-					greenTeam.pawn[3].position = greenTeam.walkthrough[greenPawn3posInx];
-				}
-				greenTeam.pawn[3].position.pawn[greenPawn3posStack] = greenTeam.pawn[3];
-				
-				//yellow 1
-				yellowTeam.pawn[0].positionInx = yellowPawn0posInx;
-				if (yellowPawn0posInx > -1) {
-					yellowTeam.pawn[0].position = yellowTeam.walkthrough[yellowPawn0posInx];
-				}
-				yellowTeam.pawn[0].position.pawn[yellowPawn0posStack] = yellowTeam.pawn[0];
-				
-				//yellow 2
-				yellowTeam.pawn[1].positionInx = yellowPawn1posInx;
-				if (yellowPawn1posInx > -1) {
-					yellowTeam.pawn[1].position = yellowTeam.walkthrough[yellowPawn1posInx];
-				}
-				yellowTeam.pawn[1].position.pawn[yellowPawn1posStack] = yellowTeam.pawn[1];
-				
-				//yellow 3
-				yellowTeam.pawn[2].positionInx = yellowPawn2posInx;
-				if (yellowPawn2posInx > -1) {
-					yellowTeam.pawn[2].position = yellowTeam.walkthrough[yellowPawn2posInx];
-				}
-				yellowTeam.pawn[2].position.pawn[yellowPawn2posStack] = yellowTeam.pawn[2];
-				
-				//yellow 4
-				yellowTeam.pawn[3].positionInx = yellowPawn3posInx;
-				if (yellowPawn3posInx > -1) {
-					yellowTeam.pawn[3].position = yellowTeam.walkthrough[yellowPawn3posInx];
-				}
-				yellowTeam.pawn[3].position.pawn[yellowPawn3posStack] = yellowTeam.pawn[3];
-				
-				//blue 1
-				blueTeam.pawn[0].positionInx = bluePawn0posInx;
-				if (bluePawn0posInx > -1) {
-					blueTeam.pawn[0].position = blueTeam.walkthrough[bluePawn0posInx];
-				}
-				blueTeam.pawn[0].position.pawn[bluePawn0posStack] = blueTeam.pawn[0];
-				
-				//blue 2
-				blueTeam.pawn[1].positionInx = bluePawn1posInx;
-				if (bluePawn1posInx > -1) {
-					blueTeam.pawn[1].position = blueTeam.walkthrough[bluePawn1posInx];
-				}
-				blueTeam.pawn[1].position.pawn[bluePawn1posStack] = blueTeam.pawn[1];
-				
-				//blue 3
-				blueTeam.pawn[2].positionInx = bluePawn2posInx;
-				if (bluePawn2posInx > -1) {
-					blueTeam.pawn[2].position = blueTeam.walkthrough[bluePawn2posInx];
-				}
-				blueTeam.pawn[2].position.pawn[bluePawn2posStack] = blueTeam.pawn[2];
-				
-				//blue 4
-				blueTeam.pawn[3].positionInx = bluePawn3posInx;
-				if (bluePawn3posInx > -1) {
-					blueTeam.pawn[3].position = blueTeam.walkthrough[bluePawn3posInx];
-				}
-				blueTeam.pawn[3].position.pawn[bluePawn3posStack] = blueTeam.pawn[3];	
-			} 
+		File file;
+	    Scanner sc;
+	    
+		try {
 			
-			catch (FileNotFoundException e) {
-				e.printStackTrace();
+			file = f;
+			sc = new Scanner(file);
+			
+			int redPawn0posInx = sc.nextInt();
+			int redPawn0posStack = sc.nextInt();
+			int redPawn1posInx = sc.nextInt();
+			int redPawn1posStack = sc.nextInt();
+			int redPawn2posInx = sc.nextInt();
+			int redPawn2posStack = sc.nextInt();
+			int redPawn3posInx = sc.nextInt();
+			int redPawn3posStack = sc.nextInt();
+			
+			int greenPawn0posInx = sc.nextInt();
+			int greenPawn0posStack = sc.nextInt();
+			int greenPawn1posInx = sc.nextInt();
+			int greenPawn1posStack = sc.nextInt();
+			int greenPawn2posInx = sc.nextInt();
+			int greenPawn2posStack = sc.nextInt();
+			int greenPawn3posInx = sc.nextInt();
+			int greenPawn3posStack = sc.nextInt();
+			
+			int yellowPawn0posInx = sc.nextInt();
+			int yellowPawn0posStack = sc.nextInt();
+			int yellowPawn1posInx = sc.nextInt();
+			int yellowPawn1posStack = sc.nextInt();
+			int yellowPawn2posInx = sc.nextInt();
+			int yellowPawn2posStack = sc.nextInt();
+			int yellowPawn3posInx = sc.nextInt();
+			int yellowPawn3posStack = sc.nextInt();
+			
+			int bluePawn0posInx = sc.nextInt();
+			int bluePawn0posStack = sc.nextInt();
+			int bluePawn1posInx = sc.nextInt();
+			int bluePawn1posStack = sc.nextInt();
+			int bluePawn2posInx = sc.nextInt();
+			int bluePawn2posStack = sc.nextInt();
+			int bluePawn3posInx = sc.nextInt();
+			int bluePawn3posStack = sc.nextInt();
+			
+			String currentTeam = sc.next();
+			int currentDice = sc.nextInt();
+			String oldTeam = sc.next();
+			int oldDice = sc.nextInt();
+			int lastPawnMovedId = sc.nextInt();
+        	int flag_firstMove = sc.nextInt();
+        	int  flag_skipTurn = sc.nextInt();
+			
+			//currentTeam
+			switch (currentTeam) {
+			case "R":
+				Game.currentTeam = redTeam;
+				break;
+			case "G":
+				Game.currentTeam = greenTeam;
+				break;
+			case "Y":
+				Game.currentTeam = yellowTeam;
+				break;
+			case "B":
+				Game.currentTeam = blueTeam;
+				break;
+			}
+			
+			//oldTeam
+			switch(oldTeam) {
+			case "R":
+				Game.oldTeam = redTeam;
+				break;
+			case "G":
+				Game.oldTeam = greenTeam;
+				break;
+			case "Y":
+				Game.oldTeam = yellowTeam;
+				break;
+			case "B":
+				Game.oldTeam = blueTeam;
+				break;
+			}
+			
+			//currentDice
+			Game.currentDice = currentDice;
+			
+			//oldDice
+			Game.oldDice = oldDice;	
+			
+			//lastPawnMoved
+			if (lastPawnMovedId != 0) {
+				Game.lastPawnMoved = Game.oldTeam.pawn[lastPawnMovedId-1];
+			}
+			else {
+				Game.lastPawnMoved = null;
+			}
+			
+			//has a last move?
+			if (Game.oldDice > -1 & Game.lastPawnMoved != null) {
+				Game.update("L"); //habilita lab_lastMove
+			}
+			
+			//is waiting for choose?
+			if (Game.currentDice > 0) {
+				Game.update("Ip"); //habilita lab_instructions com "choose a pawn!"
+				Game.update("Rf"); //desabilita but_rollDice
+			}
+			
+			else {
+				Game.update("Rt"); //habilita but_rollDice
+			}
+			
+			//skip turn?
+			if (flag_skipTurn == 1) {
+				Game.flag_skipTurn = true;
+			} else Game.flag_skipTurn = false;
+			
+			//is the first move?
+			if (flag_firstMove == 1) {
+				Game.flag_firstMove = true;
+				Game.update("Rt"); //habilita but_rollDice
 			} 
-		}			
+			else { 
+				Game.flag_firstMove = false;
+			}
+			
+			//red 1
+			redTeam.pawn[0].positionInx = redPawn0posInx;
+			if (redPawn0posInx > -1) {
+				redTeam.pawn[0].position = redTeam.walkthrough[redPawn0posInx];
+			}
+			redTeam.pawn[0].position.pawn[redPawn0posStack] = redTeam.pawn[0];
+			
+			//red 2
+			redTeam.pawn[1].positionInx = redPawn1posInx;
+			if (redPawn1posInx > -1) {
+				redTeam.pawn[1].position = redTeam.walkthrough[redPawn1posInx];
+			}
+			redTeam.pawn[1].position.pawn[redPawn1posStack] = redTeam.pawn[1];
+			
+			//red 3
+			redTeam.pawn[2].positionInx = redPawn2posInx;
+			if (redPawn2posInx > -1) {
+				redTeam.pawn[2].position = redTeam.walkthrough[redPawn2posInx];
+			}
+			redTeam.pawn[2].position.pawn[redPawn2posStack] = redTeam.pawn[2];
+			
+			//red 4
+			redTeam.pawn[3].positionInx = redPawn3posInx;
+			if (redPawn3posInx > -1) {
+				redTeam.pawn[3].position = redTeam.walkthrough[redPawn3posInx];
+			}
+			redTeam.pawn[3].position.pawn[redPawn3posStack] = redTeam.pawn[3];
+			
+			//green 1
+			greenTeam.pawn[0].positionInx = greenPawn0posInx;
+			if (greenPawn0posInx > -1) {
+				greenTeam.pawn[0].position = greenTeam.walkthrough[greenPawn0posInx];
+			}
+			greenTeam.pawn[0].position.pawn[greenPawn0posStack] = greenTeam.pawn[0];
+			
+			//green 2
+			greenTeam.pawn[1].positionInx = greenPawn1posInx;
+			if (greenPawn1posInx > -1) {
+				greenTeam.pawn[1].position = greenTeam.walkthrough[greenPawn1posInx];
+			}
+			greenTeam.pawn[1].position.pawn[greenPawn1posStack] = greenTeam.pawn[1];
+			
+			//green 3
+			greenTeam.pawn[2].positionInx = greenPawn2posInx;
+			if (greenPawn2posInx > -1) {
+				greenTeam.pawn[2].position = greenTeam.walkthrough[greenPawn2posInx];
+			}
+			greenTeam.pawn[2].position.pawn[greenPawn2posStack] = greenTeam.pawn[2];
+			
+			//green 4
+			greenTeam.pawn[3].positionInx = greenPawn3posInx;
+			if (greenPawn3posInx > -1) {
+				greenTeam.pawn[3].position = greenTeam.walkthrough[greenPawn3posInx];
+			}
+			greenTeam.pawn[3].position.pawn[greenPawn3posStack] = greenTeam.pawn[3];
+			
+			//yellow 1
+			yellowTeam.pawn[0].positionInx = yellowPawn0posInx;
+			if (yellowPawn0posInx > -1) {
+				yellowTeam.pawn[0].position = yellowTeam.walkthrough[yellowPawn0posInx];
+			}
+			yellowTeam.pawn[0].position.pawn[yellowPawn0posStack] = yellowTeam.pawn[0];
+			
+			//yellow 2
+			yellowTeam.pawn[1].positionInx = yellowPawn1posInx;
+			if (yellowPawn1posInx > -1) {
+				yellowTeam.pawn[1].position = yellowTeam.walkthrough[yellowPawn1posInx];
+			}
+			yellowTeam.pawn[1].position.pawn[yellowPawn1posStack] = yellowTeam.pawn[1];
+			
+			//yellow 3
+			yellowTeam.pawn[2].positionInx = yellowPawn2posInx;
+			if (yellowPawn2posInx > -1) {
+				yellowTeam.pawn[2].position = yellowTeam.walkthrough[yellowPawn2posInx];
+			}
+			yellowTeam.pawn[2].position.pawn[yellowPawn2posStack] = yellowTeam.pawn[2];
+			
+			//yellow 4
+			yellowTeam.pawn[3].positionInx = yellowPawn3posInx;
+			if (yellowPawn3posInx > -1) {
+				yellowTeam.pawn[3].position = yellowTeam.walkthrough[yellowPawn3posInx];
+			}
+			yellowTeam.pawn[3].position.pawn[yellowPawn3posStack] = yellowTeam.pawn[3];
+			
+			//blue 1
+			blueTeam.pawn[0].positionInx = bluePawn0posInx;
+			if (bluePawn0posInx > -1) {
+				blueTeam.pawn[0].position = blueTeam.walkthrough[bluePawn0posInx];
+			}
+			blueTeam.pawn[0].position.pawn[bluePawn0posStack] = blueTeam.pawn[0];
+			
+			//blue 2
+			blueTeam.pawn[1].positionInx = bluePawn1posInx;
+			if (bluePawn1posInx > -1) {
+				blueTeam.pawn[1].position = blueTeam.walkthrough[bluePawn1posInx];
+			}
+			blueTeam.pawn[1].position.pawn[bluePawn1posStack] = blueTeam.pawn[1];
+			
+			//blue 3
+			blueTeam.pawn[2].positionInx = bluePawn2posInx;
+			if (bluePawn2posInx > -1) {
+				blueTeam.pawn[2].position = blueTeam.walkthrough[bluePawn2posInx];
+			}
+			blueTeam.pawn[2].position.pawn[bluePawn2posStack] = blueTeam.pawn[2];
+			
+			//blue 4
+			blueTeam.pawn[3].positionInx = bluePawn3posInx;
+			if (bluePawn3posInx > -1) {
+				blueTeam.pawn[3].position = blueTeam.walkthrough[bluePawn3posInx];
+			}
+			blueTeam.pawn[3].position.pawn[bluePawn3posStack] = blueTeam.pawn[3];	
+		} 
+		
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} 			
 	}
 	
 	public static Pawn getPawnClicked(Position posClicked) {

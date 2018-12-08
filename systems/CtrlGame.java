@@ -1,5 +1,7 @@
 package systems;
 
+import java.io.File;
+
 public class CtrlGame {
 	
 	private static CtrlGame ctrl = null;
@@ -26,13 +28,13 @@ public class CtrlGame {
 		game = new Game();
 	}
 		
-	public void saveGame() {
-		Game.save();
+	public void saveGame(File f) {
+		Game.save(f);
 	}
 	
-	public void loadGame() {
+	public void loadGame(File f) {
 		game = new Game();
-		Game.load();
+		Game.load(f);
 	}
 	
 	public void doMouseClick (int x, int y) {
