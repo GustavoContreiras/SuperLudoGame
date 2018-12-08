@@ -110,10 +110,12 @@ class Board extends JPanel implements Observador {
     			
     			if (command.charAt(i) == 'f') {
     				Main.but_rollDice.setEnabled(false);
+    				System.out.println("Button Roll Dice disabled.");
     			}
     			
     			else if (command.charAt(i) == 't') {
     				Main.but_rollDice.setEnabled(true);
+    				System.out.println("Button Roll Dice enabled.");
     			}
     			
     			else {

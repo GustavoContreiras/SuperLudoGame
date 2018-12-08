@@ -31,6 +31,7 @@ public class CtrlGame {
 	}
 	
 	public void loadGame() {
+		game = new Game();
 		Game.load();
 	}
 	
@@ -108,7 +109,7 @@ public class CtrlGame {
 	public Position getBlueTeamEndPosition() {
 		return Game.blueTeam.walkthrough[56];
 	}
-		
+	
 	//DICE	
 	public int getCurrentDice () {
 		return Game.currentDice;

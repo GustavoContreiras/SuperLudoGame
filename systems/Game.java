@@ -27,11 +27,13 @@ class Game implements Observado {
 	public Game () {
 		
 		Game.currentTeam = null;
+		Game.lastPawnMoved = null;
 		Game.redTeam = new Team("Red");
 		Game.greenTeam = new Team("Green");
 		Game.yellowTeam = new Team("Yellow");
 		Game.blueTeam = new Team("Blue");
 		Game.flag_firstMove = true;
+		Game.flag_skipTurn = false;
 		
 		Game.resetPositions();
 		Game.setCurrentDice(0);
@@ -47,11 +49,11 @@ class Game implements Observado {
 		lst.remove(o);
 	}
 	
-	public static void update(String s) {
+	public static void update(String command) {
 		ListIterator<Observador> li = lst.listIterator();
 		
 		while (li.hasNext()) {
-			li.next().notify(s);
+			li.next().notify(command);
 		}
 	}
 	
@@ -160,8 +162,6 @@ class Game implements Observado {
 		
 		if (option == JFileChooser.APPROVE_OPTION) {
 			
-			new Game();
-			
 			File file;
 		    Scanner sc;
 		    
@@ -262,7 +262,17 @@ class Game implements Observado {
 				
 				//has a last move?
 				if (Game.oldDice > -1 & Game.lastPawnMoved != null) {
-					Game.update("L"); //Update mensagem de last move
+					Game.update("L"); //habilita lab_lastMove
+				}
+				
+				//is waiting for choose?
+				if (Game.currentDice > 0) {
+					Game.update("Ip"); //habilita lab_instructions com "choose a pawn!"
+					Game.update("Rf"); //desabilita but_rollDice
+				}
+				
+				else {
+					Game.update("Rt"); //habilita but_rollDice
 				}
 				
 				//skip turn?
@@ -270,10 +280,14 @@ class Game implements Observado {
 					Game.flag_skipTurn = true;
 				} else Game.flag_skipTurn = false;
 				
-				//first move?
+				//is the first move?
 				if (flag_firstMove == 1) {
 					Game.flag_firstMove = true;
-				} else Game.flag_firstMove = false;
+					Game.update("Rt"); //habilita but_rollDice
+				} 
+				else { 
+					Game.flag_firstMove = false;
+				}
 				
 				//red 1
 				redTeam.pawn[0].positionInx = redPawn0posInx;
