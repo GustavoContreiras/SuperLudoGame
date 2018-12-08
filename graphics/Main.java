@@ -137,6 +137,8 @@ abstract class Main extends JFrame implements ActionListener, MouseListener {
 				
 				if (CtrlGame.getController().getCurrentDice() > 0) {
 					Main.but_rollDice.setEnabled(false);
+					Main.lab_instructions.setText("Choose a pawn!");
+					Main.lab_lastMove.setText("Last move:");
 				}
 				else {
 					Main.but_rollDice.setEnabled(true);
