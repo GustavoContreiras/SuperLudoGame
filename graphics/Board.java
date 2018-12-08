@@ -90,70 +90,77 @@ class Board extends JPanel implements Observador {
 		}	
 	}
 	
-    public Board() {
-    	setLayout(null);
-        setBorder(BorderFactory.createLineBorder(Color.black));
-        CtrlGame ctrl = CtrlGame.getController();
-        ctrl.registra(this);
-    }
-    
-    public Board(String doNotRegister) {
-    	setLayout(null);
-        setBorder(BorderFactory.createLineBorder(Color.black));
-        //CtrlGame ctrl = CtrlGame.getController();
-        //ctrl.registra(this);
-    }
-    
-    public void notify (String s) {
+    public Board(boolean register) {
     	
-    	for (int i = 0; i < s.length(); i++) {
+    	setLayout(null);
+        setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        if (register) {
+        	CtrlGame ctrl = CtrlGame.getController();
+            ctrl.registra(this);
+        }
+    }
+    
+    public void notify (String command) {
+    	
+    	for (int i = 0; i < command.length(); i++) {
     		
-    		if (s.charAt(i) == 'R') { //Se ele quer setar rolldice
+    		if (command.charAt(i) == 'R') { //Se ele quer setar rolldice
     			i++;
     			
-    			if (s.charAt(i) == 'f') {
+    			if (command.charAt(i) == 'f') {
     				Main.but_rollDice.setEnabled(false);
     			}
     			
-    			else {
+    			else if (command.charAt(i) == 't') {
     				Main.but_rollDice.setEnabled(true);
+    			}
+    			
+    			else {
+    				System.out.println("Invalid boolean: use \'t\' or \'f\'");
     			}
     		}
     		
-    		else if (s.charAt(i) == 'S') { //Se ele quer setar savegame
+    		else if (command.charAt(i) == 'S') { //Se ele quer setar savegame
     			i++;
     			
-    			if (s.charAt(i) == 'f') {
+    			if (command.charAt(i) == 'f') {
     				Main.but_rollDice.setEnabled(false);
     			}
     			
-    			else {
+    			else if (command.charAt(i) == 't') {
     				Main.but_rollDice.setEnabled(true);
+    			}
+    			
+    			else {
+    				System.out.println("Invalid boolean: use \'t\' or \'f\'");
     			}
     		}
     		
-    		else if (s.charAt(i) == 'L') { //Se ele quer setar o texto do lastmove
+    		else if (command.charAt(i) == 'L') { //Se ele quer setar o texto do lastmove
     			
     			Main.lab_lastMove.setText("Last move:");
     		}
     		
-    		else if (s.charAt(i) == 'I') { //Se ele quer setar o texto do instructions
+    		else if (command.charAt(i) == 'I') { //Se ele quer setar o texto do instructions
     			i++;
     			
-    			if (s.charAt(i) == 'p') {
+    			if (command.charAt(i) == 'p') {
     				Main.lab_instructions.setText("Choose a pawn!");
     			}
     			
-    			else if (s.charAt(i) == 'a'){
+    			else if (command.charAt(i) == 'a'){
     				Main.lab_instructions.setText("Choose another");
     			}
+    			
     			else {
     				Main.lab_instructions.setText("");
     			}
     		}
     		
     		else {
-    			JOptionPane.showMessageDialog(Main.frame, s);
+    			
+    			JOptionPane.showMessageDialog(Main.frame, command);
     			
     			int option = JOptionPane.showConfirmDialog(Main.frame, "Do you want to start a new game?", 
 						   "Confirm", 
@@ -163,7 +170,7 @@ class Board extends JPanel implements Observador {
     			if (option == JOptionPane.YES_NO_OPTION) {
     				
     				CtrlGame.getController().createNewGame();
-    				i = s.length();
+    				i = command.length();
     			}
     			else {
     				CtrlGame.destroy();

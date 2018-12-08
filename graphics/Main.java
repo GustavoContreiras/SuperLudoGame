@@ -57,7 +57,7 @@ abstract class Main extends JFrame implements ActionListener, MouseListener {
 	public static JLabel lab_lastMove = new JLabel("");
 	public static JButton but_rollDice = new JButton("Roll Dice");
 	public static JLabel lab_instructions = new JLabel("");
-	public static Board board = new Board("doNotRegister");
+	public static Board board = new Board(false);
 			
 	public static void main(String[] args) {
 		showGUI();
@@ -99,7 +99,7 @@ abstract class Main extends JFrame implements ActionListener, MouseListener {
 				Main.but_saveGame.setEnabled(true);
 				Main.lab_lastMove.setText("");
 
-				board = new Board();
+				board = new Board(true);
 				frame.add(board);
 				Main.frame.repaint();
 				

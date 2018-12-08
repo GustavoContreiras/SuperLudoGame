@@ -68,73 +68,78 @@ class Game implements Observado {
 		if (option == JFileChooser.APPROVE_OPTION) {
 			try (FileWriter fw = new FileWriter (fileChooser.getSelectedFile() + ".ludogame")){
 				
-				String redPawn0posInx = String.valueOf(redTeam.pawn[0].positionInx);
-				String redPawn0posStack = redTeam.pawn[0].getStackPos();
-				String redPawn1posInx = String.valueOf(redTeam.pawn[1].positionInx);
-				String redPawn1posStack = redTeam.pawn[1].getStackPos();
-				String redPawn2posInx = String.valueOf(redTeam.pawn[2].positionInx);
-				String redPawn2posStack = redTeam.pawn[2].getStackPos();
-				String redPawn3posInx = String.valueOf(redTeam.pawn[3].positionInx);
-				String redPawn3posStack = redTeam.pawn[3].getStackPos();
+				String redPawn0posInx 	= String.valueOf(redTeam.pawn[0].positionInx);
+				String redPawn0posStack = String.valueOf(redTeam.pawn[0].getStackPos());
+				String redPawn1posInx 	= String.valueOf(redTeam.pawn[1].positionInx);
+				String redPawn1posStack = String.valueOf(redTeam.pawn[1].getStackPos());
+				String redPawn2posInx 	= String.valueOf(redTeam.pawn[2].positionInx);
+				String redPawn2posStack = String.valueOf(redTeam.pawn[2].getStackPos());
+				String redPawn3posInx 	= String.valueOf(redTeam.pawn[3].positionInx);
+				String redPawn3posStack = String.valueOf(redTeam.pawn[3].getStackPos());
 				
-				String greenPawn0posInx = String.valueOf(greenTeam.pawn[0].positionInx);
-				String greenPawn0posStack = greenTeam.pawn[0].getStackPos();
-				String greenPawn1posInx = String.valueOf(greenTeam.pawn[1].positionInx);
-				String greenPawn1posStack = greenTeam.pawn[1].getStackPos();
-				String greenPawn2posInx = String.valueOf(greenTeam.pawn[2].positionInx);
-				String greenPawn2posStack = greenTeam.pawn[2].getStackPos();
-				String greenPawn3posInx = String.valueOf(greenTeam.pawn[3].positionInx);
-				String greenPawn3posStack = greenTeam.pawn[3].getStackPos();
+				String greenPawn0posInx 	= String.valueOf(greenTeam.pawn[0].positionInx);
+				String greenPawn0posStack 	= String.valueOf(greenTeam.pawn[0].getStackPos());
+				String greenPawn1posInx 	= String.valueOf(greenTeam.pawn[1].positionInx);
+				String greenPawn1posStack 	= String.valueOf(greenTeam.pawn[1].getStackPos());
+				String greenPawn2posInx 	= String.valueOf(greenTeam.pawn[2].positionInx);
+				String greenPawn2posStack 	= String.valueOf(greenTeam.pawn[2].getStackPos());
+				String greenPawn3posInx 	= String.valueOf(greenTeam.pawn[3].positionInx);
+				String greenPawn3posStack 	= String.valueOf(greenTeam.pawn[3].getStackPos());
 				
-				String yellowPawn0posInx = String.valueOf(yellowTeam.pawn[0].positionInx);
-				String yellowPawn0posStack = yellowTeam.pawn[0].getStackPos();
-				String yellowPawn1posInx = String.valueOf(yellowTeam.pawn[1].positionInx);
-				String yellowPawn1posStack = yellowTeam.pawn[1].getStackPos();
-				String yellowPawn2posInx = String.valueOf(yellowTeam.pawn[2].positionInx);
-				String yellowPawn2posStack = yellowTeam.pawn[2].getStackPos();
-				String yellowPawn3posInx = String.valueOf(yellowTeam.pawn[3].positionInx);
-				String yellowPawn3posStack = yellowTeam.pawn[3].getStackPos();
+				String yellowPawn0posInx 	= String.valueOf(yellowTeam.pawn[0].positionInx);
+				String yellowPawn0posStack 	= String.valueOf(yellowTeam.pawn[0].getStackPos());
+				String yellowPawn1posInx 	= String.valueOf(yellowTeam.pawn[1].positionInx);
+				String yellowPawn1posStack 	= String.valueOf(yellowTeam.pawn[1].getStackPos());
+				String yellowPawn2posInx 	= String.valueOf(yellowTeam.pawn[2].positionInx);
+				String yellowPawn2posStack 	= String.valueOf(yellowTeam.pawn[2].getStackPos());
+				String yellowPawn3posInx 	= String.valueOf(yellowTeam.pawn[3].positionInx);
+				String yellowPawn3posStack 	= String.valueOf(yellowTeam.pawn[3].getStackPos());
 				
-				String bluePawn0posInx = String.valueOf(blueTeam.pawn[0].positionInx);
-				String bluePawn0posStack = blueTeam.pawn[0].getStackPos();
-				String bluePawn1posInx = String.valueOf(blueTeam.pawn[1].positionInx);
-				String bluePawn1posStack = blueTeam.pawn[1].getStackPos();
-				String bluePawn2posInx = String.valueOf(blueTeam.pawn[2].positionInx);
-				String bluePawn2posStack = blueTeam.pawn[2].getStackPos();
-				String bluePawn3posInx = String.valueOf(blueTeam.pawn[3].positionInx);
-				String bluePawn3posStack = blueTeam.pawn[3].getStackPos();
+				String bluePawn0posInx 		= String.valueOf(blueTeam.pawn[0].positionInx);
+				String bluePawn0posStack 	= String.valueOf(blueTeam.pawn[0].getStackPos());
+				String bluePawn1posInx 		= String.valueOf(blueTeam.pawn[1].positionInx);
+				String bluePawn1posStack 	= String.valueOf(blueTeam.pawn[1].getStackPos());
+				String bluePawn2posInx 		= String.valueOf(blueTeam.pawn[2].positionInx);
+				String bluePawn2posStack 	= String.valueOf(blueTeam.pawn[2].getStackPos());
+				String bluePawn3posInx 		= String.valueOf(blueTeam.pawn[3].positionInx);
+				String bluePawn3posStack 	= String.valueOf(blueTeam.pawn[3].getStackPos());
 				
 				char currentTeam = Game.currentTeam.getName().charAt(0);
+				String currentDice = String.valueOf(Game.currentDice);
+				char oldTeam = 'X';
 				String oldDice = String.valueOf(Game.oldDice);
+				String lastPawnMovedId = "0";				
+				String flag_firstMove = "0";
+				String flag_skipTurn = "0";
 				
-				String lastPawnMovedId = "0";
-				char lastPawnMovedTeam = 'X';
-				
-				if (Game.lastPawnMoved != null) {
-					lastPawnMovedId = String.valueOf(Game.lastPawnMoved.id);
-					lastPawnMovedTeam = Game.lastPawnMoved.team.getName().charAt(0);
-				}				
+				if (Game.oldTeam != null) oldTeam = Game.oldTeam.getName().charAt(0);
+				if (Game.lastPawnMoved != null) lastPawnMovedId = String.valueOf(Game.lastPawnMoved.id);
+				if (Game.flag_firstMove == true) flag_firstMove = "1";
+				if (Game.flag_skipTurn == true) flag_skipTurn = "1";
             	
-            	fw.write(String.valueOf(redPawn0posInx + " " + redPawn0posStack + " "));
-            	fw.write(String.valueOf(redPawn1posInx + " " + redPawn1posStack + " "));
-            	fw.write(String.valueOf(redPawn2posInx + " " + redPawn2posStack + " "));
-            	fw.write(String.valueOf(redPawn3posInx + " " + redPawn3posStack + " "));
-            	fw.write(String.valueOf(greenPawn0posInx + " " + greenPawn0posStack + " "));
-            	fw.write(String.valueOf(greenPawn1posInx + " " + greenPawn1posStack + " "));
-            	fw.write(String.valueOf(greenPawn2posInx + " " + greenPawn2posStack + " "));
-            	fw.write(String.valueOf(greenPawn3posInx + " " + greenPawn3posStack + " "));
-            	fw.write(String.valueOf(yellowPawn0posInx + " " + yellowPawn0posStack + " "));
-            	fw.write(String.valueOf(yellowPawn1posInx + " " + yellowPawn1posStack + " "));
-            	fw.write(String.valueOf(yellowPawn2posInx + " " + yellowPawn2posStack + " "));
-            	fw.write(String.valueOf(yellowPawn3posInx + " " + yellowPawn3posStack + " "));
-            	fw.write(String.valueOf(bluePawn0posInx + " " + bluePawn0posStack + " "));
-            	fw.write(String.valueOf(bluePawn1posInx + " " + bluePawn1posStack + " "));
-            	fw.write(String.valueOf(bluePawn2posInx + " " + bluePawn2posStack + " "));
-            	fw.write(String.valueOf(bluePawn3posInx + " " + bluePawn3posStack + " "));
+            	fw.write(redPawn0posInx + " " + redPawn0posStack + " ");
+            	fw.write(redPawn1posInx + " " + redPawn1posStack + " ");
+            	fw.write(redPawn2posInx + " " + redPawn2posStack + " ");
+            	fw.write(redPawn3posInx + " " + redPawn3posStack + " ");
+            	fw.write(greenPawn0posInx + " " + greenPawn0posStack + " ");
+            	fw.write(greenPawn1posInx + " " + greenPawn1posStack + " ");
+            	fw.write(greenPawn2posInx + " " + greenPawn2posStack + " ");
+            	fw.write(greenPawn3posInx + " " + greenPawn3posStack + " ");
+            	fw.write(yellowPawn0posInx + " " + yellowPawn0posStack + " ");
+            	fw.write(yellowPawn1posInx + " " + yellowPawn1posStack + " ");
+            	fw.write(yellowPawn2posInx + " " + yellowPawn2posStack + " ");
+            	fw.write(yellowPawn3posInx + " " + yellowPawn3posStack + " ");
+            	fw.write(bluePawn0posInx + " " + bluePawn0posStack + " ");
+            	fw.write(bluePawn1posInx + " " + bluePawn1posStack + " ");
+            	fw.write(bluePawn2posInx + " " + bluePawn2posStack + " ");
+            	fw.write(bluePawn3posInx + " " + bluePawn3posStack + " ");
             	fw.write(currentTeam + " ");
+            	fw.write(currentDice + " ");
+            	fw.write(oldTeam + " ");
             	fw.write(oldDice + " ");
-            	fw.write(lastPawnMovedId + " ");
-            	fw.write(lastPawnMovedTeam);
+            	fw.write(lastPawnMovedId + " ");            	
+            	fw.write(flag_firstMove + " ");
+            	fw.write(flag_skipTurn);
             }
 			
 			catch (Exception e0) {
@@ -202,11 +207,12 @@ class Game implements Observado {
 				int bluePawn3posStack = sc.nextInt();
 				
 				String currentTeam = sc.next();
+				int currentDice = sc.nextInt();
+				String oldTeam = sc.next();
 				int oldDice = sc.nextInt();
 				int lastPawnMovedId = sc.nextInt();
-				String lastPawnMovedTeam = sc.next();
-				
-				Game.flag_firstMove = false;
+            	int flag_firstMove = sc.nextInt();
+            	int  flag_skipTurn = sc.nextInt();
 				
 				//currentTeam
 				switch (currentTeam) {
@@ -224,8 +230,8 @@ class Game implements Observado {
 					break;
 				}
 				
-				//last pawn moved
-				switch (lastPawnMovedTeam) {
+				//oldTeam
+				switch(oldTeam) {
 				case "R":
 					Game.oldTeam = redTeam;
 					break;
@@ -238,15 +244,15 @@ class Game implements Observado {
 				case "B":
 					Game.oldTeam = blueTeam;
 					break;
-				default:
-					Game.oldTeam = null;
-					break;
 				}
 				
-				//old dice
+				//currentDice
+				Game.currentDice = currentDice;
+				
+				//oldDice
 				Game.oldDice = oldDice;	
 				
-				//last pawn moved id
+				//lastPawnMoved
 				if (lastPawnMovedId != 0) {
 					Game.lastPawnMoved = Game.oldTeam.pawn[lastPawnMovedId-1];
 				}
@@ -254,9 +260,20 @@ class Game implements Observado {
 					Game.lastPawnMoved = null;
 				}
 				
+				//has a last move?
 				if (Game.oldDice > -1 & Game.lastPawnMoved != null) {
 					Game.update("L"); //Update mensagem de last move
 				}
+				
+				//skip turn?
+				if (flag_skipTurn == 1) {
+					Game.flag_skipTurn = true;
+				} else Game.flag_skipTurn = false;
+				
+				//first move?
+				if (flag_firstMove == 1) {
+					Game.flag_firstMove = true;
+				} else Game.flag_firstMove = false;
 				
 				//red 1
 				redTeam.pawn[0].positionInx = redPawn0posInx;

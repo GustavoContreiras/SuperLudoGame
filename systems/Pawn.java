@@ -378,21 +378,21 @@ class Pawn {
 		}
 	}
 
-	public String getStackPos() {
+	public int getStackPos() {
 		if (this.position.pawn[0] == this) {
-			return "0";
+			return 0;
 		}
 		else if (this.position.pawn[1] == this) {
-			return "1";
+			return 1;
 		}
 		else if (this.position.pawn[2] == this) {
-			return "2";
+			return 2;
 		}
 		else if (this.position.pawn[3] == this) {
-			return "3";
+			return 3;
 		}
 		else {
-			return "-9";
+			return -9;
 		}
 	}
 	
