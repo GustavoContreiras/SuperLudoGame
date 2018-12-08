@@ -162,7 +162,6 @@ class Board extends JPanel implements Observador {
 			               
     			if (option == JOptionPane.YES_NO_OPTION) {
     				
-    				CtrlGame.getController().resetFlagsHasFinished();
     				CtrlGame.getController().createNewGame();
     				i = s.length();
     			}

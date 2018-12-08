@@ -108,14 +108,7 @@ public class CtrlGame {
 	public Position getBlueTeamEndPosition() {
 		return Game.blueTeam.walkthrough[56];
 	}
-	
-	public void resetFlagsHasFinished() {
-		Game.redTeam.hasFinished = false;
-		Game.greenTeam.hasFinished = false;
-		Game.yellowTeam.hasFinished = false;
-		Game.blueTeam.hasFinished = false;
-	}
-	
+		
 	//DICE	
 	public int getCurrentDice () {
 		return Game.currentDice;
