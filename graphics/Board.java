@@ -105,6 +105,7 @@ class Board extends JPanel implements Observador {
     }
     
     public void notify (String s) {
+    	
     	for (int i = 0; i < s.length(); i++) {
     		
     		if (s.charAt(i) == 'R') { //Se ele quer setar rolldice
@@ -160,7 +161,10 @@ class Board extends JPanel implements Observador {
 			               JOptionPane.QUESTION_MESSAGE);
 			               
     			if (option == JOptionPane.YES_NO_OPTION) {
+    				
+    				CtrlGame.getController().resetFlagsHasFinished();
     				CtrlGame.getController().createNewGame();
+    				i = s.length();
     			}
     			else {
     				CtrlGame.destroy();

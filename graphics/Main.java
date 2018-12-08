@@ -92,13 +92,13 @@ abstract class Main extends JFrame implements ActionListener, MouseListener {
 		but_newGame.setMnemonic(KeyEvent.VK_N); //ALT+N
 		but_newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				CtrlGame.getController().createNewGame();
 				
 				Main.but_rollDice.setEnabled(true);
 				Main.but_saveGame.setEnabled(true);
 				Main.lab_lastMove.setText("");
 
-				
 				board = new Board();
 				frame.add(board);
 				Main.frame.repaint();

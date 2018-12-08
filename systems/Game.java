@@ -38,8 +38,7 @@ class Game implements Observado {
 		Game.setLastDice(0);
 		Game.setTeamOnTurn();
 	}
-	
-	
+		
 	public void add(Observador o) {
 		lst.add(o);
 	}
@@ -106,10 +105,15 @@ class Game implements Observado {
 				String bluePawn3posStack = blueTeam.pawn[3].getStackPos();
 				
 				char currentTeam = Game.currentTeam.getName().charAt(0);
-				String lastPawnMovedId = String.valueOf(Game.lastPawnMoved.id);
 				String oldDice = String.valueOf(Game.oldDice);
-				char lastPawnMovedTeam = Game.lastPawnMoved.team.getName().charAt(0);
 				
+				String lastPawnMovedId = "0";
+				char lastPawnMovedTeam = 'X';
+				
+				if (Game.lastPawnMoved != null) {
+					lastPawnMovedId = String.valueOf(Game.lastPawnMoved.id);
+					lastPawnMovedTeam = Game.lastPawnMoved.team.getName().charAt(0);
+				}				
             	
             	fw.write(String.valueOf(redPawn0posInx + " " + redPawn0posStack + " "));
             	fw.write(String.valueOf(redPawn1posInx + " " + redPawn1posStack + " "));
@@ -234,13 +238,21 @@ class Game implements Observado {
 				case "B":
 					Game.oldTeam = blueTeam;
 					break;
+				default:
+					Game.oldTeam = null;
+					break;
 				}
 				
 				//old dice
 				Game.oldDice = oldDice;	
 				
 				//last pawn moved id
-				Game.lastPawnMoved = Game.oldTeam.pawn[lastPawnMovedId-1];
+				if (lastPawnMovedId != 0) {
+					Game.lastPawnMoved = Game.oldTeam.pawn[lastPawnMovedId-1];
+				}
+				else {
+					Game.lastPawnMoved = null;
+				}
 				
 				if (Game.oldDice > -1 & Game.lastPawnMoved != null) {
 					Game.update("L"); //Update mensagem de last move
@@ -890,13 +902,12 @@ class Game implements Observado {
 
 		}
 	}
-	
-	
+		
 	public static void prepareNextTurn () {
 		
 		if (Game.currentTeam.hasFinished) {
-			
-			/* Nesse momento o programa irá sinalizar o corrido e exibirá a
+						
+			/* Nesse momento o programa irá sinalizar o ocorrido e exibirá a
 			colocação dos jogadores por meio de um JOptionPane.showMessageDialog.*/
 
 			Team secondTeam = Game.getSecondPlacedTeam();
@@ -920,13 +931,13 @@ class Game implements Observado {
 		else {
 			Game.setCurrentDice(0);
 			Game.setTeamOnTurn();
+			Game.flag_skipTurn = false;
 			Game.currentTeam.dicesSixRolled = 0;
 			
 			Game.update("I_Rt"); //Update mensagem de instrução (vazio) e roll disponível
 		}
 	}
-		
-	
+			
 	public static int rollDice (int n) {
 		
 		/* REGRA: De um modo geral, todas as jogadas que não precisarem de inter-
@@ -964,7 +975,6 @@ class Game implements Observado {
 		
 		return randomNumber;
 	}
-
 
 	public static void setTeamOnTurn () {
 		
@@ -1009,26 +1019,23 @@ class Game implements Observado {
         		Game.currentTeam = null;
         	}	
     	}
+    	
     	if (Game.currentTeam != null)
     		System.out.printf("\nTeam on turn: %s Team\n", Game.currentTeam.name);
     }
     
-
 	public static void setCurrentDice (int dice) {
     	currentDice = dice;
     }
   
-
     public static void setLastDice (int dice) {
     	oldDice = dice;
     }
-
 
     public static void setOldTeam (Team team) {
     	Game.oldTeam = team;
     }
     
-
     private static void resetPositions () {
     	if (Game.redTeam != null & Game.greenTeam != null & Game.yellowTeam != null & Game.blueTeam != null) {
 			for (int i = 0; i < 57; i++) {
@@ -1049,7 +1056,6 @@ class Game implements Observado {
 			}
 		}
     }
-
 
     private static Team getSecondPlacedTeam () {
     	
@@ -1100,7 +1106,6 @@ class Game implements Observado {
     	return secondPlacedTeam;
     }
 
-
     private static Team getThirdPlacedTeam () {
     	
     	int higher = - 10;
@@ -1149,7 +1154,6 @@ class Game implements Observado {
 		
 		return thirdPlacedTeam;
     }
-
 
     private static Team getFourthPlacedTeam () {
     	int higher = - 10;

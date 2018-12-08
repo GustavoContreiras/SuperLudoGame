@@ -385,8 +385,14 @@ class Pawn {
 		else if (this.position.pawn[1] == this) {
 			return "1";
 		}
+		else if (this.position.pawn[2] == this) {
+			return "2";
+		}
+		else if (this.position.pawn[3] == this) {
+			return "3";
+		}
 		else {
-			return "X";
+			return "-9";
 		}
 	}
 	
